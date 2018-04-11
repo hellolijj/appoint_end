@@ -158,7 +158,7 @@ class WeixinLogic extends BaseLogic {
         $pc = new WXBizDataCrypt(C('APP_ID'), $session_key);
         $errCode = $pc->decryptData($encryptedData, $iv, $data);
         if ($errCode != 0) {
-            return ['status' => 1, 'message' => '解密信息错误'];
+            return ['status' => 1, 'data' => '解密信息错误'];
         }
         $data = json_decode($data, TRUE);
         return ['status' => 0, 'data' => $data['purePhoneNumber']];
