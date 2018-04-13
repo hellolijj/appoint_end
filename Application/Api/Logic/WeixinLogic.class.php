@@ -9,6 +9,8 @@
 namespace Api\Logic;
 
 use Api\Model\WeixinModel;
+use Api\Service\BaseService;
+use Api\Service\UserService;
 use Api\Service\WeixinService;
 use Weixin\Xiaochengxu\WXBizDataCrypt;
 use Weixin\Xiaochengxu\WXLoginHelper;
@@ -128,10 +130,22 @@ class WeixinLogic extends BaseLogic {
         $weixin_info['weixin_id'] = $weixin_info['openid'];
         $weixin_info['sex'] = $weixin_info['gender'] ? $weixin_info['gender'] -1 : $weixin_info['gender'];
 
+        $userService = new UserService();
+        $user_info = $userService->get_more_info($weixin_info['id']);
+        if ($user_info['status'] == BaseService::$ERROR_CODE) {
+            return $user_info;
+        }
+
+        $weixin_info['phone'] = $user_info['tel'] ? $user_info['tel'] : '';
+        unset($user_info['tel']);
+
+        if ($user_info['sex']) {
+            $weixin_info['sex_name'] = $user_info['sex'];
+            unset($user_info['sex']);
+        }
 
         $data = [
 
-            'phone' => '',
             'app_id' => 'mPxWOXi4p4',
             'balance' => 0.00,
             'can_use_integral' => 0,
@@ -142,9 +156,10 @@ class WeixinLogic extends BaseLogic {
             'group' => 0,
             'integral' => 0,
             'is_deleted' => 0,
+            'is_bind' => TRUE,
         ];
 
-        $data = array_merge($data, $weixin_info);
+        $data = array_merge($weixin_info, $user_info, $data);
         return ['status' => 0, 'data' => $data];
     }
 

@@ -55,4 +55,28 @@ class UserService extends BaseService {
         return TRUE;
     }
 
+
+    /**
+     * 获取用户更多信息
+     */
+    public function get_more_info($uid) {
+        if (!$uid) {
+            return ['status' => 1, 'data' => '参数错误'];
+        }
+
+        $user_item = D('User')->getByUid($uid);
+        if (!$user_item) {
+            return ['status' => 1, 'data' => '用户没有绑定'];
+        }
+        $passport  = $user_item['passport'];
+        $user_back_item = D('UserBack')->getByPassport($passport);
+        if (!$user_back_item) {
+            return ['status' => 1, 'data' => '系统没有该用户信息'];
+        }
+
+        $user_back_item['tel'] = $user_item['tel'];
+
+        return $user_back_item;
+    }
+
 }

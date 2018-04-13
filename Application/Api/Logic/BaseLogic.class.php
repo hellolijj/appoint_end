@@ -14,6 +14,7 @@ namespace Api\Logic;
  * 所有逻辑层模型都需要继承此模型
  */
 class BaseLogic{
+
     public $result = ['status' => 0, 'data' => ''];
 
     public function __construct ()

@@ -10,6 +10,10 @@ namespace Api\Service;
 
 class BaseService {
 
+    public static $ERROR_CODE = 1;
+    public static $SUCCESS_CODE = 0;
+
+
     public static $USER_TYPE_STUDENT = 1;        // 学生用户
     public static $USER_TYPE_TEACHER = 2;        // 教师用户
     public static $USER_TYPE_UN_REGISTER = 0;    // 未注册用户
