@@ -152,7 +152,7 @@ class WeixinLogic extends BaseLogic {
         // todo 判断是否绑定
         if ($weixin_info['id'] == 0) {
             $data = array_merge($weixin_info, $data);
-            $data['is_bind'] == FALSE;
+            $data['is_bind'] = FALSE;
             return ['status' => 0, 'data' => $data];
         }
 
