@@ -116,9 +116,23 @@ class WeixinLogic extends BaseLogic {
 
         $openid = session('openid');
 
+        $data = [
+
+            'app_id' => 'mPxWOXi4p4',
+            'balance' => 0.00,
+            'can_use_integral' => 0,
+            'company' => NULL,
+            'contact_status' => NULL,
+            'email' => NULL,
+            'from_manual' => 0,
+            'group' => 0,
+            'integral' => 0,
+            'is_deleted' => 0,
+            'is_bind' => TRUE,
+        ];
+
 
         $weixin_info = D('Weixin')->getByOpenid($openid);
-        print_r($weixin_info);
 
         if (empty($weixin_info)) {
             $this->setError('请先完成绑定');
@@ -134,6 +148,14 @@ class WeixinLogic extends BaseLogic {
         $weixin_info['sex'] = $weixin_info['gender'] ? $weixin_info['gender'] -1 : $weixin_info['gender'];
 
         $userService = new UserService();
+
+        // todo 判断是否绑定
+        if ($weixin_info['id'] == 0) {
+            $data = array_merge($weixin_info, $data);
+            $data['is_bind'] == FALSE;
+            return ['status' => 0, 'data' => $data];
+        }
+
         $user_info = $userService->get_more_info($weixin_info['id']);
         if ($user_info['status'] == BaseService::$ERROR_CODE) {
             return $user_info;
@@ -147,20 +169,7 @@ class WeixinLogic extends BaseLogic {
             unset($user_info['sex']);
         }
 
-        $data = [
 
-            'app_id' => 'mPxWOXi4p4',
-            'balance' => 0.00,
-            'can_use_integral' => 0,
-            'company' => NULL,
-            'contact_status' => NULL,
-            'email' => NULL,
-            'from_manual' => 0,
-            'group' => 0,
-            'integral' => 0,
-            'is_deleted' => 0,
-            'is_bind' => TRUE,
-        ];
 
         $data = array_merge($weixin_info, $user_info, $data);
         return ['status' => 0, 'data' => $data];
