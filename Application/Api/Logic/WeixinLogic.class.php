@@ -116,7 +116,10 @@ class WeixinLogic extends BaseLogic {
 
         $openid = session('openid');
 
+
         $weixin_info = D('Weixin')->getByOpenid($openid);
+        print_r($weixin_info);
+
         if (empty($weixin_info)) {
             $this->setError('请先完成绑定');
         }
