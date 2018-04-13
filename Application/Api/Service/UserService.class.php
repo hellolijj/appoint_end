@@ -26,7 +26,7 @@ class UserService extends BaseService {
         $USER = D('User');
 
         // 1、查看是否已经绑定
-        $user_item = $USER->getByTel($tel);
+        $user_item = $USER->getByPassport($passport);
         if ($user_item) {
             return ['status' => 1, 'data' => '重复绑定'];
         }
@@ -38,7 +38,7 @@ class UserService extends BaseService {
         }
 
         // 3、getByTel type状态
-        $user_item = $USER->getByTel($tel);
+        $user_item = $USER->getByPassport($passport);
         if (!$user_item) {
             return ['status' => 1, 'data' => '绑定失败 002'];
         }
