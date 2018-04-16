@@ -56,4 +56,17 @@ class UserLogic extends BaseLogic {
     }
 
 
+    public function carousel_photo()
+    {
+        $data = [['id' => 1, 'app_id' => 'mPxWOXi4p4', 'form_data' =>
+            json_encode(['groupName' => '首页', 'groupId' => 1127301, 'pic' => 'http://pingshif-img.stor.sinaapp.com/2018-04-03/WechatIMG9.jpeg', 'isShow' => 1, 'action' => 'none', 'actionText' => 'welcome',]),
+            'weight' => 1, 'type' => 1127301, 'apply_sub_shop' => 0, 'is_check' => 0,],
+            ['id' => 2, 'app_id' => 'mPxWOXi4p4',
+            'form_data' =>
+                json_encode(['groupName' => '首页', 'groupId' => 1127301, 'pic' => 'http://pingshif-img.stor.sinaapp.com/2018-04-03/WechatIMG8.png', 'isShow' => 1, 'action' => 'none', 'actionText' => 'welcome',]),
+            'weight' => 1, 'type' => 1127302, 'apply_sub_shop' => 0, 'is_check' => 0,],
+
+        ];
+        return ['status' => 0, 'is_more' => 0, 'current_page' => 1, 'data' => $data, 'count' => 2, 'total_page' => 1,];
+    }
 }

@@ -18,20 +18,6 @@ class QuestionLogic extends UserBaseLogic {
     public $cid = 0;
     public $sid = 0;
 
-    public function __construct ()
-    {
-        parent::__construct();
-
-        $cid = intval(I('course_id'));
-        $question_set = D('Question')->getByCid($cid);
-
-        if (is_null($question_set) || empty($question_set) || count($question_set) == 0) {
-            echo json_encode(['status' => 0, 'data' => '该课程没有题库',]);
-            die;
-        }
-        $this->cid = $cid;
-        $this->sid = $question_set['set_id'];
-    }
 
     /*
      * 获取该课程的当前模块信息
@@ -63,8 +49,16 @@ class QuestionLogic extends UserBaseLogic {
      */
     public function get_id_items ()
     {
+
+
         $chapter_id = intval(I('chapterID'));
         $type = trim(I('type'));
+        $course_id = 7;
+        $type = 'mnks';
+        $this->uid = 12012;
+        $this->cid = $course_id;
+        $this->sid = 1001;
+
 
         if ($chapter_id) {
             $question_id_arr = D('QuestionBank')->getIdsByChapterid($chapter_id);
@@ -80,6 +74,8 @@ class QuestionLogic extends UserBaseLogic {
         } else {
             $question_id_arr = D('QuestionBank')->getIdsBySid($this->sid);
         }
+
+
 
         if (empty($question_id_arr)) {
             return ['status' => 0, 'data' => '题库没有题目',];
@@ -99,8 +95,13 @@ class QuestionLogic extends UserBaseLogic {
      */
     public function get_info ()
     {
-        $cid = intval(I('course_id'));
+
+
+        $cid = 7;
         $question_ids = trim(I('questionID'));
+
+
+
         $question_ids = str_replace('[', '', $question_ids);
         $question_ids = str_replace(']', '', $question_ids);
         if (!$cid || !$question_ids) {
@@ -113,6 +114,9 @@ class QuestionLogic extends UserBaseLogic {
         $questionService->add_more_field($this->uid, $question_items);
 
         return ['status' => 1, 'msg' => '成功', 'data' => $question_items,];
+
+
+
     }
 
     /*
