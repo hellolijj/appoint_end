@@ -31,9 +31,9 @@ class MethodConvertModel {
         'AppExtensionInfo/carouselPhotoProjiect' => 'User/carousel_photo',  //获取首页轮廓图
 
         // 模拟考试
-        'question/get_id_items' => 'question/get_id_items',  // 获取考试题目
-        'question/get_info' => 'question/get_info',  // 获取考试题目详情
-        'question/exam_submit' => 'question/hand_paper',
+        'question/get_id_items' => 'Question/get_id_items',  // 获取考试题目
+        'question/get_info' => 'Question/get_info',  // 获取考试题目详情
+        'question/exam_submit' => 'Question/hand_paper',
 
 
     ];
