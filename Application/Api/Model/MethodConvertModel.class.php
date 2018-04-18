@@ -34,8 +34,5 @@ class MethodConvertModel {
         'question/get_id_items' => 'Question/get_id_items',  // 获取考试题目
         'question/get_info' => 'Question/get_info',  // 获取考试题目详情
         'question/exam_submit' => 'Question/hand_paper',
-
-
     ];
-
 }

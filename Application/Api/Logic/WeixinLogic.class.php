@@ -105,7 +105,7 @@ class WeixinLogic extends BaseLogic {
             return ['data' => '', 'is_login' => 1, 'status' => 0];
         }
 
-        $update_result =  $WEIXIN->updateInfo($openid,$data);
+        $update_result =  $WEIXIN->updateInfo($openid,zs);
         if (FALSE === $update_result) {
             return ['status' => 1, 'data' => '登陆失败'];
         }
@@ -139,6 +139,7 @@ class WeixinLogic extends BaseLogic {
         }
 
         $weixin_info['id'] = $weixin_info['uid'];
+        session('uid', $weixin_info['uid']);
         unset($weixin_info['uid']);
 
         $default_img = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';

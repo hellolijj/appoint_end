@@ -11,36 +11,11 @@ use Api\Service\QuestionService;
 use Api\Service\QuestionSpecialService;
 
 class QuestionLogic extends UserBaseLogic {
-    /*
-     * 获取get_试题ids列表
-     */
 
     public $cid = 0;
     public $sid = 0;
 
 
-    /*
-     * 获取该课程的当前模块信息
-     */
-    public static function get_current ($course_id)
-    {
-        if (!$course_id) {
-            return ['success' => FALSE, 'message' => '参数错误'];
-        }
-        // 收藏数量 错题数量
-        $question_collection_id_arr = D('QuestionCollection')->getIdsByUidAndCid(session('uid'), $course_id);
-        $collection_count = count($question_collection_id_arr);
-        $question_wrong_record_id_arr = D('QuestionRecord')->getIdsByUidAndCid(session('uid'), $course_id);
-        $wrong_record_count = count($question_wrong_record_id_arr);
-
-        $question = D('Question')->getByCid($course_id);
-        $question_set = D('QuestionSet')->getById($question['set_id']);
-        $question_set_title = $question_set['title'];
-        $question_set_count = $question_set['count'];
-
-        $data = ["subjectHeader" => $question_set_title, "subject" => "kemu3", "titleTota" => $question_set_count, "highest" => 0, "collection" => $collection_count, "answerError" => $wrong_record_count];
-        return ['success' => TRUE, 'data' => $data];
-    }
 
     /*
      * parms type
@@ -49,25 +24,21 @@ class QuestionLogic extends UserBaseLogic {
      */
     public function get_id_items ()
     {
-
-
-        $chapter_id = intval(I('chapterID'));
-        $type = trim(I('type'));
         $course_id = 7;
         $type = 'mnks';
-        $this->uid = 12012;
+        $this->uid = session('uid');
         $this->cid = $course_id;
         $this->sid = 1001;
+        $exam_submit_id = I('mnksRecordID');
 
 
-        if ($chapter_id) {
-            $question_id_arr = D('QuestionBank')->getIdsByChapterid($chapter_id);
+
+        if ($exam_submit_id) {
+            // todo 找出俩答错题的答题记录
+
+
         } elseif (in_array($type, QuestionBankModel::$TYPE)) {
             $question_id_arr = D('QuestionBank')->getIdsBySidAndType($this->sid, $type);
-        } elseif ($type == 'wdsc') {
-            $question_id_arr = D('QuestionCollection')->getIdsByUidAndCid($this->uid, $this->cid);
-        } elseif ($type == 'wdct') {
-            $question_id_arr = D('QuestionRecord')->getIdsByUidAndCid($this->uid, $this->cid);
         } elseif ($type == 'mnks') {
             $examinationService = new ExaminationService();
             $question_id_arr = $examinationService->set_random_question($this->sid);
@@ -99,8 +70,6 @@ class QuestionLogic extends UserBaseLogic {
 
         $cid = 7;
         $question_ids = trim(I('questionID'));
-
-
 
         $question_ids = str_replace('[', '', $question_ids);
         $question_ids = str_replace(']', '', $question_ids);
@@ -138,56 +107,10 @@ class QuestionLogic extends UserBaseLogic {
         if ($add_record_result['success'] === FALSE) {
             return ['status' => 0, 'msg' => $add_record_result['message']];
         }
-
-
         return ['status' => 1, 'msg' => '成功'];
     }
 
-    /*
-     * 收藏该题目
-     */
-    public function collect ()
-    {
-        $cid = intval(I('course_id'));
-        $qid = intval(I('questionID'));
-        $collection = intval(I('collection'));  //  前端传过来的是 0 or 1
-        if (!$cid || !$qid) {
-            return ['status' => 0, 'data' => '参数错误',];
-        }
 
-        if (!in_array($collection, [QuestionCollectionModel::$STATUS_COLLECT, QuestionCollectionModel::$STATUS_COLLECT_CANCEL])) {
-            return ['status' => 0, 'data' => '参数错误'];
-        }
-
-        $questionCollectService = new QuestionCollectService();
-        $questionCollectService->set_collect($this->uid, $cid, $qid, $collection);
-
-        return ['status' => 0, 'data' => '成功'];
-    }
-
-    /*
-     * 获取章节列表接口
-     */
-    public function chapter ()
-    {
-        $question_chapter_items = D('QuestionChapter')->listBySid($this->sid);
-        if (empty($question_chapter_items) || count($question_chapter_items) == 0) {
-            return ['status' => 0, 'data' => '没有题库'];
-        }
-        return ['status' => 1, 'msg' => '成功', 'data' => $question_chapter_items];
-    }
-
-    /*
-     * 专题训练
-     */
-    public function special ()
-    {
-
-        $questionSpeicialService = new QuestionSpecialService();
-        $question_special_items = $questionSpeicialService->test();
-
-        return ['status' => 1, 'msg' => '成功', 'data' => $question_special_items];
-    }
 
 
     /*
@@ -196,7 +119,38 @@ class QuestionLogic extends UserBaseLogic {
     public function hand_paper ()
     {
 
-        $data = ['mid' => 'Mp20180225195814703967', 'score' => 65,];
+        $answer = $_GET['record'];
+        $answer_arr = json_decode($answer, TRUE);
+        $time = intval(I('useTime'));
+
+        if (!$time || count($answer_arr) == 0) {
+            return ['status' => 0, 'msg' => '提交失败'];
+        }
+
+
+        $score = 0;
+        foreach ($answer_arr as &$_answer) {
+
+            if ($_answer['answer'] == 1)
+                $score += 5;
+
+            $_answer['qid'] = $_answer['id'];
+            unset($_answer['id']);
+
+            $_answer['result'] = $_answer['answer'];
+            unset($_answer['answer']);
+        }
+
+
+//        $exam_submit_id = D('ExamSubmit')->add(session('uid'), 1, $score);
+//        if (!$exam_submit_id) {
+//            return ['status' => 0, 'msg' => '提交失败'];
+//        }
+//
+//        D('ExamRecord')->add(session('uid'), $exam_submit_id, $answer_arr);
+
+
+        $data = ['mid' => 'Mp20180225195814703967', 'score' => $score, 'time' => $time];
         return ['status' => 1, 'msg' => '成功', 'data' => $data];
     }
 

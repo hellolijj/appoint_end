@@ -21,12 +21,18 @@ class UserBaseLogic extends BaseLogic {
 
     public function __construct ()
     {
-//        parent::__construct();
+        $openid = session('openid');
+        if (!$openid) {
+           echo json_encode(['status => 1', 'data' => '参数错误 no openid']);
+           die;
+        }
+
+        $uid = session('uid');
+        if (!$uid) {
+            echo json_encode(['status => 1', 'data' => '请先完成注册 no uid']);
+            die;
+        }
 
     }
 
-    private function check_uid ()
-    {
-
-    }
 }

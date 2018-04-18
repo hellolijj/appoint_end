@@ -19,7 +19,7 @@ class ExaminationService extends BaseService {
             return FALSE;
         }
         $question_items = D('QuestionBank')->getIdsBySid($sid);
-        $rand_ids = array_rand($question_items, 100);
+        $rand_ids = array_rand($question_items, 20);
 
         // todo 这么做性能不是很好，后续再优化
         $data = [];
