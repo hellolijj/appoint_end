@@ -51,7 +51,7 @@ class WeixinLogic extends BaseLogic {
         $data_result = $wxHelper->checkLoginV2();
 
         if ($data_result['success'] === FALSE) {
-            return ['data' => $data_result['message'], 'is_login' => 0, 'status' => 1,];
+            return ['data' => $data_result['message'], 'is_login' => 1, 'status' => 1,];
         }
         $openid = $data_result['openid'];
         $session_key = $data_result['session_key'];
@@ -70,7 +70,7 @@ class WeixinLogic extends BaseLogic {
         }
 
         if (FALSE === $weixinService->is_register($openid)) {
-            return ['data' => session_id(), 'is_login' => 0, 'status' => 0];
+            return ['data' => session_id(), 'is_login' => 1, 'status' => 0];
         }
         return ['data' => session_id(), 'is_login' => 1, 'status' => 0];
     }
@@ -105,7 +105,7 @@ class WeixinLogic extends BaseLogic {
             return ['data' => '', 'is_login' => 1, 'status' => 0];
         }
 
-        $update_result =  $WEIXIN->updateInfo($openid,zs);
+        $update_result =  $WEIXIN->updateInfo($openid, $data);
         if (FALSE === $update_result) {
             return ['status' => 1, 'data' => '登陆失败'];
         }
