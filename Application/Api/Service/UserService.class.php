@@ -52,7 +52,7 @@ class UserService extends BaseService {
             return ['status' => 1, 'data' => '绑定失败 003'];
         }
 
-        return TRUE;
+        return $uid;
     }
 
 

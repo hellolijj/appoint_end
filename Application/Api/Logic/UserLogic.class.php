@@ -51,6 +51,7 @@ class UserLogic extends BaseLogic {
         if (is_array($bind_result)) {
             return $this->setError($bind_result['data']);
         }
+        session('uid', $bind_result);
 
         return $this->setSuccess();
     }
