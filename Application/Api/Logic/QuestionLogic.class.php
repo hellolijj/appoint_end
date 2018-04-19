@@ -30,14 +30,11 @@ class QuestionLogic extends UserBaseLogic {
         $this->cid = $course_id;
         $this->sid = 1001;
         $exam_submit_id = I('mnksRecordID');
-
-
-
         if ($exam_submit_id) {
-            // todo 找出俩答错题的答题记录
+            return $this->exam_review($exam_submit_id);
+        }
 
-
-        } elseif (in_array($type, QuestionBankModel::$TYPE)) {
+        if (in_array($type, QuestionBankModel::$TYPE)) {
             $question_id_arr = D('QuestionBank')->getIdsBySidAndType($this->sid, $type);
         } elseif ($type == 'mnks') {
             $examinationService = new ExaminationService();
@@ -45,8 +42,6 @@ class QuestionLogic extends UserBaseLogic {
         } else {
             $question_id_arr = D('QuestionBank')->getIdsBySid($this->sid);
         }
-
-
 
         if (empty($question_id_arr)) {
             return ['status' => 0, 'data' => '题库没有题目',];
@@ -67,24 +62,31 @@ class QuestionLogic extends UserBaseLogic {
     public function get_info ()
     {
 
-
         $cid = 7;
         $question_ids = trim(I('questionID'));
+        $exam_submit_id = I('mnksRecordID');
 
         $question_ids = str_replace('[', '', $question_ids);
         $question_ids = str_replace(']', '', $question_ids);
+
         if (!$cid || !$question_ids) {
             return ['status' => 0, 'data' => '参数为空',];
         }
+
         $question_id_arr = explode(',', $question_ids);
+
+
+
         $question_items = D('QuestionBank')->getByIds($question_id_arr);
+
+        if ($exam_submit_id) {
+            return $this->exam_review_info($exam_submit_id, $question_items);
+        }
         // 给数组增加其他的字段
         $questionService = new QuestionService();
         $questionService->add_more_field($this->uid, $question_items);
 
         return ['status' => 1, 'msg' => '成功', 'data' => $question_items,];
-
-
 
     }
 
@@ -112,13 +114,11 @@ class QuestionLogic extends UserBaseLogic {
 
 
 
-
     /*
      * 模拟考试提交试卷
      */
     public function hand_paper ()
     {
-
         $answer = $_GET['record'];
         $answer_arr = json_decode($answer, TRUE);
         $time = intval(I('useTime'));
@@ -141,17 +141,45 @@ class QuestionLogic extends UserBaseLogic {
             unset($_answer['answer']);
         }
 
+        $exam_submit_id = D('ExamSubmit')->add(session('uid'), 1, $score);
+        if (!$exam_submit_id) {
+            return ['status' => 0, 'msg' => '提交失败'];
+        }
 
-//        $exam_submit_id = D('ExamSubmit')->add(session('uid'), 1, $score);
-//        if (!$exam_submit_id) {
-//            return ['status' => 0, 'msg' => '提交失败'];
-//        }
-//
-//        D('ExamRecord')->add(session('uid'), $exam_submit_id, $answer_arr);
+        D('ExamRecord')->add(session('uid'), $exam_submit_id, $answer_arr);
 
-
-        $data = ['mid' => 'Mp20180225195814703967', 'score' => $score, 'time' => $time];
+        $data = ['mid' => $exam_submit_id, 'score' => $score, 'time' => $time];
         return ['status' => 1, 'msg' => '成功', 'data' => $data];
+    }
+
+    /**
+     * 模拟考试的错题回顾
+     */
+    private function exam_review($exam_submit_id) {
+
+        if (!$exam_submit_id) {
+            return ['status' => 0, 'mgs' => '参数不能为空'];
+        }
+
+        $examinationService = new ExaminationService();
+        $record_id_arr = $examinationService->get_review($exam_submit_id);
+        return ['status' => 1, 'msg' => '成功', 'count' => count($record_id_arr), 'data' => $record_id_arr,];
+    }
+
+
+    /**
+     * @param $exam_submit_id 学生用户提交答案id
+     * 展示考试错题回顾想详细信息
+     */
+    private function exam_review_info($exam_submit_id, $question_items) {
+
+        if (!$exam_submit_id || count($question_items) == 0) {
+            return ['status' => 0, 'mgs' => '参数不能为空'];
+        }
+
+        $examinationService = new ExaminationService();
+        $examinationService->add_record_more_at_exam(session('uid'), $exam_submit_id, $question_items);
+        return ['status' => 1, 'msg' => '成功', 'data' => $question_items,];
     }
 
 

@@ -126,8 +126,9 @@ class QuestionService extends BaseService {
                 $question_item['answer'] = $question_record_items[$qid]['result'];  // 实际上它是result
                 $question_item['choose'] = $question_record_items[$qid]['choose'];
             }
-
         }
-
     }
+
+
+
 }
