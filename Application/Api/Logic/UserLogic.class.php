@@ -35,6 +35,7 @@ class UserLogic extends BaseLogic {
 
         $passport = I('passport');
         $phone = trim(I('phone'));
+        $phone = $phone ? $phone : 12345678901;
 
         if (!$passport || !$phone) {
             return $this->setError('信息不能为空');
