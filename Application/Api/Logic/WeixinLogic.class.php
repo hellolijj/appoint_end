@@ -51,7 +51,7 @@ class WeixinLogic extends BaseLogic {
         $data_result = $wxHelper->checkLoginV2();
 
         if ($data_result['success'] === FALSE) {
-            return ['data' => $data_result['message'], 'is_login' => 1, 'status' => 1,];
+            return ['data' => $data_result['message'], 'is_login' => 0, 'status' => 1,];
         }
         $openid = $data_result['openid'];
         $session_key = $data_result['session_key'];
@@ -70,7 +70,7 @@ class WeixinLogic extends BaseLogic {
         }
 
         if (FALSE === $weixinService->is_register($openid)) {
-            return ['data' => session_id(), 'is_login' => 1, 'status' => 0];
+            return ['data' => session_id(), 'is_login' => 0, 'status' => 0];
         }
         return ['data' => session_id(), 'is_login' => 1, 'status' => 0];
     }
@@ -101,6 +101,9 @@ class WeixinLogic extends BaseLogic {
         ];
         $WEIXIN = D('Weixin');
         $weixin_user = $WEIXIN->getByOpenid($openid);
+
+
+
         if ($weixin_user['type']  >= WeixinModel::$USER_TYPE_REGISTER) {
             return ['data' => '', 'is_login' => 1, 'status' => 0];
         }
@@ -109,10 +112,19 @@ class WeixinLogic extends BaseLogic {
         if (FALSE === $update_result) {
             return ['status' => 1, 'data' => '登陆失败'];
         }
-        return ['data' => '', 'is_login' => 1, 'status' => 0];
+
+        $user_info_data = $this->get_user_data();
+        return ['data' => ['user_info' => $user_info_data['data']], 'is_login' => 1, 'status' => 0];
     }
 
     public function get_user_info() {
+
+        return $this->get_user_data();
+
+    }
+
+
+    public function get_user_data() {
 
         $openid = session('openid');
 
@@ -170,11 +182,12 @@ class WeixinLogic extends BaseLogic {
             unset($user_info['sex']);
         }
 
-
-
         $data = array_merge($weixin_info, $user_info, $data);
+
         return ['status' => 0, 'data' => $data];
+
     }
+
 
     public function get_phone_number() {
         $encryptedData = I('encryptedData');

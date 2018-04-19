@@ -31,6 +31,7 @@ class WeixinModel extends BaseModel {
         if ($weixin_items) {
             S($cache_key, json_encode($weixin_items), 3600);
         }
+
         return $weixin_items;
     }
 
@@ -38,6 +39,8 @@ class WeixinModel extends BaseModel {
         $data = ['openid' => $openid, 'type' => 1, 'gmt_create' => time(), 'gmt_modified' => time()];
         if (FALSE == $this->getByOpenid($openid)) {
             $this->add($data);
+            $cache_key = 'appoint_weixin_items_by_openid' . $openid;
+            S($cache_key, NULL);
         }
     }
 
