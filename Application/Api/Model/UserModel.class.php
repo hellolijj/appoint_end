@@ -65,7 +65,7 @@ class UserModel extends BaseModel {
             return FALSE;
         }
 
-        if ($this->getByTel($telphone)) {
+        if ($this->getByPassport($passport)) {
             return FALSE;
         }
 
