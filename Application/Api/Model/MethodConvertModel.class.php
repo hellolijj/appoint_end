@@ -20,6 +20,7 @@ class MethodConvertModel {
         'AppData/getXcxUserInfo' => 'Weixin/get_user_info',
         'appShop/getIntegralLog' => 'User/no_vip',
         'AppUser/LoginUser' => 'Weixin/login',   //用户登陆
+        'AppUser/check_openid' => 'Weixin/check_openid',
 
         // 验证手机号码
         'AppUser/GetPhoneNumber' => 'Weixin/get_phone_number',

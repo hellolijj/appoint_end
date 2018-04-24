@@ -206,4 +206,15 @@ class WeixinLogic extends BaseLogic {
     }
 
 
+    public function check_openid() {
+
+        $openid = session('openid');
+
+        if ($openid) {
+            return ['status' => 0, 'is_login' => 1];
+        } else {
+            return ['status' => 1, 'is_login' => 2];
+        }
+    }
+
 }
