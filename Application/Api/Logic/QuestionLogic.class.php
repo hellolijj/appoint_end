@@ -28,7 +28,7 @@ class QuestionLogic extends UserBaseLogic {
         $type = 'mnks';
         $this->uid = session('uid');
         $this->cid = $course_id;
-        $this->sid = 1001;
+        $this->sid = 1011;
         $exam_submit_id = I('mnksRecordID');
         if ($exam_submit_id) {
             return $this->exam_review($exam_submit_id);
