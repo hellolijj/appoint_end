@@ -8,6 +8,8 @@
 
 namespace Api\Service;
 
+use Api\Model\QuestionBankModel;
+
 class ExaminationService extends BaseService {
 
     /*
@@ -18,8 +20,19 @@ class ExaminationService extends BaseService {
         if (!$sid) {
             return FALSE;
         }
-        $question_items = D('QuestionBank')->getIdsBySid($sid);
-        $rand_ids = array_rand($question_items, 20);
+
+        /**
+         * 老师要40单选题 10多选题
+         */
+
+        $single_itmes = D('QuestionBank')->getIdsBySidAndType($sid, QuestionBankModel::$TYPE[QuestionBankModel::$TYPE_SINGLE]);
+        $muti_items = D('QuestionBank')->getIdsBySidAndType($sid, QuestionBankModel::$TYPE[QuestionBankModel::$TYPE_MULTIPLE]);
+        $question_items = array_merge($single_itmes, $muti_items);
+
+        $single_rand_ids = array_rand($single_itmes, 40);
+        $mutiple_rand_ids = array_rand($muti_items, 10);
+        $rand_ids = array_merge($single_rand_ids, $mutiple_rand_ids);
+
 
         // todo 这么做性能不是很好，后续再优化
         $data = [];
