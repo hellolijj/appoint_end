@@ -15,3 +15,21 @@ function email() {
     echo '发送成功';
 
 }
+
+
+/**
+ *  View层次用到的函数，tp3.2.3跟tp5的区别
+ */
+
+function sysconf($params) {
+
+    if ($params == 'app_version') {
+        return '3.2.3';
+    }
+
+    return C($params);
+}
+
+function url($params) {
+    return U($params);
+}

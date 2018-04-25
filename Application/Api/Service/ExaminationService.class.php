@@ -26,12 +26,15 @@ class ExaminationService extends BaseService {
          */
 
         $single_itmes = D('QuestionBank')->getIdsBySidAndType($sid, QuestionBankModel::$TYPE[QuestionBankModel::$TYPE_SINGLE]);
-        $muti_items = D('QuestionBank')->getIdsBySidAndType($sid, QuestionBankModel::$TYPE[QuestionBankModel::$TYPE_MULTIPLE]);
-        $question_items = array_merge($single_itmes, $muti_items);
+        $mutiple_items = D('QuestionBank')->getIdsBySidAndType($sid, QuestionBankModel::$TYPE[QuestionBankModel::$TYPE_MULTIPLE]);
+        $question_items = array_merge($single_itmes, $mutiple_items);
 
         $single_rand_ids = array_rand($single_itmes, 40);
-        $mutiple_rand_ids = array_rand($muti_items, 10);
+        $mutiple_rand_ids = array_rand($mutiple_items, 10);
+        print_r($mutiple_items);
         $rand_ids = array_merge($single_rand_ids, $mutiple_rand_ids);
+
+        print_r($rand_ids);die;
 
 
         // todo 这么做性能不是很好，后续再优化
