@@ -23,7 +23,7 @@ class UserBaseLogic extends BaseLogic {
     {
         $openid = session('openid');
         if (!$openid) {
-           echo json_encode(['status => 1', 'data' => '参数错误 no openid']);
+           echo json_encode(['status => 1', 'data' => 'params error,  no openid']);
            die;
         }
 
