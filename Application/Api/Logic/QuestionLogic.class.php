@@ -132,7 +132,7 @@ class QuestionLogic extends UserBaseLogic {
         foreach ($answer_arr as &$_answer) {
 
             if ($_answer['answer'] == 1)
-                $score += 5;
+                $score += 2;
 
             $_answer['qid'] = $_answer['id'];
             unset($_answer['id']);
