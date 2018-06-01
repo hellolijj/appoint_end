@@ -67,7 +67,7 @@ class GatewayController extends BaseController {
 
         // 检查logic类 方法
         if (empty($method) || !in_array($method, array_keys(MethodConvertModel::$VALID_METHODS))) {
-            $this->ajaxReturn($result->setError('无效的API方法'));
+            $this->ajaxReturn($result->setError('601 无效的API方法'));
         }
 
         $this->method = MethodConvertModel::$VALID_METHODS[$method];
@@ -76,7 +76,7 @@ class GatewayController extends BaseController {
         // 检查应用名称 和 接口合法性
         list($logic_name, $function_name) = explode('/', $this->method);
         if (!in_array(strtoupper($logic_name), C('API_LIST'))) {
-            $this->ajaxReturn($result->setError('无效的API方法'));
+            $this->ajaxReturn($result->setError('602 无效的API方法'));
         }
 
     }

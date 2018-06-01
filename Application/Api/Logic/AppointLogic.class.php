@@ -1,0 +1,243 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: lijunjun
+ * Date: 2018/4/30
+ * Time: 上午10:29
+ */
+
+namespace Api\Logic;
+
+class AppointLogic extends UserBaseLogic {
+
+    public function details() {
+        $item = intval(I('data_id'));
+        // 定义 不同的预约类型
+        $appoint_info = [
+            1234 => [
+                'title' => '签证预约',
+                'time' => '1',
+                'time_list' => '9:00-10:00',
+                'date' => '工作时间',
+                'statement' => '说明',
+                'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+            ],
+            1235 => [
+                'title' => '缴费预约',
+                'time' => '1',
+                'time_list' => '9:00-10:00',
+                'date' => '工作时间',
+                'statement' => '说明',
+                'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+            ],
+            1236 => [
+                'title' => '忘了预约',
+                'time' => '1',
+                'time_list' => '9:00-10:00',
+                'date' => '工作时间',
+                'statement' => '说明',
+                'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+            ],
+            1237 => [
+                'title' => 'refunt预约',
+                'time' => '1',
+                'time_list' => '9:00-10:00',
+                'date' => '工作时间',
+                'statement' => '说明',
+                'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+            ],
+        ];
+
+        $s = '{"status":0,"data":[{"form_data":{"description":"<p>\u5546\u5bb6\u670d\u52a1<\/p><p>\u63d0\u4f9b\u514d\u8d39WiFi<\/p><p>\u63d0\u4f9b10\u4e2a\u514d\u8d39\u505c\u8f66\u4f4d<\/p><p>\u6e29\u99a8\u63d0\u793a<\/p><p>\u5982\u9700\u56e2\u8d2d\u5238\u53d1\u7968\uff0c\u8bf7\u60a8\u5728\u6d88\u8d39\u65f6\u5411\u5546\u6237\u54a8\u8be2<\/p><p>\u4e3a\u4e86\u4fdd\u969c\u60a8\u7684\u6743\u76ca\uff0c\u5efa\u8bae\u4f7f\u7528\u7f8e\u56e2\u3001\u70b9\u8bc4\u7f51\u7ebf\u4e0a\u652f\u4ed8\u3002\u82e5\u4f7f\u7528\u5176\u4ed6\u652f\u4ed8\u65b9\u5f0f\u5bfc\u81f4\u7ea0\u7eb7\uff0c\u7f8e\u56e2\u3001\u70b9\u8bc4\u7f51\u4e0d\u627f\u62c5\u4efb\u4f55\u8d23\u4efb\uff0c\u611f\u8c22\u60a8\u7684\u7406\u89e3\u548c\u652f\u6301\uff01<\/p><p><br \/><\/p>","img_urls":["http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db4604e889.jpg","http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db248c49ac.jpg"],"type":0,"delivery_id":"0","id":"3977372","app_id":"Z22PP52DLh","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","price":"188.00","sale_price":"0.00","category":["\u5927\u5305"],"sales":"1","is_recommend":"0","stock":"40","weight":"9","goods_type":"1","max_can_use_integral":"0","integral":"-1","mass":"0.000","volume":"0.000","express_rule_id":"0","is_seckill":"2","seckill_status":"2","virtual_price":"0.00","add_time":"1525054168","update_time":"1525054168","viewed_count":"8","sell_time":"","status":"0","category_id":["2132636"],"model_items":[{"model":"30,31,-1","price":"188","stock":"40"}],"app_name":"\u9884\u7ea6\u5e94\u7528","express_fee":"\u5305\u90ae","server_time":1527492645,"model":[{"id":"0","name":"\u9884\u7ea6\u65f6\u957f","subModelName":["7"],"subModelId":["30"]},{"id":"1","name":"\u9884\u7ea6\u65f6\u6bb5","subModelName":["12:00-24:00"],"subModelId":["31"]},{"id":"2","name":"\u9884\u7ea6\u65e5\u671f","subModelName":["\u5168\u5e74"],"subModelId":["-1"]}],"appointment_info":{"goods_id":"3977372","unit":"\u5c0f\u65f6","unit_type":"2","revert_stock_seconds":"0","holiday_type":"1","custom_week_holiday":"255","custom_holiday":null,"is_deleted":"0","display_comment":"1","need_user_address":"1","appointment_desc":"","appointment_phone":"","force_appointment_start_date":"0000-00-00 00:00:00","force_appointment_end_date":"9999-12-31 23:59:59"},"recommend_type":0,"recommend_info":[],"is_group_buy_goods":0,"buyer_list":[],"recommend_goods_info":[],"app_cover":"http:\/\/cdn.jisuapp.cn\/zhichi_frontend\/static\/webapp\/images\/share_feng.jpg"},"weight":"9","unit":"\u5c0f\u65f6","holiday_type":"1"}],"is_more":0,"current_page":-1,"count":"1","total_page":1}';
+        $return = json_decode($s, TRUE);
+        $return['data'][0]['form_data']['title'] = $appoint_info[$item]['title'] ? $appoint_info[$item]['title'] : '';
+        $return['data'][0]['form_data']['model'][0]['subModelName'][0] = $appoint_info[$item]['title'] ? $appoint_info[$item]['time'] : '';
+        $return['data'][0]['form_data']['model'][1]['subModelName'][0] = $appoint_info[$item]['time_list'] ? $appoint_info[$item]['time_list'] : '';
+        $return['data'][0]['form_data']['model'][2]['subModelName'][0] = $appoint_info[$item]['date'] ? $appoint_info[$item]['date'] : '';
+        $return['data'][0]['form_data']['description'] = $appoint_info[$item]['description'] ? $appoint_info[$item]['description'] : '';
+
+        return $return;
+    }
+
+    public function access() {
+        return ['status' => 0, 'data' => [], 'is_more' => 0, 'total_page' => 0, 'num' => [0,0,0,0,0]];
+    }
+
+    public function time_list() {
+        $data = '
+        {
+            "status": 0,
+	"data": {
+            "appointment_info": [{
+                "interval": "08:00-09:00",
+			"expired": 0,
+			"buyed": 0,
+			"can_buy": 1
+		}, {
+                "interval": "09:00-10:00",
+			"expired": 0,
+			"buyed": 0,
+			"can_buy": 1
+		}, {
+                "interval": "10:00-11:00",
+			"expired": 0,
+			"buyed": 0,
+			"can_buy": 1
+		}, {
+                "interval": "11:00-12:00",
+			"expired": 0,
+			"buyed": 0,
+			"can_buy": 1
+		}, {
+                "interval": "14:00-15:00",
+			"expired": 0,
+			"buyed": 0,
+			"can_buy": 1
+		}, {
+                "interval": "15:00-16:00",
+			"expired": 0,
+			"buyed": 0,
+			"can_buy": 1
+		}, {
+                "interval": "16:00-17:00",
+			"expired": 0,
+			"buyed": 0,
+			"can_buy": 1
+		}],
+		"can_select_interval": ["09:00-10:00","10:00-11:00","11:00-12:00"],
+		"can_select_time_long": ["1"],
+		"selected_interval": "12:00-24:00",
+		"selected_time_long": "1",
+		"selected_day": "20180430",
+		"appointment_stock": "40",
+		"appointment_price": "188",
+		"unit_type": 2
+	},
+	"unit_type": "2"
+}
+';
+
+        return json_decode($data, TRUE);
+    }
+
+    public function card() {
+        return ['status' => 0, 'data' => 1031509];
+        // return ['status' => 1, 'data' => '请选择时间段'];
+    }
+
+
+    public function calculate() {
+        $s = '
+        {
+	"status": 0,
+	"data": {
+		"price": 188,
+		"original_price": 188,
+		"group_buy_discount_price": 0,
+		"express_fee": 0,
+		"use_balance": 0,
+		"balance": 0,
+		"discount_cut_price": 0,
+		"can_use_benefit": {
+			"status": 0,
+			"vip_benefit": [],
+			"coupon_benefit": [],
+			"integral_benefit": [],
+			"max_can_use_integral": [],
+			"user_integral": [],
+			"data": [],
+			"selected_index": 0
+		},
+		"selected_benefit_info": [],
+		"goods_info": [{
+			"description": "<p>\n\t商家服务\n<\/p>\n<p>\n\t提供免费WiFi\n<\/p>\n<p>\n\t提供10个免费停车位\n<\/p>\n<p>\n\t温馨提示\n<\/p>\n<p>\n\t如需团购券发票，请您在消费时向商户咨询\n<\/p>\n<p>\n\t为了保障您的权益，建议使用美团、点评网线上支付。若使用其他支付方式导致纠纷，美团、点评网不承担任何责任，感谢您的理解和支持！\n<\/p>\n<p>\n\t<br \/>\n<\/p>",
+			"img_urls": ["http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db4604e889.jpg", "http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db248c49ac.jpg"],
+			"type": 0,
+			"delivery_id": "0",
+			"id": "3977372",
+			"app_id": "Z22PP52DLh",
+			"title": "签证预约",
+			"cover": "http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg",
+			"price": "188",
+			"sale_price": "0.00",
+			"category": ["大包"],
+			"sales": "0",
+			"is_recommend": "0",
+			"stock": "51",
+			"weight": "9",
+			"goods_type": "1",
+			"max_can_use_integral": "0",
+			"integral": "-1",
+			"mass": "0.000",
+			"volume": "0.000",
+			"express_rule_id": "0",
+			"is_seckill": "2",
+			"seckill_status": "2",
+			"virtual_price": "0.00",
+			"add_time": "1525054168",
+			"update_time": "1525054168",
+			"category_id": ["2132636"],
+			"model_items": [{
+				"model": "30,31,-1",
+				"price": "188",
+				"stock": "40"
+			}],
+			"app_name": "预约应用",
+			"express_fee": "包邮",
+			"server_time": 1525068036,
+			"model": [{
+				"id": "0",
+				"name": "预约时长",
+				"subModelName": ["1"],
+				"subModelId": ["30"]
+			}, {
+				"id": "1",
+				"name": "预约时段",
+				"subModelName": ["12:00-24:00"],
+				"subModelId": ["31"]
+			}, {
+				"id": "2",
+				"name": "预约日期",
+				"subModelName": ["全年"],
+				"subModelId": ["-1"]
+			}],
+			"appointment_info": {
+				"appointment_unit_type": "2",
+				"appointment_day": "20180630",
+				"appointment_interval": "13:00-20:00",
+				"appointment_time_long": 7,
+				"need_user_address": "1"
+			},
+			"num": "1",
+			"original_price": "188"
+		}],
+		"deliver_fee": 0,
+		"min_deliver_fee": 0,
+		"is_take_deliver": 0,
+		"address": []
+	}
+}
+        
+';
+
+
+        return json_decode($s, TRUE);
+    }
+
+
+    public function shop_location() {
+        $s = '{"status":0,"data":{"id":"1585042","app_id":"Z22PP52DLh","province_id":"0","city_id":"0","county_id":"0","shop_location":"","shop_contact":"","is_self_delivery":"0","region_string":""}}';
+        return json_decode($s, TRUE);
+    }
+
+    public function cart_list() {
+        $s = '{"status":0,"data":[{"id":"1031509","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525068035","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180630 13:00","appointment_end":"20180630 20:00","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"},{"id":"1031504","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525067994","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180430 16:30","appointment_end":"20180430 23:30","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"},{"id":"1031488","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525067717","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180430 17:00","appointment_end":"20180501 00:00","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"}],"is_more":0,"current_page":1,"count":"3","total_page":1,"goods_list":{"3977372":{"app_id":"Z22PP52DLh","goods_id":"3977372","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","price":"188","sale_price":"0.00","stock":"40","sales":null,"max_can_use_integral":"0","goods_type":"1","mass":"0.000","volume":"0.000","express_rule_id":"0","status":"0","model_data":null}},"take_out_info":[]}';
+        return json_decode($s, TRUE);
+    }
+
+    public function add_order() {
+        $s = '{"status":0,"data":"5b0ba93805a68639308115","session_key":"wx_webapp_session_key_610371647","form_id":"the formId is a mock one"}';
+        return json_decode($s, TRUE);
+    }
+
+}

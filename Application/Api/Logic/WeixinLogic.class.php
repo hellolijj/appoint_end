@@ -53,6 +53,7 @@ class WeixinLogic extends BaseLogic {
         if ($data_result['success'] === FALSE) {
             return ['data' => $data_result['message'], 'is_login' => 0, 'status' => 1,];
         }
+
         $openid = $data_result['openid'];
         $session_key = $data_result['session_key'];
         session('openid', $openid);

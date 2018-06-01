@@ -8,7 +8,7 @@
 
 return array(
 
-    'APP_NAME' => 'appoint', 'API_LIST' => ['STUDENT', 'WEIXIN', 'TEACHER', 'MY', 'COURSE', 'SIGNIN', 'QUESTION', 'USER'],
+    'APP_NAME' => 'appoint', 'API_LIST' => ['STUDENT', 'WEIXIN', 'TEACHER', 'MY', 'COURSE', 'SIGNIN', 'QUESTION', 'USER', 'APPOINT'],
 
     /* 数据库配置 */
     'DB_TYPE' => 'mysql', // 数据库类型

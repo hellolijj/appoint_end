@@ -11,6 +11,7 @@ namespace Api\Model;
 class MethodConvertModel {
 
     public static $VALID_METHODS = [
+
         // 首次进入加载
         'AppUser/MarkWxXcxStatus' => 'User/status',
         'appShop/isNeedLogin' => 'User/no_shop',
@@ -35,5 +36,18 @@ class MethodConvertModel {
         'question/get_id_items' => 'Question/get_id_items',  // 获取考试题目
         'question/get_info' => 'Question/get_info',  // 获取考试题目详情
         'question/exam_submit' => 'Question/hand_paper',
-    ];
+
+        // 预约
+        'AppShop/getGoods' => 'Appoint/details',
+        'AppShop/GetAssessList' => 'Appoint/access',
+        'AppAppointment/getAppointmentList' => 'Appoint/time_list',
+        'AppShop/AddCart' => 'Appoint/card',
+        'AppShop/calculationPrice' => 'Appoint/calculate',
+
+        'AppShop/getAppShopLocationInfo' => 'Appoint/shop_location',   //不知道干嘛的
+        'AppShop/cartList' => 'Appoint/cart_list',
+        'AppShop/addCartOrder' => 'Appoint/add_order',
+     ];
+
+    
 }
