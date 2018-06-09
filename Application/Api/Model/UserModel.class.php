@@ -82,4 +82,5 @@ class UserModel extends BaseModel {
         S($cache_key, NULL);
         return TRUE;
     }
+
 }

@@ -8,19 +8,24 @@
 
 namespace Api\Logic;
 
+use Api\Model\AppointRecordModel;
+
 class AppointLogic extends UserBaseLogic {
+
+
 
     public function details() {
         $item = intval(I('data_id'));
         // 定义 不同的预约类型
         $appoint_info = [
+            // 签证预约
             1234 => [
                 'title' => '签证预约',
                 'time' => '1',
-                'time_list' => '9:00-10:00',
-                'date' => '工作时间',
+                'time_list' => '8:30-9:30',
+                'date' => '除周二外',
                 'statement' => '说明',
-                'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+                'description' => '<p>签证预约时间段，每个时间段最多可预约5人</p><p>8:30-9:30</p><p>9:30-10:30</p><p>10:30-11:30</p><p>13:30-14:30</p><p>14:30-15:30</p><p>15:30-16:30</p>',
             ],
             1235 => [
                 'title' => '缴费预约',
@@ -64,65 +69,59 @@ class AppointLogic extends UserBaseLogic {
     }
 
     public function time_list() {
-        $data = '
-        {
-            "status": 0,
-	"data": {
-            "appointment_info": [{
-                "interval": "08:00-09:00",
-			"expired": 0,
-			"buyed": 0,
-			"can_buy": 1
-		}, {
-                "interval": "09:00-10:00",
-			"expired": 0,
-			"buyed": 0,
-			"can_buy": 1
-		}, {
-                "interval": "10:00-11:00",
-			"expired": 0,
-			"buyed": 0,
-			"can_buy": 1
-		}, {
-                "interval": "11:00-12:00",
-			"expired": 0,
-			"buyed": 0,
-			"can_buy": 1
-		}, {
-                "interval": "14:00-15:00",
-			"expired": 0,
-			"buyed": 0,
-			"can_buy": 1
-		}, {
-                "interval": "15:00-16:00",
-			"expired": 0,
-			"buyed": 0,
-			"can_buy": 1
-		}, {
-                "interval": "16:00-17:00",
-			"expired": 0,
-			"buyed": 0,
-			"can_buy": 1
-		}],
-		"can_select_interval": ["09:00-10:00","10:00-11:00","11:00-12:00"],
-		"can_select_time_long": ["1"],
-		"selected_interval": "12:00-24:00",
-		"selected_time_long": "1",
-		"selected_day": "20180430",
-		"appointment_stock": "40",
-		"appointment_price": "188",
-		"unit_type": 2
-	},
-	"unit_type": "2"
-}
-';
 
-        return json_decode($data, TRUE);
+        $appoint_date = trim(I('day'));  // 预约日期
+        $item = intval(I('data_id'));   //预约项目
+
+        if (empty($appoint_date) || $item == 0) {
+            return ['status' => 1, 'data' => '请选择时间段'];
+        }
+
+        // todo 根据日期和item_id 来返回可以选择的预约项目
+
+        $data = ' { "status": 0, "data": { "appointment_info": [{ "interval": "08:00-09:00", "expired": 0, "buyed": 0, "can_buy": 5 }, { "interval": "09:00-10:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "10:00-11:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "11:00-12:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "14:00-15:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "15:00-16:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "16:00-17:00", "expired": 0, "buyed": 0, "can_buy": 1 }], "can_select_interval": ["09:00-10:00","10:00-11:00","11:00-12:00"], "can_select_time_long": ["1"], "selected_interval": "12:00-24:00", "selected_time_long": "1", "selected_day": "20180430", "appointment_stock": "40", "appointment_price": "188", "unit_type": 2 }, "unit_type": "2" } ';
+        $data = json_decode($data, TRUE);
+
+        $valid_list = [
+            1234 => ['08:30-09:30', '09:30-10:30', '10:30-11:30', '13:30-14:30', '14:30-15:30', '15:30-16:30'],
+        ];
+
+        if ($valid_list[$item]) {
+            $lists = $valid_list[$item];
+            unset($data['data']['appointment_info']);
+            foreach ($lists as $_list) {
+                $data['data']['appointment_info'][] = [
+                    'interval' => $_list,
+                    'expired' => 0,
+                    'buyed' => 0,
+                    'can_buy' => 5,
+                ];
+            }
+        }
+
+        return $data;
     }
 
+    //生成一个预约订单
     public function card() {
-        return ['status' => 0, 'data' => 1031509];
-        // return ['status' => 1, 'data' => '请选择时间段'];
+        $item_id = intval(I('goods_id'));
+        $appoint_interval = I('appointment_interval');
+        $appoint_date = I('appointment_day');
+        $uid = session('uid');
+
+        if (!$item_id || empty($appoint_interval) || !$appoint_date || !$uid) {
+            return ['status' => 1, 'data' => '请选择时间段'];
+        }
+
+        $appoint_record_id = D('AppointRecord')->add($uid, $item_id, $appoint_date, $appoint_interval);
+
+        if (!$appoint_record_id) {
+            return ['status' => 1, 'data' => '预约错误'];
+        }
+
+        session('appoint_record_id', $appoint_record_id);
+
+        return ['status' => 0, 'data' => session('appoint_record_id'), ];
     }
 
 
@@ -150,8 +149,8 @@ class AppointLogic extends UserBaseLogic {
 		},
 		"selected_benefit_info": [],
 		"goods_info": [{
-			"description": "<p>\n\t商家服务\n<\/p>\n<p>\n\t提供免费WiFi\n<\/p>\n<p>\n\t提供10个免费停车位\n<\/p>\n<p>\n\t温馨提示\n<\/p>\n<p>\n\t如需团购券发票，请您在消费时向商户咨询\n<\/p>\n<p>\n\t为了保障您的权益，建议使用美团、点评网线上支付。若使用其他支付方式导致纠纷，美团、点评网不承担任何责任，感谢您的理解和支持！\n<\/p>\n<p>\n\t<br \/>\n<\/p>",
-			"img_urls": ["http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db4604e889.jpg", "http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db248c49ac.jpg"],
+			"description": "",
+			"img_urls": ["", ""],
 			"type": 0,
 			"delivery_id": "0",
 			"id": "3977372",
@@ -220,8 +219,65 @@ class AppointLogic extends UserBaseLogic {
         
 ';
 
-
+        $s = str_replace('188', '8', $s);
         return json_decode($s, TRUE);
+    }
+
+    public function cart_list() {
+        $s = '{"status":0,"data":[{"id":"1031510","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525068035","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180630 13:00","appointment_end":"20180630 20:00","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"预约","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"},{"id":"1031504","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525067994","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180430 16:30","appointment_end":"20180430 23:30","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"},{"id":"1031488","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525067717","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180430 17:00","appointment_end":"20180501 00:00","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"}],"is_more":0,"current_page":1,"count":"3","total_page":1,"goods_list":{"3977372":{"app_id":"Z22PP52DLh","goods_id":"3977372","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","price":"188","sale_price":"0.00","stock":"40","sales":null,"max_can_use_integral":"0","goods_type":"1","mass":"0.000","volume":"0.000","express_rule_id":"0","status":"0","model_data":null}},"take_out_info":[]}';
+        $s = json_decode($s, TRUE);
+        $appoint_record_id = session('appoint_record_id');
+        $uid = session('uid');
+        $appoint_record_item = D('AppointRecord')->getByRecordId($appoint_record_id);
+
+        // 预约标题
+        $appoint_type_id = $appoint_record_item['item_id'];
+        $title = AppointRecordModel::$APPOINT_TYPE[$appoint_type_id]['title'];
+
+        // 预约时间
+        $appoint_date = $appoint_record_item['date'];
+        $appoint_time = $appoint_record_item['time'];
+        list($appoint_time_start, $appoint_time_end) = explode('-', $appoint_time);
+        $appoint_start = $appoint_date . ' ' . $appoint_time_start;
+        $appoint_end = $appoint_date . ' ' . $appoint_time_end;
+
+
+        // 预约人信息
+        $appointer_item = D('User')->getByUid($uid);
+        $passport = $appointer_item['passport'];
+        $appointer_info = D('UserBack')->getByPassport($passport); $appointer_item['name'];
+        $appointer_name = $appointer_info['name'];
+
+        $weixin = D('Weixin')->getByOpenid(session('openid'));
+        $avater = $weixin['avater'];
+        if (!$avater) {
+            $avater = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
+        }
+
+        // 剩余名额
+        $leave = 8;
+
+        $appoint_orgin = $s['data'][0];
+        unset($s['data']);
+
+        // 将更新的资料覆盖给orgin
+        $appoint_orgin['appointment_start'] = $appoint_start;
+        $appoint_orgin['appointment_end'] = $appoint_end;
+        $appoint_orgin['cover'] = $avater;
+        $appoint_orgin['id'] = session('appoint_record_id');
+        $appoint_orgin['price'] = $leave;
+        $appoint_orgin['title'] = $title;
+
+
+        $s['data'][] = $appoint_orgin;
+
+
+        // good_list
+        $s['goods_list'][3977372]['price'] = 8;
+
+        $result = $s;
+
+        return $result;
     }
 
 
@@ -230,12 +286,15 @@ class AppointLogic extends UserBaseLogic {
         return json_decode($s, TRUE);
     }
 
-    public function cart_list() {
-        $s = '{"status":0,"data":[{"id":"1031509","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525068035","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180630 13:00","appointment_end":"20180630 20:00","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"},{"id":"1031504","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525067994","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180430 16:30","appointment_end":"20180430 23:30","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"},{"id":"1031488","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","goods_id":"3977372","model_id":"0","app_id":"Z22PP52DLh","num":"1","add_time":"1525067717","parent_shop_app_id":"0","related_shop_app_id":"0","is_integral":"-1","is_seckill":"2","is_group_buy":"0","num_of_group_buy_people":"0","group_buy_team_token":"","appointment_unit_type":"2","appointment_start":"20180430 17:00","appointment_end":"20180501 00:00","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","max_can_use_integral":"0","stock":"40","price":"188","sales":null,"model":"","goods_type":"1","status":"0","mass":"0.000","volume":"0.000","express_rule_id":"0"}],"is_more":0,"current_page":1,"count":"3","total_page":1,"goods_list":{"3977372":{"app_id":"Z22PP52DLh","goods_id":"3977372","title":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","price":"188","sale_price":"0.00","stock":"40","sales":null,"max_can_use_integral":"0","goods_type":"1","mass":"0.000","volume":"0.000","express_rule_id":"0","status":"0","model_data":null}},"take_out_info":[]}';
-        return json_decode($s, TRUE);
-    }
+
 
     public function add_order() {
+        $remark = trim(I('remark'));
+
+        $appoint_record_id = session('appoint_record_id');
+        D('AppointRecord')->addRemark($appoint_record_id, $remark);
+        D('AppointRecord')->setRecordStatus($appoint_record_id, AppointRecordModel::$STUDENT_FINISHED);
+
         $s = '{"status":0,"data":"5b0ba93805a68639308115","session_key":"wx_webapp_session_key_610371647","form_id":"the formId is a mock one"}';
         return json_decode($s, TRUE);
     }
