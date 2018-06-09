@@ -251,9 +251,9 @@ class AppointLogic extends UserBaseLogic {
         $appointer_name = $appointer_info['name'];
 
         $weixin = D('Weixin')->getByOpenid(session('openid'));
-        $avater = $weixin['avater'];
-        if (!$avater) {
-            $avater = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
+        $avatar = $weixin['avatar'];
+        if (!$avatar) {
+            $avatar = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
         }
 
         // 剩余名额
@@ -265,7 +265,7 @@ class AppointLogic extends UserBaseLogic {
         // 将更新的资料覆盖给orgin
         $appoint_orgin['appointment_start'] = $appoint_start;
         $appoint_orgin['appointment_end'] = $appoint_end;
-        $appoint_orgin['cover'] = $avater;
+        $appoint_orgin['cover'] = $avatar;
         $appoint_orgin['id'] = session('appoint_record_id');
         $appoint_orgin['price'] = $leave;
         $appoint_orgin['title'] = $title;
@@ -344,9 +344,9 @@ class AppointLogic extends UserBaseLogic {
         $appointer_name = $appointer_info['name'];
 
         $weixin = D('Weixin')->getByOpenid(session('openid'));
-        $avater = $weixin['avater'];
-        if (!$avater) {
-            $avater = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
+        $avatar = $weixin['avatar'];
+        if (!$avatar) {
+            $avatar = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
         }
 
         $order_list = D('AppointRecord')->listStudentFinishedByUid($uid);
@@ -363,7 +363,7 @@ class AppointLogic extends UserBaseLogic {
 
             $temp['form_data']['add_time'] = $create_time;
             $temp['form_data']['goods_info'][0]['goods_name'] = $title;
-            $temp['form_data']['goods_info'][0]['cover'] = $avater;
+            $temp['form_data']['goods_info'][0]['cover'] = $avatar;
             $temp['form_data']['order_id'] = $order_item['id'];
 
             $s['data'][] = $temp;
@@ -394,16 +394,16 @@ class AppointLogic extends UserBaseLogic {
         $appointer_name = $appointer_info['name'];
 
         $weixin = D('Weixin')->getByOpenid(session('openid'));
-        $avater = $weixin['avater'];
-        if (!$avater) {
-            $avater = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
+        $avatar = $weixin['avatar'];
+        if (!$avatar) {
+            $avatar = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
         }
 
         $order_item = D('AppointRecord')->getByRecordId($r_id);
         $title = AppointRecordModel::$APPOINT_TYPE[$order_item['item_id']]['title'] .'_' .$appointer_name . '_' . $order_item['date'] . '~' . $order_item['time'];
 
         $order_orgin['form_data']['goods_info'][0]['goods_name'] = $title;
-        $order_orgin['form_data']['goods_info'][0]['cover'] = $avater;
+        $order_orgin['form_data']['goods_info'][0]['cover'] = $avatar;
         $order_orgin['form_data']['appointment_order_info']['appointment_day'] = $order_item['date'];
         $order_orgin['form_data']['appointment_order_info']['appointment_interval'] = $order_item['time'];
         $order_orgin['form_data']['remark'] = $order_item['remark'];
