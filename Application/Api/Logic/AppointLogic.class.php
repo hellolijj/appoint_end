@@ -9,6 +9,8 @@
 namespace Api\Logic;
 
 use Api\Model\AppointRecordModel;
+use Api\Service\TempMsgService;
+use Api\Service\UserService;
 
 class AppointLogic extends UserBaseLogic {
 
@@ -288,12 +290,36 @@ class AppointLogic extends UserBaseLogic {
 
 
 
+
+
     public function add_order() {
         $remark = trim(I('remark'));
+        $form_id = trim(I('formId'));
 
+        //  操作数据库
         $appoint_record_id = session('appoint_record_id');
         D('AppointRecord')->addRemark($appoint_record_id, $remark);
         D('AppointRecord')->setRecordStatus($appoint_record_id, AppointRecordModel::$STUDENT_FINISHED);
+
+        // 发送模版消息
+        $tempMsgService = new TempMsgService();
+        $uid = session('uid');
+        $userService = new UserService();
+        $user_info = $userService->get_more_info($uid);
+
+        $record_item = D('AppointRecord')->getByRecordId($appoint_record_id);
+
+        $temp_data = [
+            'keyword1'  => ['value'=>$user_info['name']],
+            'keyword2'  => ['value'=>AppointRecordModel::$APPOINT_TYPE[$record_item['item_id']]['title']],
+            'keyword3'  => ['value'=>$record_item['time']],
+            'keyword4'  => ['value'=>$record_item['remark']],
+        ];
+        $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
+        $send_result = $tempMsgService->doSend(session('openid'), '5D7CI7j6wUuYE0YCGUE2Bl677JmcH9L7phnLddvBIJs', $form_id, $temp_data, $page);
+        if (!$send_result['success']) {
+            return ['status' => 0, 'data' => $send_result['message']];
+        }
 
         $s = '{"status":0,"data":"5b0ba93805a68639308115","session_key":"wx_webapp_session_key_610371647","form_id":"the formId is a mock one"}';
         return json_decode($s, TRUE);

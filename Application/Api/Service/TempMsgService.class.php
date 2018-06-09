@@ -30,7 +30,7 @@ class TempMsgService extends BaseService {
      * @param string $topcolor
      * @return bool
      */
-    public function doSend ($touser, $template_id, $page = '', $form_id, $data, $topcolor = '', $emphasis_keyword = '')
+    public function doSend ($touser, $template_id, $form_id, $data, $page = '', $topcolor = '', $emphasis_keyword = '')
     {
         $template = array('touser' => $touser, 'template_id' => $template_id, 'page' => $page, 'form_id' => $form_id, 'data' => $data, 'topcolor' => $topcolor, 'emphasis_keyword' => $emphasis_keyword,);
         $json_template = json_encode($template);
