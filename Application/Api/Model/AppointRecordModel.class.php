@@ -134,7 +134,7 @@ class AppointRecordModel extends BaseModel {
             return FALSE;
         }
 
-        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$STUDENT_FINISHED])->select();
+        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$STUDENT_FINISHED])->order('id desc')->select();
 
         return $finished_list;
     }
