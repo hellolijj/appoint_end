@@ -299,4 +299,112 @@ class AppointLogic extends UserBaseLogic {
         return json_decode($s, TRUE);
     }
 
+    /*
+     * 查看订单列表
+     */
+    public function get_order_list() {
+        $s = '{"status":0,"data":[{"form_data":{"app_info":{"app_name":"\u9884\u7ea6\u5e94\u7528","app_logo":"http:\/\/cdn.jisuapp.cn\/zhichi_frontend\/static\/invitation\/images\/logo.png"},"goods_info":[{"goods_id":"3977372","price":"188","stock":"40","goods_name":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","is_integral":"-1","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","model":"","max_can_use_integral":"0","model_id":"0","num":"1","sub_shop_app_id":null,"related_shop_app_id":"0","mass":"0.000","volume":"0.000","express_rule_id":"0","is_seckill":2}],"remark":"f d\u68b5\u8482\u5188","sub_shop_info":{"name":""},"location_id":0,"take_out_info":null,"form_id":"the formId is a mock one","appointment_order_info":{"appointment_unit_type":"2","appointment_day":"20180609","appointment_interval":"15:30-22:30","appointment_time_long":7,"need_user_address":"1","appointment_to_store_time":"12:00","appointment_user_name":"","appointment_user_phone":"","appointment_time":"2018-06-09 15:30 ~ 15:30"},"buyer_info":{"nickname":"\u674e\u4fca\u541b","phone":null,"message":""},"original_price":188,"selected_benefit_info":"","selected_benefit":{"discount_type":null},"original_express_fee":0,"address_info":{"name":"\u5f20\u4e09","contact":"020-81167888","detailAddress":"\u65b0\u6e2f\u4e2d\u8def397\u53f7","province":{"text":"\u5e7f\u4e1c\u7701","id":"19"},"city":{"text":"\u5e7f\u5dde\u5e02","id":"231"},"district":{"text":"\u6d77\u73e0\u533a","id":"2129"},"address_id":"169690"},"tostore_data":{"tostore_order_type":"","tostore_appointment_time":"","tostore_buyer_phone":"","tostore_remark":"","location_id":0},"additional_info":"","id":"658958","order_id":"5b1b7410f0d92678562271","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","app_id":"Z22PP52DLh","transaction_id":null,"payment_id":"0","pay_mode_id":"0","status":"0","total_price":"188.00","add_time":"2018-06-09 14:30:41","payment_time":"0","refund_time":"0","goods_type":"1","parent_shop_app_id":"0","use_balance":"0.00","is_self_delivery":"0","discount_cut_price":"0.00","has_seckill":"0","team_token":"","is_group_buy_order":"0","appointment_time":"2018-06-09 15:30 ~ 15:30","goods_num":1}}],"is_more":0,"current_page":1,"count":"1","total_page":1,"current_goods_type":"1","goods_type_list":["1"],"take_out_info":[]}';
+        $s = json_decode($s, TRUE);
+
+        $order_orgin = $s['data'][0];
+        unset($s['data']);
+
+        $uid = session('uid');
+
+        // 预约人信息
+        $appointer_item = D('User')->getByUid($uid);
+        $passport = $appointer_item['passport'];
+        $appointer_info = D('UserBack')->getByPassport($passport); $appointer_item['name'];
+        $appointer_name = $appointer_info['name'];
+
+        $weixin = D('Weixin')->getByOpenid(session('openid'));
+        $avater = $weixin['avater'];
+        if (!$avater) {
+            $avater = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
+        }
+
+        $order_list = D('AppointRecord')->listStudentFinishedByUid($uid);
+        if (empty($order_list)) {
+            $s = '{"status":0,"data":[],"current_goods_type":"1","goods_type_list":["1"]}';
+            return json_decode($s, TRUE);
+        }
+
+        foreach ($order_list as $order_item) {
+            $temp = $order_orgin;
+
+            $title = AppointRecordModel::$APPOINT_TYPE[$order_item['item_id']]['title'] .'_' .$appointer_name . '_' . $order_item['date'] . '~' . $order_item['time'];
+            $create_time = date('Y-m-d H:i:s', $order_item['gmt_create']);
+
+            $temp['form_data']['add_time'] = $create_time;
+            $temp['form_data']['goods_info'][0]['goods_name'] = $title;
+            $temp['form_data']['goods_info'][0]['cover'] = $avater;
+            $temp['form_data']['order_id'] = $order_item['id'];
+
+            $s['data'][] = $temp;
+        }
+
+
+        return $s;
+    }
+
+    /*
+     * 获取订单详细信息
+     */
+    public function get_order_info() {
+        $s = '{"status":0,"data":[{"form_data":{"app_info":{"app_name":"\u9884\u7ea6\u5e94\u7528","app_logo":"http:\/\/cdn.jisuapp.cn\/zhichi_frontend\/static\/invitation\/images\/logo.png"},"goods_info":[{"goods_id":"3977372","price":"188","stock":"40","goods_name":"\u5927\u5305\u5468\u4e00\u5230\u5468\u65e5\u4e0b\u5348\u4e03\u5c0f\u65f6\u6b22\u5531_copy_copy","is_integral":"-1","cover":"http:\/\/img.weiye.me\/zcimgdir\/album\/file_596db52164dfd.jpg","model":"","max_can_use_integral":"0","model_id":"0","num":"1","sub_shop_app_id":null,"related_shop_app_id":"0","mass":"0.000","volume":"0.000","express_rule_id":"0","is_seckill":2,"delivery_id":"0"}],"remark":"f d\u68b5\u8482\u5188","sub_shop_info":null,"location_id":0,"take_out_info":null,"form_id":"the formId is a mock one","appointment_order_info":{"appointment_unit_type":"2","appointment_day":"20180609","appointment_interval":"15:30-22:30","appointment_time_long":7,"need_user_address":"1","appointment_to_store_time":"12:00","appointment_user_name":"","appointment_user_phone":"","appointment_time":"2018-06-09 15:30 ~ 22:30"},"buyer_info":{"nickname":"\u674e\u4fca\u541b","phone":null,"message":""},"original_price":"188.00","selected_benefit_info":[],"selected_benefit":[],"original_express_fee":0,"address_info":{"name":"\u5f20\u4e09","contact":"020-81167888","detailAddress":"\u65b0\u6e2f\u4e2d\u8def397\u53f7","province":{"text":"\u5e7f\u4e1c\u7701","id":"19"},"city":{"text":"\u5e7f\u5dde\u5e02","id":"231"},"district":{"text":"\u6d77\u73e0\u533a","id":"2129"},"address_id":"169690"},"tostore_data":{"tostore_order_type":"","tostore_appointment_time":"","tostore_buyer_phone":"","tostore_remark":"","location_id":0},"additional_info":"","id":"658958","order_id":"5b1b7410f0d92678562271","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","app_id":"Z22PP52DLh","transaction_id":"","payment_id":"0","pay_mode_id":"0","status":"7","total_price":"188.00","add_time":"2018-06-09 14:30:41","payment_time":0,"refund_time":"0","goods_type":"1","parent_shop_app_id":"0","use_balance":"0.00","is_self_delivery":"0","discount_cut_price":"0.00","has_seckill":"0","team_token":"","is_group_buy_order":"0","appointment_time":"2018-06-09 15:30 ~ 22:30","order_total_price":"188.00","can_use_benefit":{"status":0,"vip_benefit":[],"coupon_benefit":[],"integral_benefit":[],"max_can_use_integral":[],"user_integral":[],"data":[],"selected_index":0}},"is_deleted":"0","time_long":"0","appointment_goods_id":"3977372","related_shop_app_id":"0","is_integral":"0","express_fee":"0.00","is_hide":"0","reverted_sale":"1","is_distribution_order":"0","location_id":"0","balance":"0.00"}],"is_more":0,"current_page":1,"count":"1","total_page":1}';
+        $s = json_decode($s, TRUE);
+
+        $order_orgin = $s['data'][0];
+        unset($s['data']);
+
+        $r_id = intval(I('order_id'));
+        $uid = session('uid');
+
+
+        // 预约人信息
+        $appointer_item = D('User')->getByUid($uid);
+        $passport = $appointer_item['passport'];
+        $appointer_info = D('UserBack')->getByPassport($passport); $appointer_item['name'];
+        $appointer_name = $appointer_info['name'];
+
+        $weixin = D('Weixin')->getByOpenid(session('openid'));
+        $avater = $weixin['avater'];
+        if (!$avater) {
+            $avater = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
+        }
+
+        $order_item = D('AppointRecord')->getByRecordId($r_id);
+        $title = AppointRecordModel::$APPOINT_TYPE[$order_item['item_id']]['title'] .'_' .$appointer_name . '_' . $order_item['date'] . '~' . $order_item['time'];
+
+        $order_orgin['form_data']['goods_info'][0]['goods_name'] = $title;
+        $order_orgin['form_data']['goods_info'][0]['cover'] = $avater;
+        $order_orgin['form_data']['appointment_order_info']['appointment_day'] = $order_item['date'];
+        $order_orgin['form_data']['appointment_order_info']['appointment_interval'] = $order_item['time'];
+        $order_orgin['form_data']['remark'] = $order_item['remark'];
+
+        $s['data'][] = $order_orgin;
+
+        return $s;
+    }
+
+    public function address() {
+        $s = '{"status":0,"data":[{"id":"169690","buyer_id":"e33581104d3fe47e2b867d38b93e8a8d","address_info":{"name":"\u5f20\u4e09","contact":"020-81167888","detailAddress":"\u65b0\u6e2f\u4e2d\u8def397\u53f7","province":{"text":"\u5e7f\u4e1c\u7701","id":"19"},"city":{"text":"\u5e7f\u5dde\u5e02","id":"231"},"district":{"text":"\u6d77\u73e0\u533a","id":"2129"}},"add_time":"1525069068","is_default":"0","telphone":"020-81167888","detail_address":"\u65b0\u6e2f\u4e2d\u8def397\u53f7","latitude":"23.09642","longitude":"113.32377"}],"is_more":0,"current_page":-1,"count":"1","total_page":1}';
+        $s = json_decode($s, TRUE);
+        return $s;
+    }
+
+    /*
+     * 取消订单
+     */
+    public function cancel_order() {
+
+        $rid = intval(I('order_id'));
+
+        D('AppointRecord')->deleteByRid($rid);
+
+        $s = '{"status":0,"data":"659386"}';
+        return json_decode($s, TRUE);
+
+    }
+
 }

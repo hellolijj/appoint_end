@@ -47,6 +47,12 @@ class MethodConvertModel {
         'AppShop/getAppShopLocationInfo' => 'Appoint/shop_location',   //不知道干嘛的
         'AppShop/cartList' => 'Appoint/cart_list',
         'AppShop/addCartOrder' => 'Appoint/add_order',
+
+        // 查看定点列表
+        'AppShop/orderList' => 'Appoint/get_order_list',
+        'AppShop/getOrder' => 'Appoint/get_order_info',
+        'AppShop/addressList' => 'Appoint/address',
+        'AppShop/cancelOrder' => 'Appoint/cancel_order',
      ];
 
     

@@ -59,6 +59,7 @@ class AppointRecordModel extends BaseModel {
     public static $STUDENT_UNFINISHED = 1;
     public static $STUDENT_FINISHED = 2;
     public static $STUDENT_CANCEL = 3;
+    public static $TEACHER_FINISHED = 5;
 
 
 
@@ -126,4 +127,28 @@ class AppointRecordModel extends BaseModel {
 
         M('Appoint_record')->where(['id' => $rid])->save(['status' => $status]);
     }
+
+    public function listStudentFinishedByUid($uid) {
+
+        if (!$uid) {
+            return FALSE;
+        }
+
+        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$STUDENT_FINISHED])->select();
+
+        return $finished_list;
+    }
+
+    public function deleteByRid($rid) {
+
+        if (!$rid) {
+            return FALSE;
+        }
+
+        M('Appoint_record')->where(['id'=>$rid])->delete();
+
+        return TRUE;
+    }
+
+
 }
