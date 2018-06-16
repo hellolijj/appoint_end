@@ -9,6 +9,7 @@
 namespace Api\Logic;
 
 use Api\Model\AppointRecordModel;
+use Api\Model\TemplateIdModel;
 use Api\Service\TempMsgService;
 use Api\Service\UserService;
 
@@ -288,10 +289,6 @@ class AppointLogic extends UserBaseLogic {
         return json_decode($s, TRUE);
     }
 
-
-
-
-
     public function add_order() {
         $remark = trim(I('remark'));
         $form_id = trim(I('formId'));
@@ -308,15 +305,17 @@ class AppointLogic extends UserBaseLogic {
         $user_info = $userService->get_more_info($uid);
 
         $record_item = D('AppointRecord')->getByRecordId($appoint_record_id);
+        $record_date = $record_item['date'] ? $record_item['date'] : '20180615';
+        $record_date = substr($record_date, 0, 4) . '-' . substr($record_date, 4, 2) . '-' . substr($record_date, 6, 2);
 
         $temp_data = [
             'keyword1'  => ['value'=>$user_info['name']],
             'keyword2'  => ['value'=>AppointRecordModel::$APPOINT_TYPE[$record_item['item_id']]['title']],
-            'keyword3'  => ['value'=>$record_item['time']],
+            'keyword3'  => ['value'=>$record_date . ' ' . $record_item['time']],
             'keyword4'  => ['value'=>$record_item['remark']],
         ];
         $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
-        $send_result = $tempMsgService->doSend(session('openid'), '5D7CI7j6wUuYE0YCGUE2Bl677JmcH9L7phnLddvBIJs', $form_id, $temp_data, $page);
+        $send_result = $tempMsgService->doSend(session('openid'), TemplateIdModel::$APPOINT_SUCCESS_TEMPLATE_ID, $form_id, $temp_data, $page);
         if (!$send_result['success']) {
             return ['status' => 0, 'data' => $send_result['message']];
         }
@@ -420,14 +419,40 @@ class AppointLogic extends UserBaseLogic {
     }
 
     /*
-     * 取消订单
+     * 取消预约订单
      */
     public function cancel_order() {
 
         $rid = intval(I('order_id'));
+        $form_id = trim(I('formId'));
+        $uid = session('uid');
 
+        // 发送模版消息
+        $tempMsgService = new TempMsgService();
+        $userService = new UserService();
+        $user_info = $userService->get_more_info($uid);
+
+        $record_item = D('AppointRecord')->getByRecordId($rid);
+        $record_date = $record_item['date'] ? $record_item['date'] : '20180615';
+        $record_date = substr($record_date, 0, 4) . '-' . substr($record_date, 4, 2) . '-' . substr($record_date, 6, 2);
+
+        $temp_data = [
+            'keyword1'  => ['value'=>$user_info['name']],
+            'keyword2'  => ['value'=>AppointRecordModel::$APPOINT_TYPE[$record_item['item_id']]['title']],
+            'keyword3'  => ['value'=>$record_date . ' ' . $record_item['time']],
+            'keyword4'  => ['value'=>date('Y-m-d H:i:s', time())],
+            'keyword5'  => ['value'=>'用户已取消预约'],
+        ];
+
+        $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
+        $template_id = TemplateIdModel::$APPOINT_CANCEL_TEMPLATE_ID;
+        $send_result = $tempMsgService->doSend(session('openid'), $template_id, $form_id, $temp_data, $page);
+        if (!$send_result['success']) {
+            return ['status' => 0, 'data' => $send_result['message']];
+        }
+
+        // 删除预约记录 todo 这里的删除不应该是真正的删除记录，只要标记下就好
         D('AppointRecord')->deleteByRid($rid);
-
         $s = '{"status":0,"data":"659386"}';
         return json_decode($s, TRUE);
 

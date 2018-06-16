@@ -139,6 +139,7 @@ class AppointRecordModel extends BaseModel {
         return $finished_list;
     }
 
+
     public function deleteByRid($rid) {
 
         if (!$rid) {
