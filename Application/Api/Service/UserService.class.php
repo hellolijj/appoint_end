@@ -79,4 +79,16 @@ class UserService extends BaseService {
         return $user_back_item;
     }
 
+
+
+    // todo
+    public function list_more_info_by_uids($uids) {
+
+        if (!$uids) {
+            return FALSE;
+        }
+
+
+    }
+
 }

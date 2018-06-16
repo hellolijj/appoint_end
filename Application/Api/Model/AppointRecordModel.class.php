@@ -10,43 +10,108 @@ namespace Api\Model;
 
 class AppointRecordModel extends BaseModel {
 
+
+
     public static $APPOINT_TYPE = [
 
-        // 签证预约
+        /**
+         * 签证预约
+         * visa appointment往下再分两个子预约菜单， new student-和old student
+        预约时段和规则一样如下：上午，08：30-09：30，9：30-10：30， 10：30-11：30， 下午：13：30-14：30，14：30-15：30， 15：30-16：30 每个时段可预约5人
+         */
         1234 => [
             'title' => '签证预约',
             'time' => '1',
-            'time_list' => '8:30-9:30',
+            'time_list' => '08:30-09:30',
             'date' => '除周二外',
             'statement' => '说明',
-            'description' => '<p>签证预约时间段，每个时间段最多可预约5人</p><p>8:30-9:30</p><p>9:30-10:30</p><p>10:30-11:30</p><p>13:30-14:30</p><p>14:30-15:30</p><p>15:30-16:30</p>',
+            'description' => '<p>签证预约时间段</p><p>上午，08:30-09:30，09:30-10:30， 10:30-11:30， </p><p>下午：13:30-14:30，14:30-15:30，15:30-16:30</p><p>每个时间段最多可预约5人</p>',
+            // 每个时间段最多可预约5人
+            'appoint' => [
+                'time_list' => [
+                    '08:30-09:30',
+                    '09:30-10:30',
+                    '10:30-11:30',
+                    '13:30-14:30',
+                    '14:30-15:30',
+                    '15:30-16:30',
+                ],
+                'max_count' => 5,
+            ]
         ],
+
+
+        /** 退费预约
+         *  退费预约功能，提前3天预约，如6月1号只能预约到6月4日的时间。
+         *  时间段为9:00～11:00，2:00～4:00，每个时间段有10个预约名额
+         */
         1235 => [
-            'title' => '缴费预约',
-            'time' => '1',
-            'time_list' => '9:00-10:00',
-            'date' => '工作时间',
-            'statement' => '说明',
-            'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+            'title' => '退费预约',
+            'time' => '2',
+            'time_list' => '9:00-11:00',
+            'date' => '提前3天预约（周二除外）',
+            'statement' => '退费预约',
+            'description' => '<p>提前3天预约，如6月1号只能预约到6月4日的时间</p><p>时间段为09:00-11:00，14:00-16:00，每个时间段有10个预约名额</p>',
+            'appoint' => [
+                'time_list' => [
+                    '09:00-11:00',
+                    '14:00-16:00',
+                ],
+                'max_count' => 10,
+            ]
         ],
+
+        /**
+         * 国际生接待日预约
+         * 国际生接待日international reception day,
+         * 开放时间：每周五下午。预约时段： 下午：13:30-14：30，14：30-15：30，
+         * 15：30-16：30，每个时段可预约5人
+         */
         1236 => [
-            'title' => '忘了预约',
+            'title' => '接待日预约',
             'time' => '1',
-            'time_list' => '9:00-10:00',
-            'date' => '工作时间',
+            'time_list' => '13:30-14:30',
+            'date' => '每周五下午',
             'statement' => '说明',
-            'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+            'description' => '<p>接待日预约</p><p>开放时间：每周五下午。预约时段： 下午：13:30-14:30，14:30-15:30，15:30-16:30，每个时段可预约5人</p>',
+            'appoint' => [
+                'time_list' => [
+                    '13:30-14:30',
+                    '14:30-15:30',
+                    '15:30-16:30'
+                ],
+                'max_count' => 5,
+            ]
         ],
+
+        /**
+         *  宿舍调换预约功能，
+         *  只在6月份和12月份开放（周二不办理业务），预约方法与签证业务一样，提前2天预约，
+         *  如6月1号只能预约到6月3日的时间。时间段为9:00～11:00，2:00～4:00，每个时间段有10个预约名额
+         */
         1237 => [
-            'title' => 'refunt预约',
-            'time' => '1',
-            'time_list' => '9:00-10:00',
-            'date' => '工作时间',
+            'title' => '宿舍调换预约',
+            'time' => '2',
+            'time_list' => '9:00-11:00',
+            'date' => '只有6月份和12月份开放',
             'statement' => '说明',
-            'description' => '<p>签证预约</p><p>签证预约具体是干嘛的呀</p>',
+            'description' => '<p>宿舍调换预约功能</p><p>只在6月份和12月份开放（周二不办理业务），预约方法与签证业务一样，提前2天预约</p><p>如6月1号只能预约到6月3日的时间。时间段为09:00-11:00，14:00-16:00，每个时间段有10个预约名额</p>',
+            'appoint' => [
+                'time_list' => [
+                    '09:00-11:00',
+                    '14:00-16:00',
+                ],
+                'max_count' => 10,
+            ]
         ],
 
     ];
+
+    public static $APPOINT_TYPE_VIA = 1234; //签证预约
+    public static $APPOINT_TYPE_REFUND = 1235; //退费预约
+    public static $APPOINT_TYPE_RECEPTION = 1236; //接待日预约
+    public static $APPOINT_TYPE_CHANGE_ROOM = 1237; //宿舍调换预约
+
 
     public static $STATUS = [
         1 => '预约单子填写中， 并未完成',
@@ -149,6 +214,37 @@ class AppointRecordModel extends BaseModel {
         M('Appoint_record')->where(['id'=>$rid])->delete();
 
         return TRUE;
+    }
+
+    /**
+     * @param $date 日期 如 20180203
+     *
+     */
+    public function listCountByDate($type_id, $date) {
+
+        if (!$date || !$type_id) {
+            return FALSE;
+        }
+
+        $appoint_record_list = M('Appoint_record')->field('time, count(*) as count')->where(['item_id'=>$type_id, 'date'=>$date, 'status'=>self::$STUDENT_FINISHED])->group('time')->select();
+        $result = [];
+        foreach ($appoint_record_list as $_list) {
+            $result[$_list['time']] = intval($_list['count']);
+        }
+
+        return $result;
+    }
+
+    public function listByDate($date) {
+
+        if (!$date) {
+            return FALSE;
+        }
+
+        $list = M('Appoint_record')->where(['date'=>$date, 'status'=>self::$STUDENT_FINISHED])->select();
+
+        return $list;
+
     }
 
 

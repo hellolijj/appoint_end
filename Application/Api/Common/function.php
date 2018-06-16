@@ -142,3 +142,9 @@ function cmp($a, $b) {
     }
     return $a > $b ? 1 : -1;
 }
+
+function p($params) {
+    echo '<pre>';
+    var_dump($params);
+    echo '</pre>';
+}
