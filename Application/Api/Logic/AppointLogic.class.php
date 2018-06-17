@@ -10,6 +10,7 @@ namespace Api\Logic;
 
 use Api\Model\AppointRecordModel;
 use Api\Model\TemplateIdModel;
+use Api\Service\AppointRecordService;
 use Api\Service\TempMsgService;
 use Api\Service\UserService;
 
@@ -129,6 +130,12 @@ class AppointLogic extends UserBaseLogic {
 
         if (!$item_id || empty($appoint_interval) || !$appoint_date || !$uid) {
             return ['status' => 1, 'data' => '时间不能为为空'];
+        }
+
+        // 对学生预约数量的判断: 一个学生每个项目每天只能预约一次。要想重新预约得先把之前预约的删掉
+        $appoint_record_service = new AppointRecordService();
+        if (TRUE === $appoint_record_service->is_repeated($uid, $item_id)) {
+            return ['status' => 1, 'data' => '每个项目每天只能预约一次'];
         }
 
         $appoint_record_id = D('AppointRecord')->add($uid, $item_id, $appoint_date, $appoint_interval);
@@ -406,6 +413,11 @@ class AppointLogic extends UserBaseLogic {
         $uid = session('uid');
 
         if (!$formid || !$uid) {
+            return ['status' => 0, 'data' => ''];
+        }
+
+        // 排查电脑设备模拟的formid
+        if ($formid == 'the formId is a mock one') {
             return ['status' => 0, 'data' => ''];
         }
 
