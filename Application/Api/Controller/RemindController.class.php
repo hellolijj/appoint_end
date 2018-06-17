@@ -48,7 +48,7 @@ class RemindController extends BaseController {
      */
     public function send() {
 
-        $today_date = date('Ymd', time()+5*24*3600);
+        $today_date = date('Ymd', time());
         $remind_list = D('AppointRecord')->listByDate($today_date);
         if (!$remind_list) {
             return FALSE;
