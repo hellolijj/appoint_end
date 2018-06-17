@@ -73,22 +73,16 @@ class UserService extends BaseService {
         if (!$user_back_item) {
             return ['status' => 1, 'data' => '系统没有该用户信息'];
         }
+        $user_weixin_item = D('Weixin')->getByUid($uid);
 
         $user_back_item['tel'] = $user_item['tel'];
 
-        return $user_back_item;
-    }
-
-
-
-    // todo
-    public function list_more_info_by_uids($uids) {
-
-        if (!$uids) {
-            return FALSE;
-        }
+        return array_merge($user_back_item, $user_weixin_item);
 
 
     }
+
+
+
 
 }

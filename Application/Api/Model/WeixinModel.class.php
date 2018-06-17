@@ -58,4 +58,22 @@ class WeixinModel extends BaseModel {
         return TRUE;
     }
 
+    public function getByUid($uid) {
+        if (!$uid) {
+            return FALSE;
+        }
+        $cache_key = 'appoint_weixin_items_by_uid' . $uid;
+        $cache_value = S($cache_key);
+        if ($cache_value) {
+            return json_decode(S($cache_key), TRUE);
+        }
+        $weixin_items = $this->where(['uid' => $uid])->find();
+        if ($weixin_items) {
+            S($cache_key, json_encode($weixin_items), 3600);
+        }
+
+        return $weixin_items;
+
+    }
+
 }

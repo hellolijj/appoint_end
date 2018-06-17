@@ -61,4 +61,14 @@ class FormidModel extends BaseModel {
 
     }
 
+
+    public function getOldestByUid($uid) {
+
+        if (!$uid) {
+            return FALSE;
+        }
+
+        return M('Formid')->where(['uid'=>$uid])->find();
+    }
+
 }

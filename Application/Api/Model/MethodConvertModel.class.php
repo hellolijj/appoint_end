@@ -53,6 +53,10 @@ class MethodConvertModel {
         'AppShop/getOrder' => 'Appoint/get_order_info',
         'AppShop/addressList' => 'Appoint/address',
         'AppShop/cancelOrder' => 'Appoint/cancel_order',
+
+        // 收集formid
+        'AppShop/collectFormid' => 'Appoint/collect_formid',
+        ''
      ];
 
     

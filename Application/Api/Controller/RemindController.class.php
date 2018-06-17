@@ -7,6 +7,11 @@
  */
 
 namespace Api\Controller;
+use Api\Model\AppointRecordModel;
+use Api\Model\TemplateIdModel;
+use Api\Service\TempMsgService;
+use Api\Service\UserService;
+use Think\Template;
 
 /**
  * 用于各种提醒、微信模版消息提醒、邮件提醒、
@@ -43,15 +48,40 @@ class RemindController extends BaseController {
      */
     public function send() {
 
-        $today_date = date('Ymd', time()+3*24*3600);
+        $today_date = date('Ymd', time()+5*24*3600);
         $remind_list = D('AppointRecord')->listByDate($today_date);
-        $remind_uid_list = result_to_array($remind_list, 'uid');
+        if (!$remind_list) {
+            return FALSE;
+        }
 
-        // todo 转换更多的uids => more_info
-        p($remind_uid_list);die;
-
+        $user_service = new UserService();
+        $tempMsgService = new TempMsgService();
         foreach ($remind_list as $_list) {
 
+            $uid = $_list['uid'];
+            $title = AppointRecordModel::$APPOINT_TYPE[$_list['item_id']]['title'];
+            $time = $_list['date'] . ' ' . $_list['time'];
+            $user_info = $user_service->get_more_info($uid);
+
+            $temp_data = [
+                'keyword1'  => ['value'=>$time],
+                'keyword2'  => ['value'=>$title . '提醒'],
+                'keyword3'  => ['value'=>$user_info['name']],
+                'keyword4'  => ['value'=>$_list['remark']?$_list['remark']:'用户预约记录'],
+                'keyword5'  => ['value'=>'请按时办理业务'],
+            ];
+            $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
+            $formid_item = D('Formid')->getOldestByUid($uid);
+            $formid = $formid_item['formid'];
+
+            $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page);
+            D('Formid')->deleteByUidAndFormid($uid, $formid);
+            if ($send_result['success']) {
+                ;
+            } else {
+                echo json_encode($send_result);
+            }
+            sleep(1);
         }
 
     }

@@ -396,4 +396,23 @@ class AppointLogic extends UserBaseLogic {
 
     }
 
+
+    /**
+     * 收集formid
+     */
+    public function collect_formid() {
+
+        $formid = trim(I('formid'));
+        $uid = session('uid');
+
+        if (!$formid || !$uid) {
+            return ['status' => 0, 'data' => ''];
+        }
+
+        D('Formid')->add($uid, $formid);
+
+        return ['status' => 0, 'data'=>[$uid, $formid]];
+
+    }
+
 }
