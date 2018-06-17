@@ -172,7 +172,7 @@ class WeixinLogic extends BaseLogic {
 
         $user_info = $userService->get_more_info($weixin_info['id']);
         if ($user_info['status'] == BaseService::$ERROR_CODE) {
-            return $user_info;
+            return ['status' => 0, 'data' => $user_info];
         }
 
         $weixin_info['phone'] = $user_info['tel'] ? $user_info['tel'] : '';
