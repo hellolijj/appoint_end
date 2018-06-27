@@ -83,4 +83,31 @@ class UserModel extends BaseModel {
         return TRUE;
     }
 
+    /***
+     * @param $uid_arr uid 列表
+     *
+     */
+
+    public function listByUids($uid_arr) {
+
+        if (count($uid_arr) == 0) {
+            return FALSE;
+        }
+
+        $cache_key = 'appoint_user_by_uids_' . json_encode($uid_arr);
+        $cache_value = S($cache_key);
+        if ($cache_value) {
+            return json_decode(S($cache_key), TRUE);
+        }
+
+        $where['id'] = ['in', implode(',', $uid_arr)];
+        $user_items = $this->where($where)->select();
+        if ($user_items) {
+            S($cache_key, json_encode($user_items), 3600);
+        }
+        return $user_items;
+
+
+    }
+
 }

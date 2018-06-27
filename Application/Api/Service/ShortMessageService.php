@@ -10,5 +10,8 @@ namespace Api\Service;
 
 class ShortMessageService extends BaseService {
 
+    public function index() {
+        echo 'this is a test api';
+    }
 
 }

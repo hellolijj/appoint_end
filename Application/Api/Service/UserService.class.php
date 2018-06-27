@@ -64,7 +64,7 @@ class UserService extends BaseService {
             return ['status' => 1, 'data' => '参数错误'];
         }
 
-        $user_item = D('User')->getByUid($uid);
+        $user_item = D('Api/User')->getByUid($uid);
         if (!$user_item) {
             return ['status' => 1, 'data' => '用户没有绑定'];
         }
@@ -78,9 +78,67 @@ class UserService extends BaseService {
         $user_back_item['tel'] = $user_item['tel'];
 
         return array_merge($user_back_item, $user_weixin_item);
-
-
     }
+
+
+    /**
+     * @param $uid_arr
+     * 根据passports来获取一个用户的更多信息
+     */
+    public function list_more_info_by_passports($passport_arr) {
+
+        if (!$passport_arr) {
+            return FALSE;
+        }
+
+        $user_items = D('Api/UserBack')->listByPassports($passport_arr);
+        if (!$user_items) {
+            return [];
+        }
+
+        $user_items = result_to_map($user_items, 'passport');
+
+        return $user_items;
+    }
+
+    public function list_more_info_by_uids($uid_arr) {
+
+        if (!$uid_arr) {
+            return FALSE;
+        }
+
+        $user_items = D('Api/User')->listByUids($uid_arr);
+        if (!$user_items) {
+            return [];
+        }
+
+        $passport_arr = result_to_array($user_items, 'passport');
+        $user_back_items = D('Api/UserBack')->listByPassports($passport_arr);
+        $user_back_items = result_to_map($user_back_items, 'passport');
+
+        $weixin_items = D('Api/Weixin')->listByUids($uid_arr);
+        $weixin_items = result_to_map($weixin_items, 'uid');
+
+        foreach ($user_items as &$user_item) {
+
+            if ($user_item['passport']) {
+
+                // 后面加入的id键会覆盖之前的键值
+                unset($user_back_items[$user_item['passport']]['id']);
+                $user_item = array_merge($user_item, $user_back_items[$user_item['passport']]);
+            }
+
+            if ($user_item['id']) {
+                unset($weixin_items[$user_item['id']]['id']);
+                $user_item = array_merge($user_item, $weixin_items[$user_item['id']]);
+            }
+
+        }
+
+        return $user_items;
+    }
+
+
 
 
 

@@ -190,7 +190,7 @@ class AppointRecordModel extends BaseModel {
             return FALSE;
         }
 
-        M('Appoint_record')->where(['id' => $rid])->save(['status' => $status]);
+        M('Appoint_record')->where(['id' => $rid])->save(['status' => $status, 'gmt_modified' => time()]);
     }
 
     public function listStudentFinishedByUid($uid) {
@@ -244,6 +244,44 @@ class AppointRecordModel extends BaseModel {
         $list = M('Appoint_record')->where(['date'=>$date, 'status'=>self::$STUDENT_FINISHED])->select();
 
         return $list;
+
+    }
+
+    /**
+     * @param $uid
+     * @return bool
+     *  教师处理完的单子
+     */
+    public function listTeacherFinishedByUid($uid) {
+
+        if (!$uid) {
+            return FALSE;
+        }
+
+        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$TEACHER_FINISHED])->order('id desc')->select();
+
+        return $finished_list;
+    }
+
+
+    /**
+     * @param $uid
+     * @return bool
+     * 有效的订单
+     */
+    public function listValidByUid($uid) {
+
+        if (!$uid) {
+            return FALSE;
+        }
+
+        $where['uid'] = $uid;
+        $valid_status = [self::$STUDENT_FINISHED, self::$TEACHER_FINISHED];
+        $where['status'] = ['in', implode(',', $valid_status)];
+
+        $finished_list = M('Appoint_record')->where($where)->order('id desc')->select();
+
+        return $finished_list;
 
     }
 
