@@ -281,10 +281,29 @@ class AppointLogic extends UserBaseLogic {
 
         $uid = session('uid');
 
+        $type = I('idx_arr');
+
+//        return $type[''];
+
+        // 预约订单列表
+        if ($type) {
+
+
+            if ($type['idx_value'] == "0") {
+
+                $order_list = D('AppointRecord')->listStudentFinishedByUid($uid);
+            } elseif ($type['idx_value'] == "1") {
+                $order_list = D('AppointRecord')->listTeacherFinishedByUid($uid);
+            }
+        } else {
+            $order_list = D('AppointRecord')->listValidByUid($uid);
+        }
+
+
         // 预约人信息
         $appointer_item = D('User')->getByUid($uid);
         $passport = $appointer_item['passport'];
-        $appointer_info = D('UserBack')->getByPassport($passport); $appointer_item['name'];
+        $appointer_info = D('UserBack')->getByPassport($passport);
         $appointer_name = $appointer_info['name'];
 
         $weixin = D('Weixin')->getByOpenid(session('openid'));
@@ -293,7 +312,8 @@ class AppointLogic extends UserBaseLogic {
             $avatar = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
         }
 
-        $order_list = D('AppointRecord')->listStudentFinishedByUid($uid);
+
+
         if (empty($order_list)) {
             $s = '{"status":0,"data":[],"current_goods_type":"1","goods_type_list":["1"]}';
             return json_decode($s, TRUE);
@@ -309,6 +329,7 @@ class AppointLogic extends UserBaseLogic {
             $temp['form_data']['goods_info'][0]['goods_name'] = $title;
             $temp['form_data']['goods_info'][0]['cover'] = $avatar;
             $temp['form_data']['order_id'] = $order_item['id'];
+            $temp['form_data']['status'] = $order_item['status'];
 
             $s['data'][] = $temp;
         }
@@ -351,6 +372,9 @@ class AppointLogic extends UserBaseLogic {
         $order_orgin['form_data']['appointment_order_info']['appointment_day'] = $order_item['date'];
         $order_orgin['form_data']['appointment_order_info']['appointment_interval'] = $order_item['time'];
         $order_orgin['form_data']['remark'] = $order_item['remark'];
+        $order_orgin['form_data']['status'] = $order_item['status'];
+        $order_orgin['form_data']['order_id'] = $order_item['gmt_create'];
+
 
         $s['data'][] = $order_orgin;
 
