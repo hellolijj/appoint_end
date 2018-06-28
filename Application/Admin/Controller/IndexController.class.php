@@ -19,6 +19,8 @@ class IndexController extends BaseApiController {
     }
 
     public function main() {
+        $this->assign('title', '系统首页');
+
         $this->display();
     }
 
@@ -40,6 +42,12 @@ class IndexController extends BaseApiController {
 
     public function send() {
         email();
+    }
+
+    public function t() {
+        $a = C('APP_SUB_DOMAIN_DEPLOY');
+        p($a);
+        echo U('admin');
     }
 
 }

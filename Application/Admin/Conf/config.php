@@ -16,4 +16,6 @@ return array(
     'UPLOAD_DIR' => './Uploads/',
     'LOAD_EXT_CONFIG'   => 'menu',
 
+    'SHOW_PAGE_TRACE' => FALSE,  // 关闭trance
+
 );

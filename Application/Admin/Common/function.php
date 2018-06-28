@@ -33,3 +33,13 @@ function sysconf($params) {
 function url($params) {
     return U($params);
 }
+
+function auth($p) {
+    return TRUE;
+}
+
+function set_url($url) {
+
+
+
+}

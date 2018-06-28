@@ -47,7 +47,7 @@ class LoginController extends BaseController {
     public function logout() {
         session('user', null);
         session_destroy();
-        $this->success('退出登录成功！', 'login');
+        $this->success('退出登录成功！', U('Index/index'));
     }
 
 
