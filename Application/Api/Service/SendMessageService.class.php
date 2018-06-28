@@ -48,8 +48,8 @@ class SendMessageService extends BaseService {
         ];
 
         $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
-        p([$user_info['openid'], TemplateIdModel::$APPOINT_TEACHER_DEAL, $form_id, $temp_data, $page]);die;
-//        $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$APPOINT_TEACHER_DEAL, $form_id, $temp_data, $page);
+//        p([$user_info['openid'], TemplateIdModel::$APPOINT_TEACHER_DEAL, $form_id, $temp_data, $page]);die;
+        $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$APPOINT_TEACHER_DEAL, $form_id, $temp_data, $page);
         if (!$send_result['success']) {
             return ['status' => 0, 'data' => $send_result['message']];
         }

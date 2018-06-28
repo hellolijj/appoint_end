@@ -126,6 +126,8 @@ class AppointRecordModel extends BaseModel {
     public static $STUDENT_CANCEL = 3;
     public static $TEACHER_FINISHED = 5;
 
+    public static $STATUS_VALID = [2, 5];
+
 
 
     /*
@@ -199,7 +201,7 @@ class AppointRecordModel extends BaseModel {
             return FALSE;
         }
 
-        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$STUDENT_FINISHED])->order('id desc')->select();
+        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$STUDENT_FINISHED])->order('date desc, time asc, id desc')->select();
 
         return $finished_list;
     }
@@ -258,7 +260,8 @@ class AppointRecordModel extends BaseModel {
             return FALSE;
         }
 
-        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$TEACHER_FINISHED])->order('id desc')->select();
+
+        $finished_list = M('Appoint_record')->where(['uid'=>$uid, 'status' => self::$TEACHER_FINISHED])->order('date desc, time asc, id desc')->select();
 
         return $finished_list;
     }
@@ -275,15 +278,36 @@ class AppointRecordModel extends BaseModel {
             return FALSE;
         }
 
-        $where['uid'] = $uid;
+        /*$where['uid'] = $uid;
         $valid_status = [self::$STUDENT_FINISHED, self::$TEACHER_FINISHED];
         $where['status'] = ['in', implode(',', $valid_status)];
 
-        $finished_list = M('Appoint_record')->where($where)->order('id desc')->select();
+        $finished_list = M('Appoint_record')->where($where)->order('date desc, time asc, id desc')->select();*/
+
+        $student_list = $this->listStudentFinishedByUid($uid);
+        $teacher_list = $this->listTeacherFinishedByUid($uid);
+        $finished_list = [$student_list, $teacher_list];
 
         return $finished_list;
+    }
+
+
+    public function listByItemid($item_id) {
+
+        if (!$item_id) {
+            return FALSE;
+        }
+
+        $where['item_id'] = $item_id;
+        $where['status'] = ['in', implode(',', self::$STATUS_VALID)];
+        $record_lists = M('Appoint_record')->where($where)->order('status asc, date desc, time asc, id desc')->select();
+
+        return $record_lists;
 
     }
+
+
+
 
 
 }
