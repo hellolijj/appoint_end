@@ -29,7 +29,7 @@ class LoginController extends BaseController {
 
 
             // 用户信息验证
-            $user = D('SystemUser')->where(['username' => $username])->find();
+            $user = M('System_user')->where(['username' => $username])->find();
             empty($user) && $this->error('登录账号不存在，请重新输入!');
             ($user['password'] !== md5($password)) && $this->error('登录密码与账号不匹配，请重新输入!');
             empty($user['status']) && $this->error('账号已经被禁用，请联系管理!');
