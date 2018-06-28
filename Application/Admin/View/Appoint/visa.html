@@ -1,0 +1,104 @@
+<extend name='Public/admin/content' />
+
+<block name="button">
+  <div class="nowrap pull-right" style="margin-top:10px">
+    <button data-modal='{:url("$classuri/add")}' data-title="添加用户" class='layui-btn layui-btn-sm'>
+      <i class='fa fa-plus'></i> 添加用户
+    </button>
+    <button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>
+      <i class='fa fa-remove'></i> 删除用户
+    </button>
+  </div>
+</block>
+
+<block name="content">
+  <!-- 表单搜索 开始 -->
+  <form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
+    <div class="layui-form-item layui-inline">
+      <label class="layui-form-label">预约日期</label>
+      <div class="layui-input-inline">
+        <input name="date" id='range-date' value="{$Think.get.date|default=''}"
+               placeholder="请选择预约日期" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+      <button class="layui-btn layui-btn-primary"><i class="layui-icon"></i> 搜 索</button>
+    </div>
+  </form>
+
+
+  <form onsubmit="return false;" data-auto="true" method="post">
+    <if condition="empty($list)">
+      <p class="help-block text-center well">没 有 记 录 哦！</p>
+      <else/>
+      <input type="hidden" value="resort" name="action"/>
+      <table class="layui-table" lay-skin="line" lay-size="sm">
+        <thead>
+        <tr>
+          <th class='list-table-check-td'>
+            <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/>
+          </th>
+          <th class='text-left nowrap'>姓名</th>
+          <th class='text-left nowrap'>预约日期</th>
+          <th class='text-left nowrap'>预约时间</th>
+          <th class='text-left nowrap'>预约备注</th>
+          <th class='text-left nowrap'>预约状态</th>
+          <th class='text-left nowrap'>操作时间</th>
+          <th class='text-left nowrap'>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <foreach name="list" item="vo">
+
+          <tr>
+            <td class='list-table-check-td'>
+              <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
+            </td>
+            <td class='text-left nowrap'>
+              <a data-open='{:U("User/back")}?passport={$vo.passport}' href="javascript:void(0)">
+                {$vo.name|default="<span class='color-desc'>还没有设置姓名</span>"}
+              </a>
+
+
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.date|default="<span class='color-desc'></span>"}
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.time|default="<span class='color-desc'></span>"}
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.remark|default="<span class='color-desc'>无</span>"}
+            </td>
+
+            <td class='text-left nowrap'>
+              <if condition="$vo.status eq 2"><span style="color:#090">已预约</span> <else/> <span>已处理</span> </if>
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.gmt_create|date="Y-m-d H:i:s",###}
+            </td>
+            <td class='text-left nowrap'>
+              <if condition='auth("$classuri/edit")'>
+                <span class="text-explode">|</span>
+                <a data-update="{$vo.id}" data-field='appoint_deal' data-action='{:url("Appoint/deal")}' href="javascript:void(0)">标记预约处理成功</a>
+              </if>
+              <if condition='auth("$classuri/del")'>
+                <span class="text-explode">|</span>
+                <a data-update="{$vo.id}" data-field='delete' data-action='{:url("$classuri/del")}'
+                   href="javascript:void(0)">删除</a>
+              </if>
+            </td>
+          </tr>
+        </foreach>
+        </tbody>
+      </table>
+      <if condition=" isset($page_content)"><p>{$page_content}</p></if>
+    </if>
+    <script>
+      window.laydate.render({range: true, elem: '#range-date', format: 'yyyy/MM/dd'});
+    </script>
+  </form>
+
+</block>
+

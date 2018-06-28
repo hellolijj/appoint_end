@@ -1,0 +1,31 @@
+<form class="layui-form layui-box" style='padding:25px 30px 20px 0' action="__SELF__" data-auto="true" method="post">
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">用户账号</label>
+    <div class="layui-input-block">
+      <if condition="$info and ($info.name)">
+        <input readonly="readonly" disabled="disabled" name="name" value='{$info.name|default=""}'
+               required="required" title="请输入用户名称" placeholder="请输入用户名称" class="layui-input layui-disabled">
+        <else/>
+        <input name="name" value='{$info.name|default=""}' required="required" pattern="^.{4,}$"
+               title="请输入用户名称" placeholder="请输入4位及以上字符用户名称" class="layui-input">
+      </if>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">护照</label>
+    <div class="layui-input-block">
+      <if condition="$info and ($info.passport)">
+        <input readonly="readonly" disabled="disabled" name="name" value='{$info.passport|default=""}'
+               required="required" title="请输入用护照" placeholder="请输入用户护照" class="layui-input layui-disabled">
+        <else/>
+        <input name="passport" value='{$info.passport|default=""}' required="required"
+               title="请输入用护照" placeholder="" class="layui-input">
+      </if>
+    </div>
+  </div>
+
+
+  <if condition="isset($info['id'])"><input type='hidden' value='{$info.id}' name='id'/></if>
+</form>

@@ -12,42 +12,34 @@
 </block>
 
 
-
 <block name="content">
   <!-- 表单搜索 开始 -->
   <form class="layui-form layui-form-pane form-search" action="__SELF__" onsubmit="return false" method="get">
     <div class="layui-form-item layui-inline">
-      <label class="layui-form-label">用户名</label>
+      <label class="layui-form-label">真实姓名</label>
       <div class="layui-input-inline">
-        <input name="username" value="{$Think.get.username|default=''}" placeholder="请输入用户名" class="layui-input">
+        <input name="name" value="{$Think.get.name|default=''}" placeholder="请输入真实姓名" class="layui-input">
       </div>
     </div>
 
     <div class="layui-form-item layui-inline">
-      <label class="layui-form-label">手机号</label>
+      <label class="layui-form-label">护照号</label>
       <div class="layui-input-inline">
-        <input name="phone" value="{$Think.get.phone|default=''}" placeholder="请输入手机号" class="layui-input">
+        <input name="passport" value="{$Think.get.passport|default=''}" placeholder="请输入护照号" class="layui-input">
       </div>
     </div>
 
     <div class="layui-form-item layui-inline">
-      <label class="layui-form-label">电子邮箱</label>
+      <label class="layui-form-label">学号</label>
       <div class="layui-input-inline">
-        <input name="mail" value="{$Think.get.mail|default=''}" placeholder="请输入电子邮箱" class="layui-input">
-      </div>
-    </div>
-
-    <div class="layui-form-item layui-inline">
-      <label class="layui-form-label">登录时间</label>
-      <div class="layui-input-inline">
-        <input name="date" id='range-date' value="{$Think.get.date|default=''}"
-               placeholder="请选择登录时间" class="layui-input">
+        <input name="number" value="{$Think.get.number|default=''}" placeholder="请输入学号" class="layui-input">
       </div>
     </div>
 
     <div class="layui-form-item layui-inline">
       <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
     </div>
+
   </form>
   <!-- 表单搜索 结束 -->
   <form onsubmit="return false;" data-auto="true" method="post">
@@ -61,11 +53,15 @@
           <th class='list-table-check-td'>
             <input data-none-auto="" data-check-target='.list-check-box' type='checkbox'/>
           </th>
-          <th class='text-left nowrap'>头像</th>
           <th class='text-left nowrap'>真实姓名</th>
-          <th class='text-left nowrap'>微信昵称</th>
+          <th class='text-left nowrap'>性别</th>
           <th class='text-left nowrap'>护照</th>
-          <th class='text-left nowrap'>手机号</th>
+          <th class='text-left nowrap'>学院</th>
+          <th class='text-left nowrap'>专业</th>
+          <th class='text-left nowrap'>班级</th>
+          <th class='text-left nowrap'>学号</th>
+          <th class='text-left nowrap'>国家</th>
+          <th class='text-left nowrap'>入学时间</th>
           <th class='text-left nowrap'>状态</th>
           <th class='text-left nowrap'>操作</th>
         </tr>
@@ -79,45 +75,40 @@
               <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
             </td>
             <td class='text-left nowrap'>
-              <img data-tips-image="{$vo.avatar}"  class="img-thumbnail m-t-xs img-responsive" src="{$vo.avatar}" style="max-height: 60px; max-width: 60px;" />
-            </td>
-            <td class='text-left nowrap'>
               {$vo.name|default="<span class='color-desc'>还没有设置姓名</span>"}
             </td>
             <td class='text-left nowrap'>
-              {$vo.nickname|default="<span class='color-desc'>还没有设置昵称</span>"}
+              {$vo.sex|default="<span class='color-desc'>还没有设置性别</span>"}
             </td>
             <td class='text-left nowrap'>
               {$vo.passport|default="<span class='color-desc'>还没有设置护照</span>"}
             </td>
             <td class='text-left nowrap'>
-              {$vo.tel|default="<span class='color-desc'>还没有设置手机号</span>"}
+              {$vo.college|default="<span class='color-desc'>还没有设置学院</span>"}
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.profession|default="<span class='color-desc'>还没有设置专业</span>"}
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.class|default="<span class='color-desc'>还没有设置专业</span>"}
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.number|default="<span class='color-desc'>还没有设置学号</span>"}
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.country|default="<span class='color-desc'>还没有设置国家</span>"}
+            </td>
+            <td class='text-left nowrap'>
+              {$vo.entry_year|default="<span class='color-desc'>还没有设置入学时间</span>"}
             </td>
             </td>
             <td class='text-left nowrap'>
-              <if condition="$vo.status eq 0"><span>已禁用</span> <elseif condition="$vo.status eq 1"/> <span style="color:#090">使用中</span> </if>
+              <if condition="$vo.status eq 0"><span>正常</span> <elseif condition="$vo.status eq 1"/> <span style="color:#090">异常</span> </if>
             </td>
             <td class='text-left nowrap'>
               <if condition='auth("$classuri/edit")'>
                 <span class="text-explode">|</span>
-                <a data-modal='{:url("$classuri/edit")}?id={$vo.id}' href="javascript:void(0)">编辑</a>
-              </if>
-              <if condition='auth("$classuri/auth")'>
-                <span class="text-explode">|</span>
-                <a data-modal='{:url("$classuri/auth")}?id={$vo.id}' href="javascript:void(0)">授权</a>
-              </if>
-              <if condition='auth("$classuri/pass")'>
-                <span class="text-explode">|</span>
-                <a data-modal='{:url("$classuri/pass")}?id={$vo.id}' href="javascript:void(0)">密码</a>
-              </if>
-              <if condition='$vo.status eq 1 and auth("$classuri/forbid")'>
-                <span class="text-explode">|</span>
-                <a data-update="{$vo.id}" data-field='status' data-value='0' data-action='{:url("$classuri/forbid")}'
-                   href="javascript:void(0)">禁用</a>
-                <elseif condition='auth("$classuri/resume")'/>
-                <span class="text-explode">|</span>
-                <a data-update="{$vo.id}" data-field='status' data-value='1' data-action='{:url("$classuri/resume")}'
-                   href="javascript:void(0)">启用</a>
+                <a data-modal='{:url("edit")}?id={$vo.id}' href="javascript:void(0)">编辑</a>
               </if>
               <if condition='auth("$classuri/del")'>
                 <span class="text-explode">|</span>
@@ -129,7 +120,7 @@
         </foreach>
         </tbody>
       </table>
-
+      <if condition=" isset($page_content)"><p>{$page_content}</p></if>
     </if>
     <script>
       window.laydate.render({range: true, elem: '#range-date', format: 'yyyy/MM/dd'});
