@@ -2,7 +2,7 @@
 return array(
 
 
-    'MODULE_ALLOW_LIST' => array ('Api', 'Admin'),
+    'MODULE_ALLOW_LIST' => array ('Api', 'Admin', 'Page'),
     'DEFAULT_MODULE' => 'Api',     // 默认访问Api
     'SHOW_PAGE_TRACE'   =>  true,
 
