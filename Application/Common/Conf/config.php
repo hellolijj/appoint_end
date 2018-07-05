@@ -16,4 +16,6 @@ return array(
         '/sdfa*/' => 'Gateway/route',
         '/^(*)$/' => 'Gateway/route'
     ),
+
+    'SHOW_PAGE_TRACE' => FALSE,  // 关闭trance
 );
