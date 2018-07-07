@@ -23,13 +23,13 @@ class UserBaseLogic extends BaseLogic {
     {
         $openid = session('openid');
         if (!$openid) {
-           echo json_encode(['status => 1', 'data' => 'no openid, please register first!']);
+           echo json_encode(['status' => 1, 'data' => 'no openid, please register first!']);
            die;
         }
 
         $uid = session('uid');
         if (!$uid) {
-            echo json_encode(['status => 1', 'data' => 'no uid, please register first!']);
+            echo json_encode(['status' => 1, 'data' => 'no uid, please register first!', 'nouid' => 'nouid']);
             die;
         }
     }

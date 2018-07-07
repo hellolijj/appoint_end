@@ -35,18 +35,22 @@ class UserLogic extends BaseLogic {
 
         $passport = I('passport');
         $phone = trim(I('phone'));
-        $phone = $phone ? $phone : 12345678901;
 
         if (!$passport || !$phone) {
             return $this->setError('信息不能为空');
         }
 
-        // todo 根据passport查找用户
+        $regex = '/^1[345678]{1}\d{9}$/';
+        if (!preg_match($regex, $phone)) {
+            return $this->setError('手机号码格式错误');
+        }
+
+        // 根据passport查找用户
         $user_back_item = D('UserBack')->getByPassport($passport);
         if (!$user_back_item) {
             return $this->setError('该护照号不存在！');
         }
-        // todo 将passport telphone 同时存入应用 同时绑定成为正式用户
+        // 将passport telphone 同时存入应用 同时绑定成为正式用户
         $userService = new UserService();
         $bind_result = $userService->bind($passport, $phone);
         if (is_array($bind_result)) {
@@ -54,7 +58,11 @@ class UserLogic extends BaseLogic {
         }
         session('uid', $bind_result);
 
-        return $this->setSuccess();
+        // todo 完成用户信息的绑定
+
+        $user_service = new UserService();
+        $user_info = $user_service->get_more_info(session('uid'));
+        return $this->setSuccess($user_info);
     }
 
 
