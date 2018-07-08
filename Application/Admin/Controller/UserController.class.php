@@ -90,13 +90,28 @@ class UserController extends BaseApiController {
 
     public function edit() {
         $id = intval(I('id'));
-        if (IS_POST) {
-            return $this->success('操作成功');
+
+        // 非POST请求, 获取数据并显示表单页面
+        if (!IS_POST) {
+            $info = D('Api/UserBack')->where(['id'=>$id])->find();
+            $this->assign('info', $info);
+            $view = $this->fetch('form');
+            $this->ajaxReturn($view);
         }
-        $info = D('Api/UserBack')->where(['id'=>$id])->find();
-        $this->assign('info', $info);
-        $view = $this->fetch('form');
-        $this->ajaxReturn($view);
+
+        $data = [];
+        $sex = I('sex');
+
+        if ($sex) {
+            $data['sex'] = $sex;
+            $data['id'] = $id;
+        }
+
+        if (count($data) != 0) {
+            M('User_back')->where(['id' => $id])->save($data);
+        }
+
+        return $this->success('操作成功');
     }
 
 
@@ -107,6 +122,7 @@ class UserController extends BaseApiController {
 
         $id = intval(I('id'));
         if (!IS_POST || !$id) {
+
             return $this->error('你访问的页面不存在');
         }
 

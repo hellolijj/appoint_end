@@ -139,7 +139,18 @@ class UserService extends BaseService {
     }
 
 
+    /**
+     * 删除一个用户
+     */
+    public function del($uid) {
 
+        // 删除user表。删除weixin表。缓存怎么班？session缓存无法操作呀。
+        M('User')->delete($uid);
+
+        M('Weixin')->where(['uid'=>$uid])->delete();
+
+        // todo 缓存的问题
+    }
 
 
 
