@@ -54,7 +54,7 @@ class UserController extends BaseApiController {
 
 
         $p = $_GET['p'];
-        $user_backs = D('Api/UserBack')->listByPageWhere($where, $p, 20, 'id desc   ');
+        $user_backs = D('Api/UserBack')->listByPageWhere($where, $p, 20, 'id desc');
 
         $this->assign('list',$user_backs);// 赋值数据集
         $count      = D('Api/UserBack')->countByWhere($where);// 查询满足要求的总记录数
