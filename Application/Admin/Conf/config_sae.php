@@ -20,4 +20,7 @@ return [
     'DB_USER' => 'zwmzjymjk1', // 用户名
     'DB_PWD' => 'km3wi1h2w0j5k4xiw1xh5hiz5l1514ik0l3ihl1x',  // 密码
 
+
+    'LOAD_EXT_CONFIG'   => 'menu_sae',
+
 ];
