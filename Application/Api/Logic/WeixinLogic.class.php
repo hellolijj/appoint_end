@@ -73,7 +73,11 @@ class WeixinLogic extends BaseLogic {
         if (FALSE === $weixinService->is_register($openid)) {
             return ['data' => session_id(), 'is_login' => 0, 'is_register' => 0, 'status' => 0];
         }
-        return ['data' => session_id(), 'is_login' => 1, 'is_register' => 3, 'status' => 0];
+
+        $WEIXIN = D('Weixin');
+        $weixin_user = $WEIXIN->getByOpenid($openid);
+
+        return ['data' => session_id(), 'is_login' => 1, 'is_register' => $weixin_user['type'], 'status' => 0];
     }
 
 
