@@ -283,14 +283,9 @@ class AppointLogic extends UserBaseLogic {
 
         $type = I('idx_arr');
 
-//        return $type[''];
-
         // 预约订单列表
         if ($type) {
-
-
             if ($type['idx_value'] == "0") {
-
                 $order_list = D('AppointRecord')->listStudentFinishedByUid($uid);
             } elseif ($type['idx_value'] == "1") {
                 $order_list = D('AppointRecord')->listTeacherFinishedByUid($uid);
@@ -312,8 +307,7 @@ class AppointLogic extends UserBaseLogic {
             $avatar = 'http://img.zhichiwangluo.com/zcimgdir/album/file_5ac5774ba3fc4.jpg';
         }
 
-
-
+        return $order_list;
         if (empty($order_list)) {
             $s = '{"status":0,"data":[],"current_goods_type":"1","goods_type_list":["1"]}';
             return json_decode($s, TRUE);

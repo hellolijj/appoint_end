@@ -9,7 +9,6 @@
 namespace Api\Logic;
 
 use Api\Model\WeixinModel;
-use Api\Service\BaseService;
 use Api\Service\UserService;
 use Api\Service\WeixinService;
 use Weixin\Xiaochengxu\WXBizDataCrypt;
@@ -174,9 +173,6 @@ class WeixinLogic extends BaseLogic {
         }
 
         $user_info = $userService->get_more_info($weixin_info['id']);
-        /*if ($user_info['status'] == BaseService::$ERROR_CODE) {
-            return ['status' => 0, 'data' => $user_info];
-        }*/
 
         $weixin_info['phone'] = $user_info['tel'] ? $user_info['tel'] : '';
         unset($user_info['tel']);
