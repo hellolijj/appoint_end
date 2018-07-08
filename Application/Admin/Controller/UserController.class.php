@@ -95,17 +95,14 @@ class UserController extends BaseApiController {
         if (!IS_POST) {
             $info = D('Api/UserBack')->where(['id'=>$id])->find();
             $this->assign('info', $info);
+
             $view = $this->fetch('form');
             $this->ajaxReturn($view);
         }
 
-        $data = [];
-        $sex = I('sex');
 
-        if ($sex) {
-            $data['sex'] = $sex;
-            $data['id'] = $id;
-        }
+        $data = I();
+        unset($data['id']);
 
         if (count($data) != 0) {
             M('User_back')->where(['id' => $id])->save($data);
