@@ -75,7 +75,11 @@
               <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
             </td>
             <td class='text-left nowrap'>
-              <if condition="$vo.name"><span>{$vo.name}</span> <else/> <span>{$vo.last_name}</span> </if>
+              <empty name="$vo.name">
+                {$vo.last_name}
+                <else />
+                {$vo.name}
+              </empty>
             </td>
             <td class='text-left nowrap'>
               {$vo.sex|default="<span class='color-desc'>还没有设置性别</span>"}
