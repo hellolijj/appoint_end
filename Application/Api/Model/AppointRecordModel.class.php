@@ -286,7 +286,8 @@ class AppointRecordModel extends BaseModel {
 
         $student_list = $this->listStudentFinishedByUid($uid);
         $teacher_list = $this->listTeacherFinishedByUid($uid);
-        $finished_list = [$student_list, $teacher_list];
+
+        $finished_list = array_merge($student_list, $teacher_list);
 
         return $finished_list;
     }

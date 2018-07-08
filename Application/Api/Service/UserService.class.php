@@ -40,7 +40,7 @@ class UserService extends BaseService {
         // 3、getByTel type状态
         $user_item = $USER->getByPassport($passport);
         if (!$user_item) {
-            return ['status' => 1, 'data' => '绑定失败 002'];
+            return ['status' => 1, 'data' => '绑定失败 系统没有数据。'];
         }
         $uid = $user_item['id'];
         $data = [
