@@ -75,7 +75,7 @@
               <input class="list-check-box" value='{$vo.id}' type='checkbox'/>
             </td>
             <td class='text-left nowrap'>
-              {$vo.name|default="<span class='color-desc'>还没有设置姓名</span>"}
+              {$vo.name|default="$vo.first_name $vo.last_name"}
             </td>
             <td class='text-left nowrap'>
               {$vo.sex|default="<span class='color-desc'>还没有设置性别</span>"}
@@ -110,11 +110,11 @@
                 <span class="text-explode">|</span>
                 <a data-modal='{:url("edit")}?id={$vo.id}' href="javascript:void(0)">编辑</a>
               </if>
-              <if condition='auth("$classuri/del")'>
-                <span class="text-explode">|</span>
-                <a data-update="{$vo.id}" data-field='delete' data-action='{:url("$classuri/del")}'
-                   href="javascript:void(0)">删除</a>
-              </if>
+              <!--<if condition='auth("$classuri/del")'>-->
+                <!--<span class="text-explode">|</span>-->
+                <!--<a data-update="{$vo.id}" data-field='delete' data-action='{:url("$classuri/del")}'-->
+                   <!--href="javascript:void(0)">删除</a>-->
+              <!--</if>-->
             </td>
           </tr>
         </foreach>
