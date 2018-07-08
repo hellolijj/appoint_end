@@ -277,13 +277,7 @@ class AppointRecordModel extends BaseModel {
         if (!$uid) {
             return FALSE;
         }
-
-        /*$where['uid'] = $uid;
-        $valid_status = [self::$STUDENT_FINISHED, self::$TEACHER_FINISHED];
-        $where['status'] = ['in', implode(',', $valid_status)];
-
-        $finished_list = M('Appoint_record')->where($where)->order('date desc, time asc, id desc')->select();*/
-
+        
         $student_list = $this->listStudentFinishedByUid($uid);
         $teacher_list = $this->listTeacherFinishedByUid($uid);
 
