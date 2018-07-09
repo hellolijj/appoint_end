@@ -9,6 +9,8 @@
 namespace Api\Logic;
 
 
+use Api\Model\TemplateIdModel;
+use Api\Service\TempMsgService;
 use Api\Service\UserService;
 
 class UserLogic extends BaseLogic {
@@ -35,6 +37,7 @@ class UserLogic extends BaseLogic {
 
         $passport = I('passport');
         $phone = trim(I('phone'));
+        $formid = trim(I('formid'));
 
         if (!$passport || !$phone) {
             return $this->setError('信息不能为空');
@@ -58,10 +61,33 @@ class UserLogic extends BaseLogic {
         }
         session('uid', $bind_result);
 
-        // todo 完成用户信息的绑定
-
+        // 完成用户信息的绑定
         $user_service = new UserService();
         $user_info = $user_service->get_more_info(session('uid'));
+
+        // 发送微信模版消息
+
+        $tempMsgService = new TempMsgService();
+        $temp_data = [
+            'keyword1'  => ['value'=>$user_info['name'] ? $user_info['name'] : $user_info['first_name']],
+            'keyword2'  => ['value'=>$user_info['number'] ? $user_info['number'] : '暂未设置学号'],
+            'keyword3'  => ['value'=>$user_info['college'] ? $user_info['college'] : '暂未设置学院'],
+            'keyword4'  => ['value'=>$user_info['class'] ? $user_info['class'] : '暂未设置班级'],
+            'keyword5'  => ['value'=>$phone],
+            'keyword6'  => ['value'=>$user_info['nickname'] ? $user_info['nickname'] : '国创预约'],
+            'keyword7'  => ['value'=>date('Y-m-d H:i:s', time())],
+            'keyword6'  => ['value'=>'绑定成功'],
+        ];
+
+        $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
+        $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$APPOINT_TEACHER_DEAL, $formid, $temp_data, $page);
+
+        if (!$send_result['success']) {
+            return ['status' => 0, 'data' => $send_result['message']];
+        }
+
+
+
         return $this->setSuccess($user_info);
     }
 

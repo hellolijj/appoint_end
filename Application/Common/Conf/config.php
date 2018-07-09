@@ -17,5 +17,8 @@ return array(
         '/^(*)$/' => 'Gateway/route'
     ),
 
+    /* 公众号的相关配置 */
+    'APP_ID' => 'wx0f0fe4d0f2fffd6c', 'APP_SECRET' => '5a6190163c43ca87e911440049d93d79', 'APP_LOGO' => 'http://pingshif-img.stor.sinaapp.com/2018-02-21/logo01222_1979.jpg',
+
     'SHOW_PAGE_TRACE' => FALSE,  // 关闭trance
 );

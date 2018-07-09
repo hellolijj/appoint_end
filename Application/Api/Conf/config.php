@@ -24,8 +24,7 @@ return array(
     /* 文件上传路径 */
     'APP_ROOT' => 'http://127.0.0.1/appoint/', 'UPLOAD_DIR' => 'Uploads/Picture/', 'UPLOAD_ROOT' => 'http://127.0.0.1/appoint/Uploads/Picture/',
 
-    /* 公众号的相关配置 */
-    'APP_ID' => 'wx0f0fe4d0f2fffd6c', 'APP_SECRET' => '5a6190163c43ca87e911440049d93d79', 'APP_LOGO' => 'http://pingshif-img.stor.sinaapp.com/2018-02-21/logo01222_1979.jpg',
+
 
     /*默认控制器默认方法*/
     'DEFAULT_CONTROLLER'     => 'Gateway', // 默认控制器名称

@@ -32,10 +32,14 @@ class TempMsgService extends BaseService {
      */
     public function doSend ($touser, $template_id, $form_id, $data, $page = '', $topcolor = '', $emphasis_keyword = '')
     {
+        $appid = C('APP_ID');
+        $secrect = C('APP_SECRET');
+        $access_token = $this->getToken($appid, $secrect);
         $template = array('touser' => $touser, 'template_id' => $template_id, 'page' => $page, 'form_id' => $form_id, 'data' => $data, 'topcolor' => $topcolor, 'emphasis_keyword' => $emphasis_keyword,);
         $json_template = json_encode($template);
-        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=" . $this->accessToken;
+        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=" . $access_token;
         $dataRes = request_post($url, urldecode($json_template));
+        $dataRes = json_decode($dataRes, TRUE);
         if ($dataRes['errcode'] == 0) {
             return ['success' => TRUE];
         } else {
