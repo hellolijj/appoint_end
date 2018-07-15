@@ -37,8 +37,6 @@ class SendMessageService extends BaseService {
         $record_date = $record_item['date'] ? $record_item['date'] : '20180615';
         $record_date = substr($record_date, 0, 4) . '-' . substr($record_date, 4, 2) . '-' . substr($record_date, 6, 2);
 
-
-
         $temp_data = [
             'keyword1'  => ['value'=>AppointRecordModel::$APPOINT_TYPE[$record_item['item_id']]['title']],
             'keyword2'  => ['value'=>$record_date . ' ' . $record_item['time']],
