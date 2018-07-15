@@ -43,10 +43,11 @@ class UserLogic extends BaseLogic {
             return $this->setError('信息不能为空');
         }
 
-        $regex = '/^1[345678]{1}\d{9}$/';
+        // 暂时注释手机号判断
+        /*$regex = '/^1[345678]{1}\d{9}$/';
         if (!preg_match($regex, $phone)) {
             return $this->setError('手机号码格式错误');
-        }
+        }*/
 
         // 根据passport查找用户
         $user_back_item = D('UserBack')->getByPassport($passport);
