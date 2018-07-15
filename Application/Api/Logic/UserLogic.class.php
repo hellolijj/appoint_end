@@ -81,7 +81,7 @@ class UserLogic extends BaseLogic {
         ];
 
         $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
-        $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$APPOINT_TEACHER_DEAL, $formid, $temp_data, $page);
+        $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$BIND_SUCCESS_TEMPLATE_ID, $formid, $temp_data, $page);
 
         if (!$send_result['success']) {
             return ['status' => 0, 'data' => $send_result['message']];
