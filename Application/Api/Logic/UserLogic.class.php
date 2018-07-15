@@ -77,7 +77,7 @@ class UserLogic extends BaseLogic {
             'keyword5'  => ['value'=>$phone],
             'keyword6'  => ['value'=>$user_info['nickname'] ? $user_info['nickname'] : '国创预约'],
             'keyword7'  => ['value'=>date('Y-m-d H:i:s', time())],
-            'keyword6'  => ['value'=>'绑定成功'],
+            'keyword8'  => ['value'=>'绑定成功'],
         ];
 
         $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
