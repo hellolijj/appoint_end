@@ -49,11 +49,14 @@ class AppointLogic extends UserBaseLogic {
         // 对日期逻辑进行判断
         $choose_ts = strtotime($appoint_date);  // 选择20180403 实际上是选择 20180403 23：59：59：
         $now_ts = time();
+        $choose_ds = intval($appoint_date);    // 选择的日期
+        $now_ds = intval(date('Y', time()) . date('m', time()) . date('d', time()));   // 当前日期
 
-        if (($choose_ts - $now_ts) / (24 * 3600) > 7) {
+        if (($choose_ds - $now_ds) > 7 || ($choose_ds - $now_ds) < 0) {
             return ['status' => 1, 'data' => '只能选择7天内的日期'];
         }
-        if (date('w', $choose_ts) === 0) {
+
+        if (date('w', $choose_ts) == 0) {
             return ['status' => 1, 'data' => '周日不上班'];
         }
         if (date('w', $choose_ts) == 2) {
@@ -63,10 +66,10 @@ class AppointLogic extends UserBaseLogic {
             return ['status' => 1, 'data' => '周六不上班'];
         }
 
-        if ($item == AppointRecordModel::$APPOINT_TYPE_VIA && ($choose_ts - $now_ts) / (24 * 3600) < 1) {
+        if ($item == AppointRecordModel::$APPOINT_TYPE_VIA && ($choose_ds - $now_ds) <= 0) {
             return ['status' => 1, 'data' => '签证预约，不能预约今天的日期'];
         }
-        if ($item == AppointRecordModel::$APPOINT_TYPE_REFUND && ($choose_ts - $now_ts) / (24 * 3600) < 2) {
+        if ($item == AppointRecordModel::$APPOINT_TYPE_REFUND && ($choose_ds - $now_ds) <= 2) {
             return ['status' => 1, 'data' => '退费预约，只能预约3天后的日期'];
         }
         if ($item == AppointRecordModel::$APPOINT_TYPE_RECEPTION && date('w', $choose_ts) != 5) {
