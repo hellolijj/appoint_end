@@ -78,6 +78,9 @@ class AppointLogic extends UserBaseLogic {
         if ($item == AppointRecordModel::$APPOINT_TYPE_CHANGE_ROOM && in_array(intval(date('m', $now_ts)), [1, 2, 3, 4, 5, 7, 8, 9, 10, 11])) {
             return ['status' => 1, 'data' => '宿舍调换预约，只能在6月或者12月'];
         }
+        if ($item == AppointRecordModel::$APPOINT_TYPE_REGISTRATION && in_array(intval(date('m', $now_ts)), [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12])) {
+            return ['status' => 1, 'data' => '新生报到预约，只能在8月'];
+        }
 
         // 根据日期和item_id 来返回可以选择的预约项目
         $data = ' { "status": 0, "data": { "appointment_info": [{ "interval": "08:00-09:00", "expired": 0, "buyed": 0, "can_buy": 5 }, { "interval": "09:00-10:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "10:00-11:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "11:00-12:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "14:00-15:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "15:00-16:00", "expired": 0, "buyed": 0, "can_buy": 1 }, { "interval": "16:00-17:00", "expired": 0, "buyed": 0, "can_buy": 1 }], "can_select_interval": ["09:00-10:00","10:00-11:00","11:00-12:00"], "can_select_time_long": ["1"], "selected_interval": "12:00-24:00", "selected_time_long": "1", "selected_day": "20180430", "appointment_stock": "40", "appointment_price": "188", "unit_type": 2 }, "unit_type": "2" } ';
