@@ -111,8 +111,8 @@ class AppointRecordModel extends BaseModel {
          */
         1238 => [
             'title' => '申请咨询',
-            'time' => '2',
-            'time_list' => '9:00-11:00',
+            'time' => '1',
+            'time_list' => '08:30-09:30',
             'date' => '工作日',
             'statement' => '说明',
             'description' => '<p>1、申请咨询预约时段：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;上午: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;下午: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、每个时间段最多可预约5人</p>',
@@ -131,8 +131,8 @@ class AppointRecordModel extends BaseModel {
          */
         1239 => [
             'title' => '新生报到',
-            'time' => '2',
-            'time_list' => '9:00-11:00',
+            'time' => '1',
+            'time_list' => '08:30-09:30',
             'date' => '只有8月份开放',
             'statement' => '说明',
             'description' => '<p>1、新生报到预约时段：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;上午: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;下午: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、每个时间段最多可预约5人</p>',
