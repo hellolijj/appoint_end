@@ -60,7 +60,7 @@ class AppointLogic extends UserBaseLogic {
             return ['status' => 1, 'data' => '周日不上班'];
         }
         return ['status' => 1, 'data' => AppointRecordModel::$APPOINT_TYPE_ADMISSION_CONSULTATION];
-        if (date('w', $choose_ts) == 2 ） {
+        if (date('w', $choose_ts) == 2 ) {
             return ['status' => 1, 'data' => '周二不能预约'];
         }
         if (date('w', $choose_ts) == 6) {
