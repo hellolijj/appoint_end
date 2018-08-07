@@ -106,42 +106,42 @@ class AppointRecordModel extends BaseModel {
         ],
         /**
          *  申请咨询
-         *  只在6月份和12月份开放（周二不办理业务），预约方法与签证业务一样，提前2天预约，
-         *  如6月1号只能预约到6月3日的时间。时间段为9:00～11:00，2:00～4:00，每个时间段有10个预约名额
+         *  具体时间不明，猜测是工作日，
+         *  预约名额不明
          */
         1238 => [
             'title' => '申请咨询',
             'time' => '2',
             'time_list' => '9:00-11:00',
-            'date' => '只有6月份和12月份开放',
+            'date' => '工作日',
             'statement' => '说明',
-            'description' => '<p>1、申请咨询相关说明</p><p>2、申请咨询相关说明</p><p>3、申请咨询相关说明</p><p>4、申请咨询相关说明</p>',
+            'description' => '<p>1、申请咨询预约时段：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;上午: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;下午: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、每个时间段最多可预约5人</p>',
             'appoint' => [
                 'time_list' => [
                     '09:00-11:00',
                     '14:00-16:00',
                 ],
-                'max_count' => 10,
+                'max_count' => 5,
             ]
         ],
         /**
          *  新生报到
-         *  只在6月份和12月份开放（周二不办理业务），预约方法与签证业务一样，提前2天预约，
-         *  如6月1号只能预约到6月3日的时间。时间段为9:00～11:00，2:00～4:00，每个时间段有10个预约名额
+         *  具体时间不明，猜测是开学后1个月，
+         *  预约名额不明
          */
         1239 => [
             'title' => '新生报到',
             'time' => '2',
             'time_list' => '9:00-11:00',
-            'date' => '只有6月份和12月份开放',
+            'date' => '只有8月份开放',
             'statement' => '说明',
-            'description' => '<p>1、新生报到相关说明</p><p>2、新生报到相关说明</p><p>3、新生报到相关说明</p><p>4、新生报到相关说明</p>',
+            'description' => '<p>1、新生报到预约时段：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;上午: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;下午: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、每个时间段最多可预约5人</p>',
             'appoint' => [
                 'time_list' => [
                     '09:00-11:00',
                     '14:00-16:00',
                 ],
-                'max_count' => 10,
+                'max_count' => 15,
             ]
         ],
 
@@ -151,6 +151,8 @@ class AppointRecordModel extends BaseModel {
     public static $APPOINT_TYPE_REFUND = 1235; //退费预约
     public static $APPOINT_TYPE_RECEPTION = 1236; //接待日预约
     public static $APPOINT_TYPE_CHANGE_ROOM = 1237; //宿舍调换预约
+    public static $APPOINT_TYPE_ADMISSION_CONSULTATION= 1238; //申请咨询
+    public static $APPOINT_TYPE_REGISTRATION = 1239; //新生报到
 
 
     public static $STATUS = [
