@@ -23,9 +23,9 @@ class AppointRecordModel extends BaseModel {
             'title' => '签证预约(visa)',
             'time' => '1',
             'time_list' => '08:30-09:30',
-            'date' => '周二除外 ',
-            'statement' => '说明',
-            'description' => '<p>1、签证预约时段：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;上午: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;下午: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、每个时间段最多可预约5人</p><p>3、不可预约当天时间段</p>',
+            'date' => 'except Tuesday ',
+            'statement' => 'instruction',
+            'description' => '<p>1、Appointment time：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;morning: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;afternoon: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、5 people can be reserved at each time</p>',
             // 每个时间段最多可预约5人
             'appoint' => [
                 'time_list' => [
@@ -46,12 +46,12 @@ class AppointRecordModel extends BaseModel {
          *  时间段为9:00～11:00，2:00～4:00，每个时间段有10个预约名额
          */
         1235 => [
-            'title' => '退费预约',
+            'title' => '退费预约|Reimbursement reservation',
             'time' => '2',
             'time_list' => '9:00-11:00',
-            'date' => '提前3天预约（周二除外）',
-            'statement' => '退费预约',
-            'description' => '1、提前3天预约，如：6月1号只能预约到6月4日及6月4日以后的时间</p><p>2、预约时间段为：09:00-11:00，14:00-16:00</p><p>3、每个时间段有10个预约名额</p>',
+            'date' => '3 days in advance (except Tuesday)',
+            'statement' => '退费预约|Reimbursement reservation',
+            'description' => '1、Make an appointment 3 days in advance. For example, June 1st can only be reserved until June 4th.</p><p>2、The time period is 9:00-11:00, 14:00-16:00</p><p>3、there are 10 reserved places for each time period.</p>',
             'appoint' => [
                 'time_list' => [
                     '09:00-11:00',
@@ -68,12 +68,12 @@ class AppointRecordModel extends BaseModel {
          * 15：30-16：30，每个时段可预约5人
          */
         1236 => [
-            'title' => '接待日预约',
+            'title' => '接待日预约|Reception day reservation',
             'time' => '1',
             'time_list' => '13:30-14:30',
-            'date' => '每周五下午',
-            'statement' => '说明',
-            'description' => '<p>1、接待日预约时间段为：13:30-14:30，14:30-15:30，15:30-16:30</p><p>2、接待日预约只能预到周五的时间段</p><p>3、每个时段可预约5人</p>',
+            'date' => 'every Friday afternoon',
+            'statement' => 'instruction',
+            'description' => '<p>1、Appointment time: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、Opening hours: every Friday afternoon.</p><p>3、 5 people can be reserved at each time</p>',
             'appoint' => [
                 'time_list' => [
                     '13:30-14:30',
@@ -90,12 +90,12 @@ class AppointRecordModel extends BaseModel {
          *  如6月1号只能预约到6月3日的时间。时间段为9:00～11:00，2:00～4:00，每个时间段有10个预约名额
          */
         1237 => [
-            'title' => '宿舍调换预约',
+            'title' => '宿舍调换预约|Dormitory exchange reservation',
             'time' => '2',
             'time_list' => '9:00-11:00',
-            'date' => '只有6月份和12月份开放',
+            'date' => 'It is only open in June and December',
             'statement' => '说明',
-            'description' => '<p>1、宿舍调换预约时段为：09:00-11:00，14:00-16:00</p><p>2、本预约项目只在6月和12月开放</p><p>3、本预约项目需要提前2天预约，如：6月1号只能预约到6月3日及6月3日以后的时间</p><p>4、每个时间段有10个预约名额</p>',
+            'description' => '<p>1、The time period is 09:00-11:00, 14:00-16:00</p><p>2、It is only open in June and December</p><p>3、It can be reserved 2 days in advance. For example, June 1 can only be reserved until June</p><p>4、there are 10 reserved places for each time period</p>',
             'appoint' => [
                 'time_list' => [
                     '09:00-11:00',
