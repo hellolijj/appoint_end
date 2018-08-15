@@ -113,7 +113,7 @@ class AppointRecordModel extends BaseModel {
             'title' => '申请咨询|admission consultation',
             'time' => '1',
             'time_list' => '08:30-09:30',
-            'date' => '工作日',
+            'date' => 'workday',
             'statement' => '说明',
             'description' => '<p>1、The admission consultation period：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;morning: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;afternoon: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、there are 5 reserved places for each time period</p>',
             'appoint' => [
@@ -137,7 +137,7 @@ class AppointRecordModel extends BaseModel {
             'title' => '新生报到|registration',
             'time' => '1',
             'time_list' => '08:30-09:30',
-            'date' => '只有8月份开放',
+            'date' => 'It is only open in August',
             'statement' => '说明',
             'description' => '<p>1、The registration period：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;morning: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;afternoon: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、there are 5 reserved places for each time period</p>',
             'appoint' => [
