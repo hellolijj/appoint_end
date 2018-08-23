@@ -152,6 +152,25 @@ class AppointRecordModel extends BaseModel {
                 'max_count' => 15,
             ]
         ],
+        /**
+         *  缴费预约
+         *  相关要求同退费预约
+         */
+        1240 => [
+            'title' => '缴费预约|payment',
+            'time' => '2',
+            'time_list' => '9:00-11:00',
+            'date' => '3 days in advance (except Tuesday)',
+            'statement' => '缴费预约|Payment reservation',
+            'description' => '1、Make an appointment 3 days in advance. For example, June 1st can only be reserved until June 4th.</p><p>2、The time period is 9:00-11:00, 14:00-16:00</p><p>3、there are 10 reserved places for each time period.</p>',
+            'appoint' => [
+                'time_list' => [
+                    '09:00-11:00',
+                    '14:00-16:00',
+                ],
+                'max_count' => 10,
+            ]
+        ],
 
     ];
 
@@ -161,6 +180,7 @@ class AppointRecordModel extends BaseModel {
     public static $APPOINT_TYPE_CHANGE_ROOM = 1237; //宿舍调换预约
     public static $APPOINT_TYPE_ADMISSION_CONSULTATION= 1238; //申请咨询
     public static $APPOINT_TYPE_REGISTRATION = 1239; //新生报到
+    public static $APPOINT_TYPE_PAYMENT = 1240; //缴费预约
 
 
     public static $STATUS = [
