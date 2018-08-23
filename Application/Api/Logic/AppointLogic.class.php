@@ -137,6 +137,11 @@ class AppointLogic extends UserBaseLogic {
             return ['status' => 1, 'data' => '时间不能为为空'];
         }
 
+        // $appoint_date 格式转换，2018-05-03 => 20180503
+        if (strtotime($appoint_date)) {
+            $appoint_date = date('Ymd', strtotime($appoint_date));
+        }
+
         // 对学生预约数量的判断: 一个学生每个项目每天只能预约一次。要想重新预约得先把之前预约的删掉
         $appoint_record_service = new AppointRecordService();
         if (TRUE === $appoint_record_service->is_repeated($uid, $item_id)) {
