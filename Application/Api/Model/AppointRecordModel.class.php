@@ -176,7 +176,7 @@ class AppointRecordModel extends BaseModel {
          *  相关要求同退费预约
          */
         1241 => [
-            'title' => '缴费预约|payment',
+            'title' => '材料预约|document',
             'time' => '2',
             'date' => '5 days in advance (except Tuesday)',
             'statement' => '缴费预约|Payment reservation',
