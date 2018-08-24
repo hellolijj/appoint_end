@@ -43,6 +43,8 @@ class MethodConvertModel {
         'AppAppointment/getAppointmentList' => 'Appoint/time_list',
         'AppShop/AddCart' => 'Appoint/card',
         'AppShop/calculationPrice' => 'Appoint/calculate',
+        'AppShop/AddDocument' => 'Appoint/add_document',   //材料申请
+
 
         'AppShop/getAppShopLocationInfo' => 'Appoint/shop_location',   //不知道干嘛的
         'AppShop/cartList' => 'Appoint/cart_list',

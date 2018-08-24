@@ -133,6 +133,12 @@ class AppointLogic extends UserBaseLogic {
         $appoint_date = I('appointment_day');
         $uid = session('uid');
 
+        // 1241 特殊考虑
+        if ($item_id == AppointRecordModel::$APPOINT_TYPE_DOCUMENT) {
+            $appoint_interval = '09:00-11:00';
+            $appoint_date = date('Ymd', time() + 5 * 24 * 3600);
+        }
+
         if (!$item_id || empty($appoint_interval) || !$appoint_date || !$uid) {
             return ['status' => 1, 'data' => '时间不能为为空'];
         }
@@ -453,7 +459,44 @@ class AppointLogic extends UserBaseLogic {
         D('Formid')->add($uid, $formid);
 
         return ['status' => 0, 'data'=>[$uid, $formid]];
+    }
 
+
+    /**
+     * add_document
+     * 材料收集
+     */
+    public function add_document() {
+        $appoint_id = intval(I('appoint_id'));
+        $stu_cert = intval(I('stu_cert'));
+        $transcript = intval(I('transcript'));
+        $attendance = intval(I('attendance'));
+        $transfer_letter = intval(I('transfer_letter'));
+        $stu_id_book = intval(I('stu_id_book'));
+        $remarks = trim(I('remarks'));
+        $uid = session('uid');
+
+
+        if (!$appoint_id || !$uid) {
+            return ['status' => 1, 'data' => 'appoint_id参数为空'];
+        }
+
+        $data = [
+            'appoint_id' => $appoint_id,
+            'uid' => $uid,
+            'stu_cert' => $stu_cert,
+            'transcript' => $transcript,
+            'attendance' => $attendance,
+            'transfer_letter' => $transfer_letter,
+            'stu_id_book' => $stu_id_book,
+            'remarks' => $remarks,
+            'gmt_create' => time(),
+            'gmt_modified' => time(),
+        ];
+
+        $document_id = M('document')->add($data);
+
+        return ['status' => 0, 'data'=>[$document_id, 'add success']];
     }
 
 }

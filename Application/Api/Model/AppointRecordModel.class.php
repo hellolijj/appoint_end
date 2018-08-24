@@ -171,7 +171,24 @@ class AppointRecordModel extends BaseModel {
                 'max_count' => 10,
             ]
         ],
-
+        /**
+         *  国台办
+         *  相关要求同退费预约
+         */
+        1241 => [
+            'title' => '缴费预约|payment',
+            'time' => '2',
+            'date' => '5 days in advance (except Tuesday)',
+            'statement' => '缴费预约|Payment reservation',
+            'description' => 'Students who need certificates must make appointments successfully in advance for at least 5 work days through this programme. Certificates can not be provided on the spot in school offices.',
+            'appoint' => [
+                'time_list' => [
+                    '09:00-11:00',
+                    '14:00-16:00',
+                ],
+                'max_count' => 10,
+            ]
+        ],
     ];
 
     public static $APPOINT_TYPE_VIA = 1234; //签证预约
@@ -181,6 +198,7 @@ class AppointRecordModel extends BaseModel {
     public static $APPOINT_TYPE_ADMISSION_CONSULTATION= 1238; //申请咨询
     public static $APPOINT_TYPE_REGISTRATION = 1239; //新生报到
     public static $APPOINT_TYPE_PAYMENT = 1240; //缴费预约
+    public static $APPOINT_TYPE_DOCUMENT = 1241; //缴费材料
 
 
     public static $STATUS = [
