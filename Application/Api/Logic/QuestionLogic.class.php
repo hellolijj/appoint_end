@@ -162,7 +162,7 @@ class QuestionLogic extends UserBaseLogic {
 
         $exam_lists = D('ExamSubmit')->list_items($uid);
 
-        return ['status' => 1, 'msg' => '成功', 'data' => $exam_lists];
+        return ['status' => 0, 'msg' => '成功', 'data' => $exam_lists];
 
     }
 
