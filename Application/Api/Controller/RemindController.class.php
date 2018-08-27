@@ -75,14 +75,14 @@ class RemindController extends BaseController {
             $formid = $formid_item['formid'];
 
             $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page);
-            D('Formid')->deleteByUidAndFormid($uid, $formid);
+//            D('Formid')->deleteByUidAndFormid($uid, $formid);
             if ($send_result['success']) {
                 ;
             } else {
                 p([$user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page, $uid, $formid]);
                 echo json_encode($send_result);
             }
-            sleep(1);
+//            sleep(1);
         }
     }
 
