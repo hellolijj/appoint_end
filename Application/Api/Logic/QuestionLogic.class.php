@@ -161,8 +161,13 @@ class QuestionLogic extends UserBaseLogic {
         $uid = session('uid');
 
         $exam_lists = D('ExamSubmit')->list_items($uid);
+        foreach ($exam_lists as &$exam_list) {
+            $exam_list['time'] = date('Y-m-d H:i', $exam_list['gmt_create']);
+        }
 
-        return ['status' => 0, 'msg' => '成功', 'data' => $exam_lists];
+        return ['status' => 0, 'data' => $exam_lists];
+
+
 
     }
 
