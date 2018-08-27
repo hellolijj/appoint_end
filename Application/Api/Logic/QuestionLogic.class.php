@@ -2,14 +2,10 @@
 
 namespace Api\Logic;
 
-use Api\Model\ExamSubmitModel;
 use Api\Model\QuestionBankModel;
-use Api\Model\QuestionCollectionModel;
 use Api\Service\ExaminationService;
-use Api\Service\QuestionCollectService;
 use Api\Service\QuestionRecordService;
 use Api\Service\QuestionService;
-use Api\Service\QuestionSpecialService;
 
 class QuestionLogic extends UserBaseLogic {
 
