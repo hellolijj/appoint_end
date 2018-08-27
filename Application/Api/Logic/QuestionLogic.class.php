@@ -2,6 +2,7 @@
 
 namespace Api\Logic;
 
+use Api\Model\ExamSubmitModel;
 use Api\Model\QuestionBankModel;
 use Api\Model\QuestionCollectionModel;
 use Api\Service\ExaminationService;
@@ -153,6 +154,19 @@ class QuestionLogic extends UserBaseLogic {
     }
 
     /**
+     * 互殴去答题列表
+     */
+    public function get_submit_list() {
+
+        $uid = session('uid');
+
+        $exam_lists = D('ExamSubmit')->list_items($uid);
+        print_r($exam_lists);
+
+
+    }
+
+    /**
      * 模拟考试的错题回顾
      */
     private function exam_review($exam_submit_id) {
@@ -181,6 +195,5 @@ class QuestionLogic extends UserBaseLogic {
         $examinationService->add_record_more_at_exam(session('uid'), $exam_submit_id, $question_items);
         return ['status' => 1, 'msg' => '成功', 'data' => $question_items,];
     }
-
 
 }
