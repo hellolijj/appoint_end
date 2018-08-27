@@ -166,9 +166,6 @@ class QuestionLogic extends UserBaseLogic {
         }
 
         return ['status' => 0, 'data' => $exam_lists];
-
-
-
     }
 
     /**
