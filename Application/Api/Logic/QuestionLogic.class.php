@@ -161,8 +161,8 @@ class QuestionLogic extends UserBaseLogic {
         $uid = session('uid');
 
         $exam_lists = D('ExamSubmit')->list_items($uid);
-        print_r($exam_lists);
 
+        return ['status' => 1, 'msg' => '成功', 'data' => $exam_lists];
 
     }
 

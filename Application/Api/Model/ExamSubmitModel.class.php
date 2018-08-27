@@ -38,9 +38,6 @@ class ExamSubmitModel extends BaseModel {
 
         $exam_submit_lists = M('Exam_submit')->where(['uid' => $uid])->select();
         return $exam_submit_lists;
-
-
-
     }
 
 
