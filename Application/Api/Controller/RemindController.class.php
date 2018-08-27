@@ -79,7 +79,7 @@ class RemindController extends BaseController {
             if ($send_result['success']) {
                 ;
             } else {
-                print_r([$user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page, $uid, $formid]);
+                p([$user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page, $uid, $formid]);
                 echo json_encode($send_result);
             }
             sleep(1);
