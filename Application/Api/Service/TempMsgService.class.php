@@ -43,7 +43,7 @@ class TempMsgService extends BaseService {
         if ($dataRes['errcode'] == 0) {
             return ['success' => TRUE];
         } else {
-            return ['success' => FALSE, 'message' => $dataRes['errmsg']];
+            return ['success' => FALSE, 'message' => $dataRes['errmsg'], 'error' => $dataRes];
         }
     }
 
