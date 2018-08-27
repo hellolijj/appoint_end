@@ -71,15 +71,15 @@ class RemindController extends BaseController {
                 'keyword5'  => ['value'=>'请按时办理业务'],
             ];
             $page = 'pages/o9j42s2GS3_page10000/o9j42s2GS3_page10000';
-            $formid_item = D('Formid')->getOldestByUid($uid);
+            $formid_item = D('Formid')->getNewestByUid($uid);
             $formid = $formid_item['formid'];
-
+            p([$user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page, $uid, $formid]);die;
             $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page);
 //            D('Formid')->deleteByUidAndFormid($uid, $formid);
             if ($send_result['success']) {
                 ;
             } else {
-                p([$user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page, $uid, $formid]);
+
                 echo json_encode($send_result);
             }
             p([$user_info['openid'], TemplateIdModel::$APPOINT_REMINDER_TEMPLATE_ID, $formid, $temp_data, $page, $uid, $formid]);

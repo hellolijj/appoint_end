@@ -62,13 +62,15 @@ class FormidModel extends BaseModel {
     }
 
 
-    public function getOldestByUid($uid) {
+    public function getNewestByUid($uid) {
 
         if (!$uid) {
             return FALSE;
         }
 
-        return M('Formid')->where(['uid'=>$uid])->find();
+        $list = M('Formid')->where(['uid'=>$uid])->order('id desc')->limit(1)->select();
+
+        return $list[0];
     }
 
 }
