@@ -22,6 +22,8 @@ class ScriptController extends Controller {
 
         $new_data = M('user_back_')->select();
 
+        p($new_data);
+
 
 
     }
