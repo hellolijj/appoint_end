@@ -56,7 +56,13 @@ class ScriptController extends Controller {
         foreach ($new_data as $_new_data) {
 
             unset($_new_data['id']);
+            if (is_null($_new_data['first_name'])) $_new_data['first_name'] = '';
+            if (is_null($_new_data['last_name'])) $_new_data['last_name'] = '';
             if (is_null($_new_data['name'])) $_new_data['name'] = '';
+            if (is_null($_new_data['sex'])) $_new_data['sex'] = '';
+            if (is_null($_new_data['country'])) $_new_data['country'] = '';
+            if (is_null($_new_data['profession'])) $_new_data['profession'] = '';
+            if (is_null($_new_data['college'])) $_new_data['college'] = '';
             if (is_null($_new_data['class'])) $_new_data['class'] = '';
             if (is_null($_new_data['number']) || !is_numeric($_new_data['entry_year'])) $_new_data['number'] = 0;
             if (is_null($_new_data['entry_year']) || !is_numeric($_new_data['entry_year'])) $_new_data['entry_year'] = 0;
