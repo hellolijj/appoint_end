@@ -27,6 +27,10 @@ class ScriptController extends Controller {
         foreach ($new_data as $_new_data) {
 
             unset($_new_data['id']);
+            if (is_null($_new_data['name'])) $_new_data['name'] = '';
+            if (is_null($_new_data['class'])) $_new_data['class'] = '';
+            if (is_null($_new_data['number'])) $_new_data['number'] = 0;
+            if (is_null($_new_data['entry_year'])) $_new_data['entry_year'] = 0;
 
             if ($OLD_USER->where(['passport' => $_new_data['passport']])->find()) {
                 continue;
