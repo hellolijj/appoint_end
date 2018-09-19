@@ -74,6 +74,7 @@ class ScriptController extends Controller {
     }
 
     public function load_user_back_3() {
+        die('user_back_3已经入库，无需再操作');
 
         // 将新加入的数据表 添加进入到 user_back里，以passport为键值，若重复则，不该，如新的，则添加
 
