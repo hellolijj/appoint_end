@@ -57,9 +57,12 @@
             </td>
             <td class='text-left nowrap'>
               <a data-open='{:U("User/back")}?passport={$vo.passport}' href="javascript:void(0)">
-                {$vo.name|default="<span class='color-desc'>还没有设置姓名</span>"}
+                <if condition="$vo.name">
+                  {$vo.name}
+                  <else/>
+                  {$vo.first_name} {$vo.last_name}
+                </if>
               </a>
-
 
             </td>
             <td class='text-left nowrap'>

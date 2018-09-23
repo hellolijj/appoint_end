@@ -53,7 +53,6 @@ class AppointController extends BaseApiController {
 
         $this->display();
 
-
     }
 
 
