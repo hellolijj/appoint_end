@@ -108,6 +108,7 @@ class UserService extends BaseService {
         }
 
         $user_items = D('Api/User')->listByUids($uid_arr);
+        p($user_items);
         if (!$user_items) {
             return [];
         }
@@ -120,10 +121,6 @@ class UserService extends BaseService {
         $weixin_items = result_to_map($weixin_items, 'uid');
 
         foreach ($user_items as &$user_item) {
-
-            if (!$user_item) {
-                continue;
-            }
 
             if ($user_item['passport']) {
 
