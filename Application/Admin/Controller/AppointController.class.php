@@ -38,6 +38,7 @@ class AppointController extends BaseApiController {
         $where['item_id'] = $item_id;
 
         $records = D('Api/AppointRecord')->listByItemid($item_id);
+        p($records);die;
         $appoint_service = new AppointRecordService();
         $appoint_service->convert_record_format($records);
         $this->assign('list', $records)->display();
