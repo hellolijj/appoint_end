@@ -57,7 +57,6 @@ class AppointRecordService extends BaseService {
         $uid_arr = result_to_array($record_lists, 'uid');
         $user_service = new UserService();
         $user_info = $user_service->list_more_info_by_uids($uid_arr);
-        p($user_info);
         $user_info = result_to_map($user_info);
 
         foreach ($record_lists as &$record_item) {

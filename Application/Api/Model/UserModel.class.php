@@ -70,7 +70,7 @@ class UserModel extends BaseModel {
         }
 
         $data = [
-            'passport' => $passport,
+            'passport' => trim($passport),
             'tel' => $telphone,
             'type' => $type,
             'status' => 1,
