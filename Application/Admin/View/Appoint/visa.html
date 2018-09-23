@@ -57,7 +57,7 @@
             </td>
             <td class='text-left nowrap'>
               <a data-open='{:U("User/back")}?passport={$vo.passport}' href="javascript:void(0)">
-                <if condition="$vo.name">
+                <if condition="$vo.name neq ''">
                   {$vo.name}
                   <else/>
                   {$vo.first_name} {$vo.last_name}
