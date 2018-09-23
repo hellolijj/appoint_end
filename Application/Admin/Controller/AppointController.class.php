@@ -43,9 +43,6 @@ class AppointController extends BaseApiController {
 
         $appoint_service = new AppointRecordService();
         $appoint_service->convert_record_format($records);
-        p($records);
-
-
 
         $this->assign('list',$records);// 赋值数据集
         $count      = D('Api/AppointRecord')->countByWhere($where);// 查询满足要求的总记录数
