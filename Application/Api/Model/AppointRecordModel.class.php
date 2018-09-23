@@ -25,7 +25,7 @@ class AppointRecordModel extends BaseModel {
             'time_list' => '08:30-09:30',
             'date' => 'except Tuesday ',
             'statement' => 'instruction',
-            'description' => '<p>1、Appointment time：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;morning: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;afternoon: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、6 people can be reserved at each time</p>',
+            'description' => '<p>1、Appointment time：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;morning: 08:30-09:30, 09:30-10:30, 10:30-11:30</p><p>&nbsp;&nbsp;&nbsp;&nbsp;afternoon: 13:30-14:30, 14:30-15:30, 15:30-16:30</p><p>2、5 people can be reserved at each time</p>',
             // 每个时间段最多可预约5人
             'appoint' => [
                 'time_list' => [
@@ -36,7 +36,7 @@ class AppointRecordModel extends BaseModel {
                     '14:30-15:30',
                     '15:30-16:30',
                 ],
-                'max_count' => 6,
+                'max_count' => 5,
             ]
         ],
 
