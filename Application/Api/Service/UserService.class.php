@@ -115,9 +115,12 @@ class UserService extends BaseService {
         $passport_arr = result_to_array($user_items, 'passport');
         $user_back_items = D('Api/UserBack')->listByPassports($passport_arr);
         $user_back_items = result_to_map($user_back_items, 'passport');
+        p($user_back_items);die;
 
         $weixin_items = D('Api/Weixin')->listByUids($uid_arr);
         $weixin_items = result_to_map($weixin_items, 'uid');
+
+        p($weixin_items);die;
 
         foreach ($user_items as &$user_item) {
 
