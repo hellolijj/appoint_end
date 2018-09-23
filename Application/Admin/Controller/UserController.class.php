@@ -39,10 +39,12 @@ class UserController extends BaseApiController {
         $user_service = new UserService();
         $users_info_list = $user_service->list_more_info_by_uids($users_uid_arr);
 
+        p($users_info_list);die;
+
 
         $this->assign('list',$users_info_list);// 赋值数据集
         $count      = D('Api/User')->countByWhere($where);// 查询满足要求的总记录数
-        $Page       = new Page($count, 20);
+        $Page       = new Page($count, 10);
         $page       = $Page->show();// 分页显示输出
         $this->assign('page_content',$page);// 赋值分页输出
 
