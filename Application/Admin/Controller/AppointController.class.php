@@ -38,12 +38,21 @@ class AppointController extends BaseApiController {
         $where['item_id'] = $item_id;
         $p = $_GET['p'];
         $records = D('Api/AppointRecord')->listByPageWhere($where, $p, 10, 'id desc');
-        p($records); die;
 
 
         $appoint_service = new AppointRecordService();
         $appoint_service->convert_record_format($records);
-        $this->assign('list', $records)->display();
+
+
+        $this->assign('list',$records);// 赋值数据集
+        $count      = D('Api/AppointRecord')->countByWhere($where);// 查询满足要求的总记录数
+        $Page       = new Page($count, 10);
+        $page       = $Page->show();// 分页显示输出
+        $this->assign('page_content',$page);// 赋值分页输出
+
+        $this->display();
+
+
     }
 
 
