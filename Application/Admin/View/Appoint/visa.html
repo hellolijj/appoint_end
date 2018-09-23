@@ -59,8 +59,10 @@
               <a data-open='{:U("User/back")}?passport={$vo.passport}' href="javascript:void(0)">
                 <if condition="$vo.name neq ''">
                   {$vo.name}
-                  <else/>
+                  <elseif condition="$vo.last_name neq ''"/>
                   {$vo.first_name} {$vo.last_name}
+                  <else />
+                  <span class='color-desc'>还没有设置姓名</span>
                 </if>
               </a>
 
