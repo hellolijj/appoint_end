@@ -12,6 +12,7 @@ use Api\Model\AppointRecordModel;
 use Api\Service\AppointRecordService;
 use Api\Service\SendMessageService;
 use Api\Service\SystemLogService;
+use Think\Page;
 
 class AppointController extends BaseApiController {
 
