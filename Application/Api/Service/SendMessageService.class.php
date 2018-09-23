@@ -31,7 +31,7 @@ class SendMessageService extends BaseService {
         $uid = $record_item['uid'];
 
         $user_info = $user_service->get_more_info($uid);
-        $formid_item = D('Api/Formid')->getOldestByUid($uid);
+        $formid_item = D('Api/Formid')->getNewestByUid($uid);
         $formid = $formid_item['formid'];
 
         $record_date = $record_item['date'] ? $record_item['date'] : '20180615';
