@@ -121,6 +121,10 @@ class UserService extends BaseService {
 
         foreach ($user_items as &$user_item) {
 
+            if (!$user_item) {
+                continue;
+            }
+
             if ($user_item['passport']) {
 
                 // 后面加入的id键会覆盖之前的键值
