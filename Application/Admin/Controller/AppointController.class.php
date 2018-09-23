@@ -36,9 +36,11 @@ class AppointController extends BaseApiController {
             $where['date'] = [['gt', $start], ['lt', $end]];
         }
         $where['item_id'] = $item_id;
+        $p = $_GET['p'];
+        $records = D('Api/AppointRecord')->listByPageWhere($where, $p, 10, 'id desc');
+        p($records); die;
 
-        $records = D('Api/AppointRecord')->listByItemid($item_id);
-        p($records);die;
+
         $appoint_service = new AppointRecordService();
         $appoint_service->convert_record_format($records);
         $this->assign('list', $records)->display();
