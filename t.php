@@ -1,6 +1,8 @@
 <?php
 
-    echo date('Y-m-d H:i:s', strtotime(date('Y-m-d', time())));
+$a = '2018-02-05';
 
-    echo strtotime(date('Y-m-d', time()));
+echo date('Ymd', strtotime($a));
+
+
 ?>

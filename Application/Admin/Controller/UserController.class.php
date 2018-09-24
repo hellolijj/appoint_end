@@ -34,6 +34,7 @@ class UserController extends BaseApiController {
 
         $p = $_GET['p'];
         $users = D('Api/User')->listByPageWhere($where, $p, 10, 'id desc');
+        p($users);
 
         $users_uid_arr = result_to_array($users, 'id');
         $user_service = new UserService();

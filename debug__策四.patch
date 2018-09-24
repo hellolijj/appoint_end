@@ -1,0 +1,21 @@
+Index: Application/Api/Service/UserService.class.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Application/Api/Service/UserService.class.php	(revision 66c5ffa4d4f0721299d17090799a8094c575b8c2)
++++ Application/Api/Service/UserService.class.php	(date 1537687172000)
+@@ -115,13 +115,10 @@
+         $passport_arr = result_to_array($user_items, 'passport');
+         $user_back_items = D('Api/UserBack')->listByPassports($passport_arr);
+         $user_back_items = result_to_map($user_back_items, 'passport');
+-        p($user_back_items);
+ 
+         $weixin_items = D('Api/Weixin')->listByUids($uid_arr);
+         $weixin_items = result_to_map($weixin_items, 'uid');
+ 
+-        p($weixin_items);die;
+-
+         foreach ($user_items as &$user_item) {
+ 
+             if ($user_item['passport']) {
