@@ -14,45 +14,57 @@ use function PHPSTORM_META\type;
 class UserService extends BaseService {
 
     /**
-     * 用户绑定成为正式用户
+     * 检查是否符合绑定条件
      * return true or []
      */
-    public function bind ($passport, $tel) {
+    public function check_bind ($passport, $tel) {
 
         if (!$passport || !$tel) {
             return ['status' => 1, 'data' => '参数错误'];
         }
 
         $USER = D('User');
-
         // 1、查看是否已经绑定
         $user_item = $USER->getByPassport($passport);
         if ($user_item) {
             return ['status' => 1, 'data' => '重复绑定'];
         }
 
+        // 2、weixin表中 openid是否存在
+        $weixin_item = D('Api/Weixin')->where(['openid'=>session('openid')])->find();
+        if (!$weixin_item) {
+            return ['status' => 1, 'data' => '绑定失败，请退出重新打开小程序'];
+        }
+
+        return TRUE;
+
+    }
+
+    /**
+     *  完成绑定操作
+     */
+    public function bind($passport, $tel) {
+        if (!$passport || !$tel) {
+            return ['status' => 1, 'data' => '参数错误'];
+        }
+
+        $USER = D('User');
         // 2、完成绑定add操作
         $add_result = $USER->add($passport, $tel, WeixinModel::$USER_TYPE_BIND);
         if (!$add_result) {
-            return ['status' => 1, 'data' => '绑定失败 001'];
+            // todo add error log
+            return ['status' => 1, 'data' => '用户添加失败'];
         }
-
-        $uid = $user_item['id'];
+        $uid = $add_result['id'];
         $data = [
             'uid' => $uid,
             'type' => WeixinModel::$USER_TYPE_BIND,
         ];
-
-        // 3、weixin表中 openid是否存在
-        if (D('Api/Weixin')->where(['openid'=>session('openid')])->find()) {
-            return ['status' => 1, 'data' => '绑定失败，请退出重新打开小程序'];
-        }
-
         $update_result = D('Weixin')->updateInfo(session('openid'), $data);
         if (!$update_result) {
-            return ['status' => 1, 'data' => '绑定失败 003'];
+            // todo add error log
+            return ['status' => 1, 'data' => '注册更新错误'];
         }
-
         return $uid;
     }
 
