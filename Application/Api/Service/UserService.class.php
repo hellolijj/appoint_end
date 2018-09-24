@@ -23,9 +23,8 @@ class UserService extends BaseService {
             return ['status' => 1, 'data' => '参数错误'];
         }
 
-        $USER = D('User');
         // 1、查看是否已经绑定
-        $user_item = $USER->getByPassport($passport);
+        $user_item = D('Api/User')->getByPassport($passport);
         if ($user_item) {
             return ['status' => 1, 'data' => '重复绑定'];
         }
@@ -37,7 +36,6 @@ class UserService extends BaseService {
         }
 
         return TRUE;
-
     }
 
     /**
@@ -48,19 +46,19 @@ class UserService extends BaseService {
             return ['status' => 1, 'data' => '参数错误'];
         }
 
-        $USER = D('User');
-        // 2、完成绑定add操作
-        $add_result = $USER->add($passport, $tel, WeixinModel::$USER_TYPE_BIND);
+        // 完成绑定add操作
+        $add_result = D('Api/User')->add($passport, $tel, WeixinModel::$USER_TYPE_BIND);
         if (!$add_result) {
             // todo add error log
             return ['status' => 1, 'data' => '用户添加失败'];
         }
-        $uid = $add_result['id'];
+        $user_item = D('Api/User')->getByPassport($passport);
+        $uid = $user_item['id'];  // 添加成功返回 uid
         $data = [
             'uid' => $uid,
             'type' => WeixinModel::$USER_TYPE_BIND,
         ];
-        $update_result = D('Weixin')->updateInfo(session('openid'), $data);
+        $update_result = D('Api/Weixin')->updateInfo(session('openid'), $data);
         if (!$update_result) {
             // todo add error log
             return ['status' => 1, 'data' => '注册更新错误'];

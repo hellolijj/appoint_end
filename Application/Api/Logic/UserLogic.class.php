@@ -72,6 +72,7 @@ class UserLogic extends BaseLogic {
         $user_service = new UserService();
         $user_info = $user_service->get_more_info(session('uid'));
 
+
         // 发送微信模版消息
 
         $tempMsgService = new TempMsgService();
@@ -90,7 +91,8 @@ class UserLogic extends BaseLogic {
         $send_result = $tempMsgService->doSend($user_info['openid'], TemplateIdModel::$BIND_SUCCESS_TEMPLATE_ID, $formid, $temp_data, $page);
 
         if (!$send_result['success']) {
-            return ['status' => 0, 'data' => $send_result['message']];
+            // todo save in error log
+            // return ['status' => 0, 'data' => $send_result['message']];
         }
         return $this->setSuccess($user_info);
     }
