@@ -58,12 +58,16 @@ class UserLogic extends BaseLogic {
         }
         // 将passport telphone 同时存入应用 同时绑定成为正式用户
         $userService = new UserService();
+        $bind_result = $userService->check_bind($passport, $phone);
+        if (is_array($bind_result)) {
+            return $this->setError($bind_result['data']);
+        }
         $bind_result = $userService->bind($passport, $phone);
         if (is_array($bind_result)) {
             return $this->setError($bind_result['data']);
         }
-        session('uid', $bind_result);
 
+        session('uid', $bind_result);
         // 完成用户信息的绑定
         $user_service = new UserService();
         $user_info = $user_service->get_more_info(session('uid'));
@@ -88,9 +92,6 @@ class UserLogic extends BaseLogic {
         if (!$send_result['success']) {
             return ['status' => 0, 'data' => $send_result['message']];
         }
-
-
-
         return $this->setSuccess($user_info);
     }
 
