@@ -120,6 +120,7 @@ class UserService extends BaseService {
 
         $weixin_items = D('Api/Weixin')->listByUids($uid_arr);
         $weixin_items = result_to_map($weixin_items, 'uid');
+        p($weixin_items);
 
         foreach ($user_items as &$user_item) {
 
