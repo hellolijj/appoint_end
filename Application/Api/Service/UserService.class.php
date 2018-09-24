@@ -37,16 +37,17 @@ class UserService extends BaseService {
             return ['status' => 1, 'data' => '绑定失败 001'];
         }
 
-        // 3、getByTel type状态
-        $user_item = $USER->getByPassport($passport);
-        if (!$user_item) {
-            return ['status' => 1, 'data' => '绑定失败 系统没有数据。'];
-        }
         $uid = $user_item['id'];
         $data = [
             'uid' => $uid,
             'type' => WeixinModel::$USER_TYPE_BIND,
         ];
+
+        // 3、weixin表中 openid是否存在
+        if (D('Api/Weixin')->where(['openid'=>session('openid')])->find()) {
+            return ['status' => 1, 'data' => '绑定失败，请退出重新打开小程序'];
+        }
+
         $update_result = D('Weixin')->updateInfo(session('openid'), $data);
         if (!$update_result) {
             return ['status' => 1, 'data' => '绑定失败 003'];
