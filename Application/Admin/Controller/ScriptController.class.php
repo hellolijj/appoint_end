@@ -96,6 +96,9 @@ class ScriptController extends Controller {
             if (is_null($_new_data['number']) || !is_numeric($_new_data['entry_year'])) $_new_data['number'] = 0;
             if (is_null($_new_data['entry_year']) || !is_numeric($_new_data['entry_year'])) $_new_data['entry_year'] = 0;
 
+            // passprot 去空格影响
+            $_new_data['passport'] = trim($_new_data['passport']);
+
             if ($OLD_USER->where(['passport' => $_new_data['passport']])->find()) {
                 continue;
             }

@@ -38,6 +38,11 @@ class UserController extends BaseApiController {
         $users_uid_arr = result_to_array($users, 'id');
         $user_service = new UserService();
         $users_info_list = $user_service->list_more_info_by_uids($users_uid_arr);
+        p($users);
+        p($users_uid_arr);
+        p($users_info_list);
+
+
 
 
 
