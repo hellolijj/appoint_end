@@ -34,6 +34,7 @@ class AppointController extends BaseApiController {
         $where = [];
         if ($date) {
             list($start, $end) = explode('-', str_replace('/', '', str_replace(' ', '', $date)));
+            p([$start, $end]);
             $where['date'] = [['gt', $start], ['lt', $end]];
         }
         $where['item_id'] = $item_id;
