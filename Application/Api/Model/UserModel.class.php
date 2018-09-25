@@ -70,14 +70,14 @@ class UserModel extends BaseModel {
         }
 
         $data = [
-            'passport' => trim($passport),
+            'passport' => strtoupper(trim($passport)),
             'tel' => $telphone,
             'type' => $type,
             'status' => 1,
             'gmt_create' => time(),
             'gmt_modified' => time(),
         ];
-        $add_result = M('User')->add($data);
+        M('User')->add($data);
         $cache_key = 'appoint_user_by_tel_' . $telphone;
         S($cache_key, NULL);
         return TRUE;
