@@ -35,7 +35,7 @@ class UserLogic extends BaseLogic {
     public function bind_user_info()
     {
 
-        $passport = I('passport');
+        $passport = trim(I('passport'));
         $phone = trim(I('phone'));
         $formid = trim(I('formid'));
 

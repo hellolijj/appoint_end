@@ -31,6 +31,13 @@ class UserController extends BaseApiController {
         if ($passport) {
             $where['passport'] = $passport;
         }
+        if ($date) {
+            $date_arr = explode('-', $date);
+            $start = strtotime($date_arr[0]);
+            $end = strtotime($date_arr[1]);
+            $where['gmt_create'] = [['gt', $start], ['lt', $end]];
+        }
+
 
         $p = $_GET['p'];
         $users = D('Api/User')->listByPageWhere($where, $p, 10, 'id desc');
@@ -75,7 +82,6 @@ class UserController extends BaseApiController {
         if ($number) {
             $where['number'] = $number;
         }
-
 
         $p = $_GET['p'];
         $user_backs = D('Api/UserBack')->listByPageWhere($where, $p, 20, 'id desc');
