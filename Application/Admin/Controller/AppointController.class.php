@@ -89,4 +89,45 @@ class AppointController extends BaseApiController {
         return $this->success('操作成功');
 
     }
+
+    /**
+     * 导入数据
+     * 一次不能导出超过100条数据
+     */
+
+    public function download() {
+        $item_id = intval(I('item_id'));
+        if (!$item_id) {
+            $this->error('页面不存在');
+        }
+        $title = AppointRecordModel::$APPOINT_TYPE[$item_id]['title'];
+        $this->assign('title', $title);
+
+        // 处理where搜索条件
+        $date = I('date');
+        $flag = I('flag');
+        $where = [];
+        if ($date) {
+            list($start, $end) = explode('-', str_replace('/', '', str_replace(' ', '', $date)));
+            p([$start, $end]);
+            $where['date'] = [['gt', $start], ['lt', $end]];
+        }
+
+        // 查询今日预约
+        if ($flag == 'today') {
+            $where['date'] = date('Ymd', time());
+        }
+        $where['item_id'] = $item_id;
+        $count      = D('Api/AppointRecord')->countByWhere($where);// 查询满足要求的总记录数
+
+        // 一次不能导出超过100条数据
+        if ($count > 100) {
+            $this->error('一次不能导出超过100条数据');
+        }
+        $records = D('Api/AppointRecord')->where($where)->order('id desc')->select();
+        $appoint_service = new AppointRecordService();
+        $appoint_service->convert_record_format($records);
+
+        p($records);
+    }
 }
