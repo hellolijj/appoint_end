@@ -99,9 +99,8 @@ class AppointController extends BaseApiController {
         $item_id = intval(I('item_id'));
         if (!$item_id) {
             $this->error('页面不存在');
+
         }
-        $title = AppointRecordModel::$APPOINT_TYPE[$item_id]['title'];
-        $this->assign('title', $title);
 
         // 处理where搜索条件
         $date = I('date');
@@ -120,9 +119,9 @@ class AppointController extends BaseApiController {
         $where['item_id'] = $item_id;
         $count      = D('Api/AppointRecord')->countByWhere($where);// 查询满足要求的总记录数
 
-        // 一次不能导出超过100条数据
-        if ($count > 100) {
-            $this->error('一次不能导出超过100条数据');
+        // 一次不能导出超过15条数据
+        if ($count > 15) {
+            $this->error('一次不能导出超过15条数据');
         }
         $records = D('Api/AppointRecord')->where($where)->order('id desc')->select();
         $appoint_service = new AppointRecordService();
