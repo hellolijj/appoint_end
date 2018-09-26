@@ -2,9 +2,6 @@
 
 <block name="button">
   <div class="nowrap pull-right" style="margin-top:10px">
-    <button data-modal='{:url("$classuri/add")}' data-title="添加用户" class='layui-btn layui-btn-sm'>
-      <i class='fa fa-plus'></i> 今日预约
-    </button>
     <button data-update data-field='delete' data-action='{:url("$classuri/del")}' class='layui-btn layui-btn-sm layui-btn-danger'>
       <i class='fa fa-remove'></i> 导出记录
     </button>
@@ -23,6 +20,11 @@
     </div>
     <div class="layui-form-item layui-inline">
       <button class="layui-btn layui-btn-primary"><i class="layui-icon"></i> 搜 索</button>
+    </div>
+    <div class="layui-form-item layui-inline">
+      <a data-open='{:U("Admin/Appoint/visa")}?item_id={$_GET["item_id"]}&&flag=today' href="javascript:void(0)" data-title="添加用户" class='layui-btn layui-btn-sm'>
+        <i class='fa fa-plus'></i> 今日预约
+      </a>
     </div>
   </form>
 

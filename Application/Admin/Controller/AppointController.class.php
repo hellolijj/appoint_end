@@ -31,10 +31,18 @@ class AppointController extends BaseApiController {
 
         // 处理where搜索条件
         $date = I('date');
+        $flag = I('flag');
         $where = [];
         if ($date) {
             list($start, $end) = explode('-', str_replace('/', '', str_replace(' ', '', $date)));
             p([$start, $end]);
+            $where['date'] = [['gt', $start], ['lt', $end]];
+        }
+
+        // 查询今日预约
+        if ($flag == 'today') {
+            $start = date('Ymd', time());
+            $end = date('Ymd', time()+24 * 3600);
             $where['date'] = [['gt', $start], ['lt', $end]];
         }
         $where['item_id'] = $item_id;
