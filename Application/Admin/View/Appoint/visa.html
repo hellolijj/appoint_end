@@ -80,15 +80,31 @@
             </td>
 
             <td class='text-left nowrap'>
-              <if condition="$vo.status eq 2"><span style="color:#090">已预约</span> <else/> <span>已处理</span> </if>
+
+              <switch name="vo.status">
+                <case value="2"><span style="color:#090">预约成功</span></case>
+                <case value="3"><span>已取消</span></case>
+                <case value="4"><span>已取消</span></case>
+                <case value="5"><span>预约已经处理</span></case>
+                <default /><span>已处理</span>
+              </switch>
             </td>
+
+
             <td class='text-left nowrap'>
               {$vo.gmt_create|date="Y-m-d H:i:s",###}
             </td>
             <td class='text-left nowrap'>
               <if condition='auth("$classuri/edit")'>
                 <span class="text-explode">|</span>
-                <a data-update="{$vo.id}" data-field='appoint_deal' data-action='{:url("Appoint/deal")}' href="javascript:void(0)">标记预约处理成功</a>
+                <switch name="vo.status">
+                  <case value="2"><a data-update="{$vo.id}" data-field='appoint_deal' data-action='{:url("Appoint/deal")}' href="javascript:void(0)">标记预约处理成功</a></case>
+                  <case value="3"><span></span></case>
+                  <case value="4"><span></span></case>
+                  <case value="5"><span>已完成</span></case>
+                  <default /><span>已处理</span>
+                </switch>
+                <!--<a data-update="{$vo.id}" data-field='appoint_deal' data-action='{:url("Appoint/deal")}' href="javascript:void(0)">标记预约处理成功</a>-->
               </if>
               <if condition='auth("$classuri/del")'>
                 <span class="text-explode">|</span>

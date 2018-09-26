@@ -44,7 +44,9 @@ class AppointController extends BaseApiController {
             $where['date'] = date('Ymd', time());
         }
         $where['item_id'] = $item_id;
+        $where['status'] = ['gt', 1];
         $p = $_GET['p'];
+
         $records = D('Api/AppointRecord')->listByPageWhere($where, $p, 10, 'id desc');
 
 
