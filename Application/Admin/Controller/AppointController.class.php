@@ -41,9 +41,7 @@ class AppointController extends BaseApiController {
 
         // 查询今日预约
         if ($flag == 'today') {
-            $start = date('Ymd', time());
-            $end = date('Ymd', time()+24 * 3600);
-            $where['date'] = [['gt', $start], ['lt', $end]];
+            $where['date'] = date('Ymd', time());
         }
         $where['item_id'] = $item_id;
         $p = $_GET['p'];
