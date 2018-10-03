@@ -1,8 +1,7 @@
 <?php
 
-$a = '2018-02-05';
+echo md5('123456');
 
-echo date('Ymd', strtotime($a));
 
 
 ?>
