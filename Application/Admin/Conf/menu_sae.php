@@ -85,7 +85,7 @@ $s = '
 			"title": "导入新用户",
 			"node": "",
 			"icon": "",
-			"url": "\/appoint\/index.php\/Admin\/user\/load",
+			"url": "\/index.php\/Admin\/user\/load",
 			"params": "",
 			"target": "_self",
 			"sort": 0,
