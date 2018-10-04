@@ -162,7 +162,6 @@ class UserController extends BaseApiController {
             $upload->savePath = '/xls/'; // 设置附件上传目录
             // 上传文件
             $info = $upload->uploadOne($_FILES['file']);
-            print_r($info);die;
             $filename = $info['savepath'] . $info['savename'];
             $exts = $info['ext'];
             if (!$info) {// 上传错误提示错误信息
