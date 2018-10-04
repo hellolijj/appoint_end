@@ -2,3 +2,5 @@ cron:
 - url: /index.php/Remind/send
   schedule: "0 8 * * 1-5"
   description: "在工作日的每天早上 8 点执行"
+handle:
+- rewrite:  if ( path ~ "admin" ) goto "index.php/admin"
