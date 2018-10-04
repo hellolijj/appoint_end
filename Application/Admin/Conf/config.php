@@ -13,7 +13,7 @@ return array(
 
     'APP_ROOT' => 'http://127.0.0.1/pingshifen/',
 
-    'UPLOAD_DIR' => './Uploads/',
+    'UPLOAD_DIR' => './Uploads',
     'LOAD_EXT_CONFIG'   => 'menu',
 
     'SHOW_PAGE_TRACE' => FALSE,  // 关闭trance

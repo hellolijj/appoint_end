@@ -8,7 +8,7 @@
 
 return [
 
-    'UPLOAD_DIR' => 'saestor://uploads/',
+    'UPLOAD_DIR' => 'saestor://uploads',
 
     /* 数据库配置 */
     'DB_DEPLOY_TYPE' => 1, // 设置分布式数据库支持
