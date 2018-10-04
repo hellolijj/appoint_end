@@ -176,6 +176,7 @@ class UserController extends BaseApiController {
      * 读取保存的excel文件，写日志，并且将信息导入user库
      */
     protected function read_excel($file_name, $exts) {
+        echo $file_name . $exts;
         if (!$file_name || !$exts) {
             return FALSE;
         }
