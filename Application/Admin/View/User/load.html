@@ -1,0 +1,45 @@
+<extend name='Public/admin/content' />
+
+<block name="content">
+
+  <div class="alert alert-danger alert-dismissible" role="alert" style="border-radius:0">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+    <p style="font-size:18px;padding-bottom:10px">导入用户的文件格式说明</p>
+    <p style="font-size:14px">1、导入文件模版第一行有12个字段，不能改动</p>
+    <p style="font-size:14px">2、导入的内容中，passpord不能出现`'`符号</p>
+    <p style="font-size:14px">3、导入的内容中，不存在的内容为空</p>
+    <p style="font-size:14px">4、导入的内容中，passport、first_name、last_name统一为大写模式</p>
+  </div>
+
+  <div class="layui-upload">
+    <button type="button" class="layui-btn layui-btn-normal" id="choose_file">选择文件</button>
+    <button type="button" class="layui-btn" id="upload">开始上传</button>
+    <a href="__PUBLIC__/sample.xlsx">下载导入文件模版</a>
+  </div>
+
+  <blockquote class="layui-elem-quote" style="margin-top: 20px; font-size:18px;padding-bottom:10px">
+    以下是模版文件的格式要求说明
+  </blockquote>
+  <img src="__PUBLIC__/load_sample.jpg" class="col-sm-12" alt="导入模版">
+
+  <script>
+    upload.render({
+      elem: '#choose_file'
+      ,url: '{:U("upload")}'
+      ,accept: 'file' //普通文件
+      ,exts: 'xls|xlsx' //只允许上传excel格式文件
+      ,auto: false
+      ,multiple: false
+      ,bindAction: '#upload'
+      ,done: function(res){
+
+
+        window.alert(res.msg)
+
+      }
+    });
+  </script>
+
+</block>

@@ -10,6 +10,20 @@ namespace Api\Model;
 
 class UserModel extends BaseModel {
 
+    public static $filed = [
+        'id',
+        'passport',
+        'first_name',
+        'last_name',
+        'name',
+        'sex',
+        'country',
+        'profession',
+        'college',
+        'class',
+        'number',
+        'entry_year',
+    ];
 
     public function getByUid($uid) {
         if (!$uid) {
