@@ -1,3 +1,6 @@
+handle:
+- rewrite: if ( !is_dir() && !is_file() && path ~ "admin" ) goto "index.php/Admin"
+
 cron:
 - url: /index.php/Remind/send
   schedule: "0 8 * * 1-5"
