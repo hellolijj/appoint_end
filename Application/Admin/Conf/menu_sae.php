@@ -79,6 +79,19 @@ $s = '
 			"status": 1,
 			"create_by": 0,
 			"create_at": "2018-01-15 15:48:03"
+		}, {
+            "id": 105,
+			"pid": 102,
+			"title": "导入新用户",
+			"node": "",
+			"icon": "",
+			"url": "\/appoint\/index.php\/Admin\/user\/load",
+			"params": "",
+			"target": "_self",
+			"sort": 0,
+			"status": 1,
+			"create_by": 0,
+			"create_at": "2018-01-15 15:48:03"
 		}]
 	}, {
         "id": 20,
