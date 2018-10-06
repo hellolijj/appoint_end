@@ -61,12 +61,12 @@ class AppointLogic extends UserBaseLogic {
         }
 
         // 周六周末不允许预约, 暂时先注释掉
-        /*if (date('w', $choose_ts) == 0) {
+        if (date('w', $choose_ts) == 0) {
             return ['status' => 1, 'data' => '周日不上班'];
         }
         if (date('w', $choose_ts) == 6) {
             return ['status' => 1, 'data' => '周六不上班'];
-        }*/
+        }
 
         if ($item == AppointRecordModel::$APPOINT_TYPE_VIA && ($choose_ds - $now_ds) <= 0) {
             return ['status' => 1, 'data' => '签证预约，不能预约今天的日期'];
