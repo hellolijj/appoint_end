@@ -393,7 +393,12 @@ class AppointLogic extends UserBaseLogic {
         $order_orgin['form_data']['status'] = $order_item['status'];
         $order_orgin['form_data']['order_id'] = $order_item['gmt_create'];
 
-
+        // 预约排队信息
+        $current_queue = D('AppointRecord')->getCurrentQuere($r_id);
+        if (!$current_queue) {
+            $current_queue = 1;
+        }
+        $order_orgin['form_data']['queue'] = $current_queue . '/' . AppointRecordModel::$APPOINT_TYPE[$order_item['item_id']]['appoint']['max_count'];
         $s['data'][] = $order_orgin;
 
         return $s;

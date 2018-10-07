@@ -386,7 +386,30 @@ class AppointRecordModel extends BaseModel {
         $record_lists = M('Appoint_record')->where($where)->order('status asc, date desc, time asc, id desc')->select();
 
         return $record_lists;
+    }
 
+    /**
+     * 获取当前预约号在当前时间段的排序，例如:4/10
+     */
+    public function getCurrentQuere($rid) {
+
+        if (!$rid) {
+            return FALSE;
+        }
+
+        $record_item = $this->getByRecordId($rid);
+
+        $map = [
+            'item_id' => $record_item['item_id'],
+            'date' => $record_item['date'],
+            'time' => $record_item['time'],
+            'gmt_create' => ['lt', $record_item['gmt_create']],
+            'status' => self::$STUDENT_FINISHED,
+        ];
+
+        $pre_count = M('Appoint_record')->where($map)->count();
+
+        return $pre_count + 1;
     }
 
 
