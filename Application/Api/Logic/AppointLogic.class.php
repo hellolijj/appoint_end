@@ -493,7 +493,7 @@ class AppointLogic extends UserBaseLogic {
             return ['status' => 1, 'data' => 'appoint_id参数为空'];
         }
 
-        if (!$stu_cert || !$transcript || !$attendance || !$transfer_letter || $stu_id_book) {
+        if (!$stu_cert && !$transcript && !$attendance && !$transfer_letter && !$stu_id_book) {
             return ['status' => 1, 'data' => '预约项目不能为空'];
         }
 

@@ -8,6 +8,7 @@
 
 namespace Admin\Controller;
 
+use Admin\Service\DocsService;
 use Api\Model\AppointRecordModel;
 use Api\Service\AppointRecordService;
 use Api\Service\SendMessageService;
@@ -49,6 +50,11 @@ class AppointController extends BaseApiController {
 
         $records = D('Api/AppointRecord')->listByPageWhere($where, $p, 10, 'id desc');
 
+        // 如果是材料预约的话，就把材料预约的内容也加载进来
+        if ($item_id == AppointRecordModel::$APPOINT_TYPE_DOCUMENT) {
+            $docs_service = new DocsService();
+            $docs_service->add_docs($records);
+        }
 
         $appoint_service = new AppointRecordService();
         $appoint_service->convert_record_format($records);
@@ -131,4 +137,5 @@ class AppointController extends BaseApiController {
 
         p($records);
     }
+
 }

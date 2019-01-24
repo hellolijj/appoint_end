@@ -43,6 +43,9 @@
           <th class='text-left nowrap'>姓名</th>
           <th class='text-left nowrap'>预约日期</th>
           <th class='text-left nowrap'>预约时间</th>
+          <if condition="$_GET['item_id'] eq 1241 ">
+            <th class='text-left nowrap'>预约材料</th>
+          </if>
           <th class='text-left nowrap'>预约备注</th>
           <th class='text-left nowrap'>预约状态</th>
           <th class='text-left nowrap'>操作时间</th>
@@ -75,6 +78,11 @@
             <td class='text-left nowrap'>
               {$vo.time|default="<span class='color-desc'></span>"}
             </td>
+            <if condition="$_GET['item_id'] eq 1241 ">
+              <td class='text-left nowrap'>
+                {$vo.docs|default="<span class='color-desc'>无</span>"}
+              </td>
+            </if>
             <td class='text-left nowrap'>
               {$vo.remark|default="<span class='color-desc'>无</span>"}
             </td>
