@@ -14,7 +14,7 @@ class QueueController {
 
     public function download() {
 
-        $t = new SaeTaskQueue("download");
+        $t = new \SaeTaskQueue("download");
         $t->addTask("http://" . $_SERVER['HTTP_HOST'] . "/admin.php/Admin/Queue/test"); //添加列队任务1
         if (!$t->push()) {
             echo '出错:' . $t->errmsg();
