@@ -27,6 +27,7 @@ class QueueController {
     public function test() {
 
         echo "hello world";
+        sae_debug("列队任务1被执行");
 
     }
 
