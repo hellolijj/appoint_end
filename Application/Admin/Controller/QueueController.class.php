@@ -31,7 +31,7 @@ class QueueController {
         $mail = new \SaeMail();
 
 //        $ret = $mail->quickSend( 'to@sina.cn' , '邮件标题' , '邮件内容' , 'smtpaccount@unknown.com' , 'password' , 'smtp.unknown.com' , 25 )
-        $ret = $mail->quickSend("hello_lijj@qq.com", "这是新浪发给qq的邮件", "李俊君制作", "hello_lijj@sina.com", "hello_lijj"); //指定smtp和端口
+        $ret = $mail->quickSend("hello_lijj@qq.com", "这是新浪发给qq的邮件", "李俊君制作", "17826839s787@163.com", "456123jkl"); //指定smtp和端口
 
         //发送失败时输出错误码和错误信息
         if ($ret === false) {
