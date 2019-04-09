@@ -76,7 +76,7 @@ class UserController extends BaseApiController {
         $number = I('number');
         $where = [];
         if ($name) {
-            $where['name'] = $name;
+            $where['name'] = ['like', '%' . $name . '%'];
         }
         if ($passport) {
             $where['passport'] = ['like', '%' . $passport . '%'];
