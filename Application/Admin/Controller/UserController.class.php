@@ -31,7 +31,7 @@ class UserController extends BaseApiController {
             $where['tel'] = $phone;
         }
         if ($passport) {
-            $where['passport'] = $passport;
+            $where['passport'] = ['like', '%' . $passport . '%'];
         }
         if ($date) {
             $date_arr = explode('-', $date);
