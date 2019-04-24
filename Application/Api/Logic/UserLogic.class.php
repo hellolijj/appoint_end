@@ -45,7 +45,7 @@ class UserLogic extends BaseLogic {
 
         // 手机号判断  由于特殊的原因，10位数字的手机号也放过
         if (strlen($phone) != 10) {
-            $regex = '/^1[345678]{1}\d{9}$/';
+            $regex = '/^1[3456789]{1}\d{9}$/';
             if (!preg_match($regex, $phone)) {
                 return $this->setError('手机号码格式错误');
             }
