@@ -144,7 +144,7 @@ class AppointLogic extends UserBaseLogic {
         // 1241 特殊考虑
         if ($item_id == AppointRecordModel::$APPOINT_TYPE_DOCUMENT) {
             $appoint_interval = '09:00-11:00';
-            $appoint_date = date('Ymd', time() + 5 * 24 * 3600);
+            $appoint_date = date('Ymd', time() + 4 * 24 * 3600);
         }
 
         if (!$item_id || empty($appoint_interval) || !$appoint_date || !$uid) {

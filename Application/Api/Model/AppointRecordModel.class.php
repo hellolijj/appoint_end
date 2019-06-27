@@ -180,7 +180,7 @@ class AppointRecordModel extends BaseModel {
             'time' => '2',
             'date' => '4 working days in advance (except Tuesday)',
             'statement' => '缴费预约|Payment reservation',
-            'description' => 'Students who need certificates must make appointments successfully in advance for at least 5 work days through this programme. Certificates can not be provided on the spot in school offices.',
+            'description' => 'Students who need certificates must make appointments successfully in advance for at least 4 work days through this programme. Certificates can not be provided on the spot in school offices.',
             'appoint' => [
                 'time_list' => [
                     '09:00-11:00',
