@@ -13,6 +13,7 @@ use Api\Model\TemplateIdModel;
 use Api\Service\AppointRecordService;
 use Api\Service\TempMsgService;
 use Api\Service\UserService;
+use Api\Service\WeixinService;
 
 class AppointLogic extends UserBaseLogic {
 
@@ -495,6 +496,12 @@ class AppointLogic extends UserBaseLogic {
 
         if (!$stu_cert && !$transcript && !$attendance && !$transfer_letter && !$stu_id_book) {
             return ['status' => 1, 'data' => '预约项目不能为空'];
+        }
+
+        // 转学证明仅语言生可以申请
+        $userService = new UserService();
+        if ($transfer_letter != 0 && $userService->is_yuyan_student($uid)) {
+            return ['status' => 1, 'data' => '转学证明仅语言生可以申请'];
         }
 
         $data = [

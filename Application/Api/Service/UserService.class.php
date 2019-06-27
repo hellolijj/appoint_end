@@ -166,5 +166,23 @@ class UserService extends BaseService {
     }
 
 
+    /***
+     * @param $uid
+     * @return bool|mixed
+     * 判断是否是语言生，根据专业名称是否包含 "长期汉语言文化课程" 来判断
+     */
+    public function is_yuyan_student($uid) {
+        if (!$uid) {
+            return FALSE;
+        }
+
+        $more_info = $this->get_more_info($uid);
+
+        if (is_array($more_info) && strlen($more_info['profession']) > 0 && strops($more_info['profession'], "长期汉语言文化课程") !== FALSE) {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
 
 }
