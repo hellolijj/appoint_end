@@ -500,7 +500,7 @@ class AppointLogic extends UserBaseLogic {
 
         // 转学证明仅语言生可以申请
         $userService = new UserService();
-        if ($transfer_letter == 1 && $userService->is_yuyan_student($uid)) {
+        if ($transfer_letter == 1 && !$userService->is_yuyan_student($uid)) {
             return ['status' => 1, 'data' => '转学证明仅语言生可以申请'];
         }
 
