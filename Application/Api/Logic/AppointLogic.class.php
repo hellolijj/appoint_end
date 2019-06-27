@@ -504,8 +504,6 @@ class AppointLogic extends UserBaseLogic {
             return ['status' => 1, 'data' => '转学证明仅语言生可以申请'];
         }
 
-        return ['status' => 1, 'data' => $userService->get_more_info($uid)];
-
         $data = [
             'appoint_id' => $appoint_id,
             'uid' => $uid,
