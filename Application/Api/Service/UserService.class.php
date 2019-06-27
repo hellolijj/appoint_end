@@ -177,6 +177,7 @@ class UserService extends BaseService {
         }
 
         $more_info = $this->get_more_info($uid);
+        echo $more_info['profession'];
 
         if (is_array($more_info) && strlen($more_info['profession']) > 0 && strops($more_info['profession'], "长期汉语言文化课程") !== FALSE) {
             return TRUE;
