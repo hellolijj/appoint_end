@@ -75,7 +75,6 @@ class AppointController extends BaseApiController {
      *
      * // todo 测试一遍，然后所有的D方法都有加上模块名字
      */
-
     public function deal() {
         if (!IS_POST) {
             return $this->error('你访问的界面不存在');
@@ -138,4 +137,23 @@ class AppointController extends BaseApiController {
         p($records);
     }
 
+
+    /**
+     * 删除指定的记录
+     */
+    public function delete() {
+        if (!IS_POST) {
+            return $this->error('你访问的界面不存在');
+        }
+
+        $rid = intval(I('id'));
+        $flag = I('field');
+        if (!$rid || $flag != 'appoint_delete') {
+            return $this->error('api参数错误');
+        }
+
+        D('Api/AppointRecord')->deleteByRid($rid);
+
+        return $this->success('操作成功');
+    }
 }
