@@ -165,10 +165,9 @@ class UserService extends BaseService {
         // todo 缓存的问题
     }
 
-
-    /***
+    /**
      * @param $uid
-     * @return bool|mixed
+     * @return bool
      * 判断是否是语言生，根据专业名称是否包含 "长期汉语言文化课程" 来判断
      */
     public function is_yuyan_student($uid) {
